@@ -1,0 +1,37 @@
+@import "compass/css3/font-face";
+
+// base
+$base-font-family: unquote("sans-serif");
+$secondary-font: "kepler-std-semicondensed-dis", sans-serf;
+$base-font-size: 13px;
+$base-line-height: 24px;
+$font-color: #222;
+
+@include establish-baseline();
+
+
+// Links
+$link-color: #666666;
+$link-visited-color: #666666;
+$link-hover-color: #000;
+
+// Lists
+$list-left-margin: 40px;
+
+$pad: 26px;
+
+$primary: #8B0F04;
+$secondary: #386351;
+$tertiary: #764200;
+
+$primary: #8B0F04;
+$secondary: #666666;
+$tertiary: #666666;
+
+
+
+
+@import url(http://fonts.googleapis.com/css?family=Lato:100,300,400);
+
+
+$secondary-font: "kepler-std-semicondensed-dis";

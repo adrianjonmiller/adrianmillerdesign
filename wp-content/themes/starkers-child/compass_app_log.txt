@@ -1,0 +1,390 @@
+2013-02-12 15:11:30    create stylesheets/style.css 
+2013-02-12 15:12:54 identical stylesheets/style.css 
+2013-02-12 15:25:54 overwrite stylesheets/style.css 
+2013-02-12 15:44:59 overwrite stylesheets/style.css 
+2013-02-12 15:57:32 overwrite stylesheets/style.css 
+2013-02-12 15:57:38 overwrite stylesheets/style.css 
+2013-02-12 15:59:59 overwrite stylesheets/style.css 
+2013-02-12 16:02:35 overwrite stylesheets/style.css 
+2013-02-12 16:02:42 overwrite stylesheets/style.css 
+2013-02-12 16:05:04 overwrite stylesheets/style.css 
+2013-02-12 16:24:54 overwrite stylesheets/style.css 
+2013-02-12 16:25:19 overwrite stylesheets/style.css 
+2013-02-12 16:56:13 overwrite stylesheets/style.css 
+2013-02-12 16:58:35 overwrite stylesheets/style.css 
+2013-02-13 12:22:19 overwrite stylesheets/style.css 
+2013-02-13 12:23:10 identical stylesheets/style.css 
+2013-02-13 12:24:02 overwrite stylesheets/style.css 
+2013-02-13 12:47:52 overwrite stylesheets/style.css 
+2013-02-13 12:50:22 overwrite stylesheets/style.css 
+2013-02-13 12:51:09 overwrite stylesheets/style.css 
+2013-02-13 12:53:19 overwrite stylesheets/style.css 
+2013-02-13 13:05:46 overwrite stylesheets/style.css 
+2013-02-13 13:14:37 overwrite stylesheets/style.css 
+2013-02-13 13:14:52 overwrite stylesheets/style.css 
+2013-02-13 13:16:30 overwrite stylesheets/style.css 
+2013-02-13 13:17:57 overwrite stylesheets/style.css 
+2013-02-13 13:19:03 overwrite stylesheets/style.css 
+2013-02-13 13:19:53 overwrite stylesheets/style.css 
+2013-02-13 13:20:10 overwrite stylesheets/style.css 
+2013-02-13 13:20:46 overwrite stylesheets/style.css 
+2013-02-13 13:28:20 overwrite stylesheets/style.css 
+2013-02-13 13:33:17 overwrite stylesheets/style.css 
+2013-02-13 13:33:39 overwrite stylesheets/style.css 
+2013-02-13 14:37:05 overwrite stylesheets/style.css 
+2013-02-13 14:51:42 overwrite stylesheets/style.css 
+2013-02-13 15:11:46 overwrite stylesheets/style.css 
+2013-02-13 15:12:04 overwrite stylesheets/style.css 
+2013-02-13 15:42:15 overwrite stylesheets/style.css 
+2013-02-13 16:15:21 overwrite stylesheets/style.css 
+2013-02-13 16:16:00 overwrite stylesheets/style.css 
+2013-02-13 16:17:02 overwrite stylesheets/style.css 
+2013-02-13 16:17:19 overwrite stylesheets/style.css 
+2013-02-14 14:08:08 overwrite stylesheets/style.css 
+2013-02-14 14:11:21 overwrite stylesheets/style.css 
+2013-02-14 14:13:32 overwrite stylesheets/style.css 
+2013-02-14 14:14:41 overwrite stylesheets/style.css 
+2013-02-14 14:41:56 overwrite stylesheets/style.css 
+2013-02-14 14:51:43 overwrite stylesheets/style.css 
+2013-02-14 14:52:39 overwrite stylesheets/style.css 
+2013-02-14 15:01:22 overwrite stylesheets/style.css 
+2013-02-14 15:33:17 overwrite stylesheets/style.css 
+2013-02-14 15:34:21 overwrite stylesheets/style.css 
+2013-02-14 15:38:31 overwrite stylesheets/style.css 
+2013-02-14 15:39:32 overwrite stylesheets/style.css 
+2013-02-14 16:28:36 identical stylesheets/style.css 
+2013-02-14 17:53:24 overwrite stylesheets/style.css 
+2013-02-15 08:58:06 overwrite stylesheets/style.css 
+2013-02-15 10:42:21 overwrite stylesheets/style.css 
+2013-02-15 11:25:37 overwrite stylesheets/style.css 
+2013-02-15 11:26:21 overwrite stylesheets/style.css 
+2013-02-15 11:27:49 overwrite stylesheets/style.css 
+2013-02-15 11:29:45 overwrite stylesheets/style.css 
+2013-02-15 14:48:23 overwrite stylesheets/style.css 
+2013-02-15 14:49:27     error sass/style.scss (Line 363 of sass/partials/_page.scss: Illegal nesting: Only properties may be nested beneath properties.)
+2013-02-15 14:49:27 overwrite stylesheets/style.css 
+2013-02-15 14:49:44     error sass/style.scss (Line 363 of sass/partials/_page.scss: Illegal nesting: Only properties may be nested beneath properties.)
+2013-02-15 14:49:44 identical stylesheets/style.css 
+2013-02-15 14:49:49 overwrite stylesheets/style.css 
+2013-02-15 14:50:30 overwrite stylesheets/style.css 
+2013-02-15 14:51:14 overwrite stylesheets/style.css 
+2013-02-15 14:51:42 overwrite stylesheets/style.css 
+2013-02-15 15:02:41 overwrite stylesheets/style.css 
+2013-02-15 15:03:12 overwrite stylesheets/style.css 
+2013-02-15 17:08:00 overwrite stylesheets/style.css 
+2013-02-15 17:10:09 overwrite stylesheets/style.css 
+2013-02-15 17:10:29 overwrite stylesheets/style.css 
+2013-02-15 17:10:38 overwrite stylesheets/style.css 
+2013-02-15 17:13:03 overwrite stylesheets/style.css 
+2013-02-15 17:14:15 overwrite stylesheets/style.css 
+2013-02-15 17:15:07 overwrite stylesheets/style.css 
+2013-02-15 17:28:44 overwrite stylesheets/style.css 
+2013-02-15 17:31:52 overwrite stylesheets/style.css 
+2013-02-15 17:32:00 overwrite stylesheets/style.css 
+2013-02-15 17:32:17 overwrite stylesheets/style.css 
+2013-02-15 17:42:37 overwrite stylesheets/style.css 
+2013-02-15 17:51:09     error sass/style.scss (Line 142 of sass/partials/_page.scss: Undefined variable: "$priamry".)
+2013-02-15 17:51:09 overwrite stylesheets/style.css 
+2013-02-15 17:51:22 overwrite stylesheets/style.css 
+2013-02-15 17:51:46 overwrite stylesheets/style.css 
+2013-02-15 17:52:01 overwrite stylesheets/style.css 
+2013-02-15 17:52:15 overwrite stylesheets/style.css 
+2013-02-15 17:52:24 overwrite stylesheets/style.css 
+2013-02-15 18:45:45 overwrite stylesheets/style.css 
+2013-02-16 11:57:17 overwrite stylesheets/style.css 
+2013-04-12 16:05:06 overwrite stylesheets/style.css 
+2013-04-12 16:52:11    create stylesheets/partials/screen.css 
+2013-04-12 16:52:17    create stylesheets/screen.css 
+2013-04-12 16:52:28    create stylesheets/ie.css 
+2013-04-12 16:52:37    create stylesheets/print.css 
+2013-04-12 16:53:02     error sass/screen.scss (Line 8: File to import not found or unreadable: vars.
+Load paths:
+  /Users/adrianjonmiller/Develoment/Adrian Miller Design/wp-content/themes/starkers-child/sass
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/blueprint/stylesheets
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/compass/stylesheets
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/compass-960-plugin-f4bfe8555a7d2cae09bc/stylesheets
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/compass-h5bp/stylesheets
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/bootstrap-sass-2.3.1.0/vendor/assets/stylesheets
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/susy-1.0.5/sass
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/zurb-foundation-4.0.8/scss
+  Compass::SpriteImporter
+  /vendor/assets/stylesheets)
+2013-04-12 16:53:02 overwrite stylesheets/screen.css 
+2013-04-12 16:53:40     error sass/screen.scss (Line 8: File to import not found or unreadable: vars.
+Load paths:
+  /Users/adrianjonmiller/Develoment/Adrian Miller Design/wp-content/themes/starkers-child/sass
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/blueprint/stylesheets
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/compass/stylesheets
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/compass-960-plugin-f4bfe8555a7d2cae09bc/stylesheets
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/compass-h5bp/stylesheets
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/bootstrap-sass-2.3.1.0/vendor/assets/stylesheets
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/susy-1.0.5/sass
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/zurb-foundation-4.0.8/scss
+  Compass::SpriteImporter
+  /vendor/assets/stylesheets)
+2013-04-12 16:53:40 identical stylesheets/screen.css 
+2013-04-12 16:54:15     error sass/screen.scss (Line 8: File to import not found or unreadable: vars.
+Load paths:
+  /Users/adrianjonmiller/Develoment/Adrian Miller Design/wp-content/themes/starkers-child/sass
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/blueprint/stylesheets
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/compass/stylesheets
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/compass-960-plugin-f4bfe8555a7d2cae09bc/stylesheets
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/compass-h5bp/stylesheets
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/bootstrap-sass-2.3.1.0/vendor/assets/stylesheets
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/susy-1.0.5/sass
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/zurb-foundation-4.0.8/scss
+  Compass::SpriteImporter
+  /vendor/assets/stylesheets)
+2013-04-12 16:54:15 overwrite stylesheets/screen.css 
+2013-04-12 16:54:17     error sass/screen.scss (Line 8: File to import not found or unreadable: vars.
+Load paths:
+  /Users/adrianjonmiller/Develoment/Adrian Miller Design/wp-content/themes/starkers-child/sass
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/blueprint/stylesheets
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/compass/stylesheets
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/compass-960-plugin-f4bfe8555a7d2cae09bc/stylesheets
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/compass-h5bp/stylesheets
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/bootstrap-sass-2.3.1.0/vendor/assets/stylesheets
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/susy-1.0.5/sass
+  /Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/zurb-foundation-4.0.8/scss
+  Compass::SpriteImporter
+  /vendor/assets/stylesheets)
+2013-04-12 16:54:17 identical stylesheets/screen.css 
+2013-04-12 16:54:34 overwrite stylesheets/screen.css 
+2013-04-12 16:55:33     error sass/screen.scss (Line 37: Undefined variable: "$font-color".)
+2013-04-12 16:55:33 overwrite stylesheets/screen.css 
+2013-04-12 16:55:59     error sass/screen.scss (Line 3 of sass/_vars.scss: Undefined mixin 'animate'.)
+2013-04-12 16:56:00 overwrite stylesheets/screen.css 
+2013-04-12 16:56:13     error sass/screen.scss (Line 37: Undefined variable: "$font-color".)
+2013-04-12 16:56:13 overwrite stylesheets/screen.css 
+2013-04-12 17:00:30     error sass/screen.scss (Line 37: Undefined variable: "$font-color".)
+2013-04-12 17:00:30 identical stylesheets/screen.css 
+2013-04-12 17:00:55     error sass/screen.scss (Line 138: Undefined mixin 'text-shadow'.)
+2013-04-12 17:00:55 overwrite stylesheets/screen.css 
+2013-04-12 17:01:18     error sass/screen.scss (Line 229: Undefined mixin 'text-shadow'.)
+2013-04-12 17:01:19 overwrite stylesheets/screen.css 
+2013-04-12 17:01:40 overwrite stylesheets/screen.css 
+2013-04-12 17:04:23 overwrite stylesheets/screen.css 
+2013-04-12 17:05:19 overwrite stylesheets/screen.css 
+2013-04-12 17:06:18 overwrite stylesheets/screen.css 
+2013-04-12 17:09:51 overwrite stylesheets/screen.css 
+2013-04-12 17:14:17 overwrite stylesheets/screen.css 
+2013-04-12 17:17:26 overwrite stylesheets/screen.css 
+2013-04-12 17:18:03 identical stylesheets/screen.css 
+2013-04-12 17:18:49 overwrite stylesheets/screen.css 
+2013-04-12 17:18:54 overwrite stylesheets/screen.css 
+2013-04-12 17:19:17 overwrite stylesheets/screen.css 
+2013-04-12 17:19:34 overwrite stylesheets/screen.css 
+2013-04-12 17:19:46 overwrite stylesheets/screen.css 
+2013-04-12 17:22:16     error sass/screen.scss (Line 7: Undefined mixin 'h5bp-normalize-html5'.)
+2013-04-12 17:22:16 overwrite stylesheets/screen.css 
+2013-04-12 17:22:26 overwrite stylesheets/screen.css 
+2013-04-12 17:23:46     error sass/screen.scss (Line 108 of _vertical_rhythm.scss: 0.11538em/px isn't a valid CSS value.)
+2013-04-12 17:23:46 overwrite stylesheets/screen.css 
+2013-04-12 17:24:42     error sass/screen.scss (Line 7: Undefined mixin 'h5bp-normalize-html5'.)
+2013-04-12 17:24:42 overwrite stylesheets/screen.css 
+2013-04-12 17:24:51     error sass/screen.scss (Line 108 of _vertical_rhythm.scss: 0.11538em/px isn't a valid CSS value.)
+2013-04-12 17:24:52 overwrite stylesheets/screen.css 
+2013-04-12 17:26:55 overwrite stylesheets/style.css 
+2013-04-12 17:28:25     error sass/screen.scss (Line 108 of _vertical_rhythm.scss: 0.11538em/px isn't a valid CSS value.)
+2013-04-12 17:28:25 identical stylesheets/screen.css 
+2013-04-12 17:29:09     error sass/screen.scss (Line 108 of _vertical_rhythm.scss: 0.11538em/px isn't a valid CSS value.)
+2013-04-12 17:29:09 identical stylesheets/screen.css 
+2013-04-12 17:29:47 overwrite stylesheets/screen.css 
+2013-04-12 17:30:49 overwrite stylesheets/screen.css 
+2013-04-12 17:30:54 overwrite stylesheets/screen.css 
+2013-04-12 17:31:33 overwrite stylesheets/screen.css 
+2013-04-12 17:31:51 overwrite stylesheets/screen.css 
+2013-04-12 17:49:36 overwrite stylesheets/screen.css 
+2013-04-12 17:49:46 overwrite stylesheets/screen.css 
+2013-04-12 17:51:12 overwrite stylesheets/screen.css 
+2013-04-12 17:52:14 overwrite stylesheets/screen.css 
+2013-04-12 17:52:54 overwrite stylesheets/screen.css 
+2013-04-12 17:53:44 overwrite stylesheets/screen.css 
+2013-04-12 17:54:25 overwrite stylesheets/screen.css 
+2013-04-12 17:56:08 overwrite stylesheets/screen.css 
+2013-04-12 17:56:45 overwrite stylesheets/screen.css 
+2013-04-12 17:57:20 overwrite stylesheets/screen.css 
+2013-04-12 17:57:49 overwrite stylesheets/screen.css 
+2013-04-12 17:58:18 overwrite stylesheets/screen.css 
+2013-04-12 17:58:38 overwrite stylesheets/screen.css 
+2013-04-12 17:58:44 identical stylesheets/screen.css 
+2013-04-12 18:00:05 overwrite stylesheets/screen.css 
+2013-04-12 18:08:17 overwrite stylesheets/screen.css 
+2013-04-12 18:36:43 overwrite stylesheets/screen.css 
+2013-04-12 18:37:16 overwrite stylesheets/screen.css 
+2013-04-12 18:37:57 overwrite stylesheets/screen.css 
+2013-04-12 18:50:52 identical stylesheets/screen.css 
+2013-04-12 20:01:28 overwrite stylesheets/screen.css 
+2013-04-12 21:32:29    create css/ie.css 
+2013-04-12 21:32:31    create css/print.css 
+2013-04-12 21:32:38    create css/screen.css 
+2013-04-12 21:32:42    create css/style.css 
+2013-04-13 09:51:57 overwrite css/screen.css 
+2013-04-13 09:52:47 overwrite css/screen.css 
+2013-04-13 09:53:45 overwrite css/screen.css 
+2013-04-13 09:54:52 overwrite css/screen.css 
+2013-04-13 09:55:01 overwrite css/screen.css 
+2013-04-13 09:55:47 overwrite css/screen.css 
+2013-04-13 09:57:45 overwrite css/screen.css 
+2013-04-13 09:58:39 overwrite css/screen.css 
+2013-04-13 10:00:45 overwrite css/screen.css 
+2013-04-13 10:01:11 overwrite css/screen.css 
+2013-04-13 10:01:42 overwrite css/screen.css 
+2013-04-13 10:05:08 identical css/screen.css 
+2013-04-13 10:06:13 identical css/screen.css 
+2013-04-13 10:07:04 identical css/screen.css 
+2013-04-13 10:07:53 overwrite css/screen.css 
+2013-04-13 10:19:50 identical css/screen.css 
+2013-04-13 10:19:59 identical css/screen.css 
+2013-04-13 10:20:51     error sass/screen.scss (Line 483: Invalid CSS after "		background: ": expected expression (e.g. 1px, bold), was "$666666;")
+2013-04-13 10:20:52 overwrite css/screen.css 
+2013-04-13 10:21:13 overwrite css/screen.css 
+2013-04-13 10:21:26 identical css/screen.css 
+2013-04-13 10:21:52 overwrite css/screen.css 
+2013-04-13 10:24:26 overwrite css/screen.css 
+2013-04-13 10:28:31 overwrite css/screen.css 
+2013-04-13 10:29:58 overwrite css/screen.css 
+2013-04-13 10:30:08 overwrite css/screen.css 
+2013-04-13 10:31:32 overwrite css/screen.css 
+2013-04-13 10:32:44 overwrite css/screen.css 
+2013-04-13 10:32:51 overwrite css/screen.css 
+2013-04-13 10:33:00 overwrite css/screen.css 
+2013-04-13 10:33:39 overwrite css/screen.css 
+2013-04-13 10:34:18 overwrite css/screen.css 
+2013-04-13 10:34:37 overwrite css/screen.css 
+2013-04-13 10:35:20     error sass/screen.scss (Line 579: Illegal nesting: Only properties may be nested beneath properties.)
+2013-04-13 10:35:20 overwrite css/screen.css 
+2013-04-13 10:35:40     error sass/screen.scss (Line 579: Illegal nesting: Only properties may be nested beneath properties.)
+2013-04-13 10:35:40 identical css/screen.css 
+2013-04-13 10:36:02 overwrite css/screen.css 
+2013-04-13 10:36:56 overwrite css/screen.css 
+2013-04-13 10:37:02 overwrite css/screen.css 
+2013-04-13 10:37:18 overwrite css/screen.css 
+2013-04-13 10:37:59 overwrite css/screen.css 
+2013-04-13 10:38:05 overwrite css/screen.css 
+2013-04-13 10:38:24 overwrite css/screen.css 
+2013-04-13 10:38:52 overwrite css/screen.css 
+2013-04-13 10:39:32 overwrite css/screen.css 
+2013-04-13 10:40:05 overwrite css/screen.css 
+2013-04-13 10:43:33 overwrite css/screen.css 
+2013-04-13 10:44:50     error sass/screen.scss (Line 582: Invalid CSS after "				height": expected ";", was ": 50px;")
+2013-04-13 10:44:51 overwrite css/screen.css 
+2013-04-13 10:45:03 overwrite css/screen.css 
+2013-04-13 10:45:16 overwrite css/screen.css 
+2013-04-13 10:47:40 overwrite css/screen.css 
+2013-04-13 10:48:10 overwrite css/screen.css 
+2013-04-13 10:48:14 overwrite css/screen.css 
+2013-04-13 10:48:49 overwrite css/screen.css 
+2013-04-13 10:49:39 overwrite css/screen.css 
+2013-04-13 10:49:44 identical css/screen.css 
+2013-04-13 10:51:13 overwrite css/screen.css 
+2013-04-13 10:52:51 overwrite css/screen.css 
+2013-04-13 10:54:59 overwrite css/screen.css 
+2013-04-13 10:55:12 overwrite css/screen.css 
+2013-04-13 10:56:05 overwrite css/screen.css 
+2013-04-13 10:57:30 overwrite css/screen.css 
+2013-04-13 10:57:57 overwrite css/screen.css 
+2013-04-13 10:58:09 overwrite css/screen.css 
+2013-04-13 10:58:57 overwrite css/screen.css 
+2013-04-13 10:59:40 overwrite css/screen.css 
+2013-04-13 11:00:20 overwrite css/screen.css 
+2013-04-13 11:00:54 overwrite css/screen.css 
+2013-04-13 11:03:32 overwrite css/screen.css 
+2013-04-13 11:03:42 overwrite css/screen.css 
+2013-04-13 11:03:50 overwrite css/screen.css 
+2013-04-13 11:06:58 overwrite css/screen.css 
+2013-04-13 11:07:54 overwrite css/screen.css 
+2013-04-13 11:08:19 overwrite css/screen.css 
+2013-04-13 11:09:03 overwrite css/screen.css 
+2013-04-13 11:10:12 overwrite css/screen.css 
+2013-04-13 15:20:11 overwrite css/screen.css 
+2013-04-13 15:21:12 overwrite css/screen.css 
+2013-04-19 10:45:59 overwrite css/screen.css 
+2013-04-19 10:46:35 overwrite css/screen.css 
+2013-04-19 10:46:46 identical css/screen.css 
+2013-04-19 10:47:01 overwrite css/screen.css 
+2013-04-19 10:47:08 identical css/screen.css 
+2013-04-19 10:47:22 overwrite css/screen.css 
+2013-04-19 10:47:58 identical css/screen.css 
+2013-04-19 10:48:06 overwrite css/screen.css 
+2013-04-19 10:48:11 overwrite css/screen.css 
+2013-04-19 10:48:20 overwrite css/screen.css 
+2013-04-19 10:49:35 overwrite css/screen.css 
+2013-04-19 10:49:58 overwrite css/screen.css 
+2013-04-19 10:52:00 overwrite css/screen.css 
+2013-04-19 10:53:48 overwrite css/screen.css 
+2013-04-19 10:56:23 overwrite css/screen.css 
+2013-04-19 10:57:03 overwrite css/screen.css 
+2013-04-19 10:58:47 overwrite css/screen.css 
+2013-04-19 10:59:08 overwrite css/screen.css 
+2013-04-19 10:59:24 overwrite css/screen.css 
+2013-04-19 11:00:17 overwrite css/screen.css 
+2013-04-19 11:00:54 overwrite css/screen.css 
+2013-04-19 11:02:18 overwrite css/screen.css 
+2013-04-19 11:05:40 overwrite css/screen.css 
+2013-04-19 11:06:10 overwrite css/screen.css 
+2013-04-19 11:07:44 overwrite css/screen.css 
+2013-04-19 11:07:54 overwrite css/screen.css 
+2013-04-19 11:08:06 overwrite css/screen.css 
+2013-04-19 11:51:45 overwrite css/screen.css 
+2013-04-19 11:56:18 overwrite css/screen.css 
+2013-04-19 13:30:00 overwrite css/screen.css 
+2013-04-19 14:20:59 overwrite css/screen.css 
+2013-04-19 15:41:27 overwrite css/screen.css 
+2013-04-19 16:30:19 overwrite css/screen.css 
+2013-04-19 19:33:09 overwrite css/screen.css 
+2013-04-19 19:33:22 overwrite css/screen.css 
+2013-04-19 19:37:14 overwrite css/screen.css 
+2013-04-20 02:37:11 overwrite css/screen.css 
+2013-04-20 02:37:18 overwrite css/screen.css 
+2013-04-20 02:38:05 overwrite css/screen.css 
+2013-04-20 02:38:37 overwrite css/screen.css 
+2013-04-20 02:38:55 overwrite css/screen.css 
+2013-04-20 02:39:00 identical css/screen.css 
+2013-04-20 02:39:06 overwrite css/screen.css 
+2013-04-20 02:39:14 overwrite css/screen.css 
+2013-04-20 02:39:47 overwrite css/screen.css 
+2013-04-20 02:40:15 overwrite css/screen.css 
+2013-04-20 02:40:40 overwrite css/screen.css 
+2013-04-20 02:40:51 overwrite css/screen.css 
+2013-04-20 02:41:30 overwrite css/screen.css 
+2013-04-20 02:41:53 overwrite css/screen.css 
+2013-04-20 02:42:03 overwrite css/screen.css 
+2013-04-20 02:43:00 overwrite css/screen.css 
+2013-04-20 02:43:13 overwrite css/screen.css 
+2013-04-20 02:43:53 overwrite css/screen.css 
+2013-04-20 02:44:01 overwrite css/screen.css 
+2013-04-20 02:44:38 overwrite css/screen.css 
+2013-04-20 02:45:05 overwrite css/screen.css 
+2013-04-20 02:45:11 overwrite css/screen.css 
+2013-04-20 02:45:44 overwrite css/screen.css 
+2013-04-20 02:46:10 overwrite css/screen.css 
+2013-04-20 02:58:06 overwrite css/screen.css 
+2013-04-20 02:59:00 overwrite css/screen.css 
+2013-04-20 02:59:32 overwrite css/screen.css 
+2013-04-20 03:00:05 identical css/screen.css 
+2013-04-20 03:02:19 overwrite css/screen.css 
+2013-04-20 03:03:57 overwrite css/screen.css 
+2013-04-20 03:04:15 overwrite css/screen.css 
+2013-04-20 03:04:42 overwrite css/screen.css 
+2013-04-20 03:04:59 overwrite css/screen.css 
+2013-04-20 03:05:28 overwrite css/screen.css 
+2013-04-20 03:05:34 overwrite css/screen.css 
+2013-04-20 03:21:28 overwrite css/screen.css 
+2013-04-20 03:23:08 overwrite css/screen.css 
+2013-04-20 03:24:28 overwrite css/screen.css 
+2013-04-20 03:24:51 overwrite css/screen.css 
+2013-04-20 03:25:21 overwrite css/screen.css 
+2013-04-20 03:25:56 overwrite css/screen.css 
+2013-04-20 03:26:25 overwrite css/screen.css 
+2013-04-20 03:26:50 overwrite css/screen.css 
+2013-04-20 03:27:40 overwrite css/screen.css 
+2013-04-20 03:28:10     error sass/screen.scss (Line 453: Invalid CSS after "...er: solid thin ": expected ";", was "#gray;")
+2013-04-20 03:28:11 overwrite css/screen.css 
+2013-04-20 03:28:41 overwrite css/screen.css 
+2013-04-20 03:29:27 overwrite css/screen.css 
+2013-04-20 03:31:39 overwrite css/screen.css 

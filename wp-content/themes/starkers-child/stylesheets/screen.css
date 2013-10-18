@@ -1,0 +1,1102 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:100,300,400);
+/* line 17, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, #Welcome #qod-quote, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+/* line 22, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+html {
+  line-height: 1;
+}
+
+/* line 24, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+ol, ul {
+  list-style: none;
+}
+
+/* line 26, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* line 28, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+/* line 30, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+q, blockquote {
+  quotes: none;
+}
+/* line 103, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+q:before, q:after, blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+/* line 32, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+a img {
+  border: none;
+}
+
+/* line 116, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
+  display: block;
+}
+
+/* line 20, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {
+  display: block;
+}
+
+/* line 24, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+audio, canvas, video {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
+
+/* line 30, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+audio:not([controls]) {
+  display: none;
+}
+
+/* line 34, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+[hidden] {
+  display: none;
+}
+
+/* line 51, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+/* line 58, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+body {
+  margin: 0;
+  font-size: 13px;
+  line-height: 24px;
+}
+
+/* line 64, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+body, button, input, select, textarea {
+  font-family: sans-serif;
+  color: #222222;
+}
+
+/* line 76, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+::-moz-selection {
+  background: #fe57a1;
+  color: white;
+  text-shadow: none;
+}
+
+/* line 82, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+::selection {
+  background: #fe57a1;
+  color: white;
+  text-shadow: none;
+}
+
+/* line 96, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+a {
+  color: #666666;
+}
+
+/* line 100, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+a:visited {
+  color: #666666;
+}
+
+/* line 104, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+a:hover {
+  color: black;
+}
+
+/* line 108, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+a:focus {
+  outline: thin dotted;
+}
+
+/* line 113, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+a:hover, a:active {
+  outline: 0;
+}
+
+/* line 123, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+abbr[title] {
+  border-bottom: 1px dotted;
+}
+
+/* line 129, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+b, strong {
+  font-weight: bold;
+}
+
+/* line 135, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+blockquote {
+  margin: 1em 40px;
+}
+
+/* line 141, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+dfn {
+  font-style: italic;
+}
+
+/* line 146, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+
+/* line 157, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+/* line 165, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+/* line 175, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+pre, code, kbd, samp {
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 1em;
+}
+
+/* line 184, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* line 192, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+q {
+  quotes: none;
+}
+
+/* line 196, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+q:before, q:after {
+  content: "";
+  content: none;
+}
+
+/* line 203, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+small {
+  font-size: 85%;
+}
+
+/* line 210, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+/* line 217, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+sup {
+  top: -0.5em;
+}
+
+/* line 221, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+sub {
+  bottom: -0.25em;
+}
+
+/* line 232, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 40px;
+}
+
+/* line 237, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+dd {
+  margin: 0 0 0 40px;
+}
+
+/* line 239, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+nav ul, nav ol {
+  list-style: none;
+  list-style-image: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* line 254, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+/* line 264, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+svg:not(:root) {
+  overflow: hidden;
+}
+
+/* line 271, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+figure {
+  margin: 0;
+}
+
+/* line 278, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+form {
+  margin: 0;
+}
+
+/* line 280, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* line 283, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+label {
+  cursor: pointer;
+}
+
+/* line 288, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+legend {
+  border: 0;
+  *margin-left: -7px;
+  padding: 0;
+}
+
+/* line 294, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+button, input, select, textarea {
+  font-size: 100%;
+  margin: 0;
+  vertical-align: baseline;
+  *vertical-align: middle;
+}
+
+/* line 304, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+button, input {
+  line-height: normal;
+  *overflow: visible;
+}
+
+/* line 311, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+table button, table input {
+  *overflow: auto;
+}
+
+/* line 316, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+button, input[type="button"], input[type="reset"], input[type="submit"] {
+  cursor: pointer;
+  -webkit-appearance: button;
+}
+
+/* line 323, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+input[type="checkbox"], input[type="radio"] {
+  box-sizing: border-box;
+}
+
+/* line 326, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+input[type="search"] {
+  -webkit-appearance: textfield;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+}
+
+/* line 332, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/* line 338, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+button::-moz-focus-inner, input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+/* line 346, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+textarea {
+  overflow: auto;
+  vertical-align: top;
+  resize: vertical;
+}
+
+/* line 354, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+input:invalid, textarea:invalid {
+  background-color: #f0dddd;
+}
+
+/* line 363, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* line 367, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
+td {
+  vertical-align: top;
+}
+
+/* line 22, ../sass/_base.scss */
+.grid {
+  margin: 0 0 1em 0;
+  zoom: 1;
+}
+/* line 8, ../sass/_base.scss */
+.grid:before, .grid:after {
+  content: "\0020";
+  display: block;
+  height: 0;
+  overflow: hidden;
+}
+/* line 15, ../sass/_base.scss */
+.grid:after {
+  clear: both;
+}
+
+/* line 27, ../sass/_base.scss */
+[class*='col-'] {
+  width: 100%;
+}
+
+/* Opt-in outside padding */
+/* line 33, ../sass/_base.scss */
+.grid-pad {
+  padding: 1em 0 1em 1em;
+}
+/* line 35, ../sass/_base.scss */
+.grid-pad [class*='col-']:last-of-type {
+  padding-right: 1em;
+}
+
+/* Grid styles */
+/* line 41, ../sass/_base.scss */
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* line 45, ../sass/_base.scss */
+header, #main, footer {
+  width: 100%;
+}
+
+/* line 49, ../sass/_base.scss */
+.container {
+  position: relative;
+  margin: 0 auto 0;
+  width: 100%;
+}
+
+/* line 55, ../sass/_base.scss */
+.module {
+  overflow: hidden;
+  position: relative;
+}
+
+/* line 60, ../sass/_base.scss */
+[class*='col-'] {
+  float: left;
+  width: 100%;
+}
+
+@media screen and (max-width: 480px) {
+  /* line 66, ../sass/_base.scss */
+  [class*='col-'] {
+    margin-bottom: 1em;
+  }
+}
+@media screen and (min-width: 360px) {
+  /* line 106, ../sass/_base.scss */
+  .mobile-half {
+    width: 50%;
+    float: left;
+  }
+}
+@media screen and (min-width: 720px) {
+  /* line 114, ../sass/_base.scss */
+  [class*='col-'] {
+    float: left;
+    padding-right: 1em;
+  }
+  /* line 117, ../sass/_base.scss */
+  .grid [class*='col-']:last-of-type {
+    padding-right: 0;
+  }
+
+  /* line 122, ../sass/_base.scss */
+  .mobile-half {
+    width: auto;
+    float: none;
+  }
+
+  /* line 126, ../sass/_base.scss */
+  .col-1-2 {
+    width: 50%;
+  }
+
+  /* line 131, ../sass/_base.scss */
+  .col-1-3 {
+    width: 33.33333%;
+  }
+
+  /* line 135, ../sass/_base.scss */
+  .col-2-3 {
+    width: 66.66667%;
+  }
+
+  /* line 139, ../sass/_base.scss */
+  .col-1-4 {
+    width: 25%;
+  }
+
+  /* line 143, ../sass/_base.scss */
+  .col-3-4 {
+    width: 75%;
+  }
+
+  /* line 147, ../sass/_base.scss */
+  .col-1-6 {
+    width: 16.66667%;
+  }
+
+  /* line 151, ../sass/_base.scss */
+  .col-5-6 {
+    width: 83.33333%;
+  }
+
+  /* line 155, ../sass/_base.scss */
+  .col-1-8 {
+    width: 12.5%;
+  }
+
+  /* line 159, ../sass/_base.scss */
+  .col-3-8 {
+    width: 37.5%;
+  }
+
+  /* line 163, ../sass/_base.scss */
+  .col-5-8 {
+    width: 62.5%;
+  }
+
+  /* line 167, ../sass/_base.scss */
+  .col-7-8 {
+    width: 87.5%;
+  }
+}
+@media screen and (min-width: 920px) {
+  /* line 173, ../sass/_base.scss */
+  .container {
+    max-width: 920px;
+  }
+}
+@media screen and (min-width: 1280px) {
+  /* line 179, ../sass/_base.scss */
+  .container {
+    max-width: 1280px;
+  }
+}
+/* line 61, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/compass/stylesheets/compass/typography/_vertical_rhythm.scss */
+* html {
+  font-size: 81.25%;
+}
+
+/* line 64, ../../../../../../../../Applications/compass.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/compass/stylesheets/compass/typography/_vertical_rhythm.scss */
+html {
+  font-size: 13px;
+  line-height: 1.84615em;
+}
+
+/* line 21, ../sass/screen.scss */
+.animate {
+  transition: all 0.25s;
+  -moz-transition: all 0.25s;
+  -webkit-transition: all 0.25s;
+  -o-transition: all 0.25s;
+}
+
+/* line 36, ../sass/screen.scss */
+body, select, input, textarea {
+  font-family: 'Lato', sans-serif;
+}
+
+/* line 41, ../sass/screen.scss */
+hr {
+  margin: 0 0 1em;
+}
+
+/* line 52, ../sass/screen.scss */
+.page {
+  padding-bottom: 5em;
+  padding-top: 75px;
+}
+/* line 56, ../sass/screen.scss */
+.page:last-of-type {
+  margin-bottom: 0;
+}
+
+/* line 63, ../sass/screen.scss */
+.module {
+  overflow: hidden;
+}
+
+/* line 67, ../sass/screen.scss */
+.overflow-hidden {
+  overflow: hidden;
+}
+
+/* line 71, ../sass/screen.scss */
+.container {
+  margin: 0 auto;
+  position: relative;
+  max-width: 960px;
+}
+
+/* line 80, ../sass/screen.scss */
+h1, h2, h3, #Welcome #qod-quote, h4, h5 {
+  font-weight: normal;
+}
+
+/* line 84, ../sass/screen.scss */
+h2, h3, #Welcome #qod-quote {
+  font-weight: 300;
+  margin: 0 0 .5em;
+  font-size: 4em;
+  line-height: 1.38462em;
+  text-shadow: 0 1px #fff;
+}
+
+/* line 95, ../sass/screen.scss */
+ul {
+  list-style-image: url(../img/fleur.png);
+}
+
+/* line 99, ../sass/screen.scss */
+.primary-color {
+  color: #8b0f04;
+}
+
+/* line 103, ../sass/screen.scss */
+header {
+  background: white;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+}
+/* line 111, ../sass/screen.scss */
+header [title*='logo-anchor'] {
+  position: relative;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+/* line 117, ../sass/screen.scss */
+header [title*='logo-anchor'] #logo {
+  display: block;
+  width: 70px;
+  height: 67px;
+  background-image: url(../img/logo.png);
+  background-color: #386351;
+  text-indent: -9999em;
+  text-align: center;
+  margin: 0 auto;
+  margin-top: -11px;
+  transition: background-color 1s;
+  -moz-transition: background-color 1s;
+  -webkit-transition: background-color 1s;
+  -o-transition: background-color 1s;
+}
+/* line 129, ../sass/screen.scss */
+header [title*='logo-anchor'] #logo:hover {
+  background-color: #8b0f04;
+}
+
+/* line 138, ../sass/screen.scss */
+#main {
+  z-index: 1;
+  position: relative;
+}
+/* line 143, ../sass/screen.scss */
+#main .slide-show img {
+  height: 100%;
+  max-height: 300px;
+}
+
+/* line 150, ../sass/screen.scss */
+#container {
+  background-image: url(../img/brushed_alu.png);
+}
+
+@media screen and (max-width: 480px) {
+  /* line 155, ../sass/screen.scss */
+  nav {
+    display: none;
+  }
+}
+/* line 163, ../sass/screen.scss */
+nav ul li {
+  position: relative;
+  float: left;
+  padding: 0;
+  width: 20%;
+  margin-top: 1em;
+  text-align: center;
+}
+/* line 171, ../sass/screen.scss */
+nav ul li:last-of-type {
+  border-width: 0 1px;
+}
+/* line 176, ../sass/screen.scss */
+nav ul li a {
+  transition: all 0.25s;
+  -moz-transition: all 0.25s;
+  -webkit-transition: all 0.25s;
+  -o-transition: all 0.25s;
+  position: relative;
+  text-decoration: none;
+  font-weight: 300;
+  display: inline-block;
+  font-size: 2.5em;
+  line-height: 1.47692em;
+}
+/* line 187, ../sass/screen.scss */
+nav ul li a .underline {
+  position: absolute;
+  display: block;
+  width: 0px;
+  height: 100%;
+  left: 0;
+  top: 0;
+  border-bottom: none;
+  border-bottom: solid thin black;
+  transition: all 0.25s;
+  -moz-transition: all 0.25s;
+  -webkit-transition: all 0.25s;
+  -o-transition: all 0.25s;
+}
+/* line 200, ../sass/screen.scss */
+nav ul li a:hover .underline {
+  width: 100%;
+}
+/* line 208, ../sass/screen.scss */
+nav ul li.current a {
+  color: black;
+}
+/* line 212, ../sass/screen.scss */
+nav ul li.current .underline {
+  width: 100%;
+}
+/* line 216, ../sass/screen.scss */
+nav ul li.current a #logo {
+  background-color: #8b0f04 !important;
+}
+/* line 221, ../sass/screen.scss */
+nav ul li ul.sub-menu {
+  position: absolute;
+  left: -999em;
+}
+/* line 225, ../sass/screen.scss */
+nav ul li ul.sub-menu li {
+  display: block;
+  white-space: nowrap;
+}
+/* line 236, ../sass/screen.scss */
+nav ul li:hover ul.sub-menu {
+  left: 0;
+}
+
+/* line 249, ../sass/screen.scss */
+.select-menu {
+  margin-top: 50px;
+}
+
+/* line 257, ../sass/screen.scss */
+#Welcome, #Portfolio, #Process, #About, #Contact {
+  background-repeat: no-repeat;
+  background-position: 50% 0;
+}
+
+/* line 267, ../sass/screen.scss */
+#Welcome .thumbnail-gallery {
+  list-style: none;
+}
+/* line 275, ../sass/screen.scss */
+#Welcome .module {
+  padding: 1em;
+}
+/* line 279, ../sass/screen.scss */
+#Welcome h2 {
+  margin: 0;
+  font-weight: 100;
+  font-size: 233.5px;
+  line-height: 275px;
+  text-shadow: 0 2px #fff;
+}
+/* line 287, ../sass/screen.scss */
+#Welcome h3, #Welcome #qod-quote {
+  font-weight: 100;
+}
+/* line 291, ../sass/screen.scss */
+#Welcome h4 {
+  display: none;
+  visibility: hidden;
+}
+/* line 296, ../sass/screen.scss */
+#Welcome h5 {
+  font-size: 1.5em;
+  line-height: 1.23077em;
+  font-style: normal;
+  margin: .25em 0;
+  font-weight: 300;
+}
+/* line 302, ../sass/screen.scss */
+#Welcome h5 a {
+  text-decoration: none;
+}
+/* line 305, ../sass/screen.scss */
+#Welcome h5 a:hover {
+  text-decoration: underline;
+}
+/* line 311, ../sass/screen.scss */
+#Welcome blockquote {
+  margin: 0;
+}
+/* line 315, ../sass/screen.scss */
+#Welcome #qod-quote {
+  font-weight: 300;
+  font-size: 2.2em;
+  line-height: 1.67832em;
+}
+/* line 323, ../sass/screen.scss */
+#Welcome #qod-quote .qod-text {
+  margin: 0;
+}
+/* line 327, ../sass/screen.scss */
+#Welcome #qod-quote .qod-author {
+  margin: .5em 0 0;
+}
+/* line 330, ../sass/screen.scss */
+#Welcome #qod-quote .qod-author a {
+  font-family: "kepler-std-semicondensed-dis", sans-serf, serif;
+  font-style: italic;
+  font-size: 0.8em;
+  line-height: 2.30769em;
+  text-decoration: none;
+}
+/* line 336, ../sass/screen.scss */
+#Welcome #qod-quote .qod-author a:hover {
+  text-decoration: underline;
+}
+
+/* line 348, ../sass/screen.scss */
+#Portfolio .module {
+  position: relative;
+  overflow: visible;
+}
+/* line 352, ../sass/screen.scss */
+#Portfolio .module .controls {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
+/* line 358, ../sass/screen.scss */
+#Portfolio .module .controls .pagenation {
+  position: absolute;
+  right: 0;
+  bottom: -30px;
+  display: block;
+}
+/* line 365, ../sass/screen.scss */
+#Portfolio .module .controls .previous, #Portfolio .module .controls .next {
+  position: absolute;
+  left: -80px;
+  top: 50%;
+}
+@media screen and (max-width: 480px) {
+  /* line 365, ../sass/screen.scss */
+  #Portfolio .module .controls .previous, #Portfolio .module .controls .next {
+    display: none;
+  }
+}
+/* line 375, ../sass/screen.scss */
+#Portfolio .module .controls .previous a span, #Portfolio .module .controls .next a span {
+  width: 60px;
+  height: 60px;
+  display: block;
+  background-image: url(../img/prev_next.png);
+  background-repeat: no-repeat;
+  text-indent: -9999em;
+  opacity: .5;
+}
+/* line 384, ../sass/screen.scss */
+#Portfolio .module .controls .previous a:hover span, #Portfolio .module .controls .next a:hover span {
+  opacity: 1;
+}
+/* line 390, ../sass/screen.scss */
+#Portfolio .module .controls .next {
+  left: auto;
+  right: -80px;
+}
+/* line 394, ../sass/screen.scss */
+#Portfolio .module .controls .next a span {
+  background-position: right top;
+}
+/* line 402, ../sass/screen.scss */
+#Portfolio .portfolio-thumbnails {
+  list-style: none;
+  padding-left: 0;
+}
+/* line 406, ../sass/screen.scss */
+#Portfolio .portfolio-thumbnails .portfolio-thumbnail {
+  list-style: none;
+}
+/* line 409, ../sass/screen.scss */
+#Portfolio .portfolio-thumbnails .portfolio-thumbnail .module {
+  position: relative;
+  overflow: hidden;
+  background: white;
+  background: rgba(0, 0, 0, 0.15);
+}
+/* line 415, ../sass/screen.scss */
+#Portfolio .portfolio-thumbnails .portfolio-thumbnail .module a {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  height: 500px;
+}
+/* line 421, ../sass/screen.scss */
+#Portfolio .portfolio-thumbnails .portfolio-thumbnail .module a img {
+  height: 500px;
+  margin: 0 auto;
+}
+/* line 429, ../sass/screen.scss */
+#Portfolio .portfolio-thumbnails .portfolio-thumbnail .module a .thumbnail-details {
+  background: black;
+  background: rgba(0, 0, 0, 0.65);
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  padding: 1em;
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.75);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.75);
+}
+/* line 442, ../sass/screen.scss */
+#Portfolio .portfolio-thumbnails .portfolio-thumbnail .module a .thumbnail-details ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+/* line 447, ../sass/screen.scss */
+#Portfolio .portfolio-thumbnails .portfolio-thumbnail .module a .thumbnail-details ul li {
+  color: white;
+  font-family: "futura-pt-condensed", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  padding-bottom: 0.33333em;
+  font-size: 1.5em;
+  line-height: 1.23077em;
+}
+
+/* line 468, ../sass/screen.scss */
+#Process .col-1-3:last-of-type h4::after {
+  display: none;
+}
+/* line 473, ../sass/screen.scss */
+#Process .module {
+  padding: 1em;
+}
+/* line 478, ../sass/screen.scss */
+#Process h4 {
+  display: block;
+  width: 200px;
+  background: #764200;
+  position: relative;
+  transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  font-size: 1.5em;
+  line-height: 1.23077em;
+}
+/* line 489, ../sass/screen.scss */
+#Process h4:hover {
+  color: white;
+}
+/* line 493, ../sass/screen.scss */
+#Process h4:after {
+  display: block;
+  content: '';
+  width: 33px;
+  height: 31px;
+  background: url(../img/process_arrow.png) no-repeat;
+  position: absolute;
+  right: -70px;
+  top: 50%;
+  margin-top: -16px;
+}
+@media screen and (max-width: 480px) {
+  /* line 493, ../sass/screen.scss */
+  #Process h4:after {
+    display: none;
+  }
+}
+/* line 509, ../sass/screen.scss */
+#Process h4 span {
+  position: absolute;
+  top: 40%;
+  width: 100%;
+  text-align: center;
+  margin-top: -.5em;
+  color: #fff;
+  font-family: "kepler-std-semicondensed-dis", sans-serf, serif;
+  font-size: 1.6em;
+  line-height: 2.30769em;
+  font-style: italic;
+  font-weight: 900;
+  font-smooth: always;
+  letter-spacing: .03em;
+}
+/* line 525, ../sass/screen.scss */
+#Process h4:hover {
+  background: #386351;
+  color: black;
+  cursor: pointer;
+}
+
+/* line 534, ../sass/screen.scss */
+#About h4 {
+  display: none;
+  visibility: hidden;
+}
+/* line 540, ../sass/screen.scss */
+#About .linkedin-experience h2, #About .linkedin-experience h3, #About .linkedin-experience #Welcome #qod-quote, #Welcome #About .linkedin-experience #qod-quote, #About .linkedin-education h2, #About .linkedin-education h3, #About .linkedin-education #Welcome #qod-quote, #Welcome #About .linkedin-education #qod-quote {
+  font-size: 1.2em;
+  line-height: 1.53846em;
+  font-weight: 300;
+}
+/* line 545, ../sass/screen.scss */
+#About .linkedin-experience .position, #About .linkedin-education .position {
+  margin-bottom: 1em;
+}
+/* line 549, ../sass/screen.scss */
+#About .linkedin-experience .organization-details, #About .linkedin-education .organization-details {
+  display: none;
+}
+
+/* line 557, ../sass/screen.scss */
+#Contact h4 {
+  display: none;
+  visibility: hidden;
+}
+
+/* line 563, ../sass/screen.scss */
+#loader {
+  background: black;
+  background: rgba(0, 0, 0, 0.85);
+  position: fixed;
+  z-index: 3;
+  top: 0;
+  color: #fff;
+  width: 100%;
+  height: 100%;
+  display: none;
+  overflow: auto;
+  padding-top: 60px;
+}
+/* line 576, ../sass/screen.scss */
+#loader #close {
+  display: block;
+  background: url(../img/close.png) no-repeat 0 50%;
+  text-indent: -9999em;
+  width: 50px;
+  height: 50px;
+  border: none;
+  position: fixed;
+  top: 25px;
+  right: 25px;
+}
+/* line 587, ../sass/screen.scss */
+#loader #close:hover {
+  background-position: -52px 50%;
+}
+/* line 592, ../sass/screen.scss */
+#loader .max-width {
+  max-width: 720px;
+  margin: 0 auto;
+  background: black;
+  background: rgba(0, 0, 0, 0.5);
+}
+/* line 599, ../sass/screen.scss */
+#loader .module {
+  padding: 1em;
+}
+/* line 603, ../sass/screen.scss */
+#loader img {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  display: block;
+  margin-bottom: 2em;
+}
+/* line 611, ../sass/screen.scss */
+#loader a {
+  color: #386351;
+}
+/* line 614, ../sass/screen.scss */
+#loader a:hover {
+  color: #8b0f04;
+}
+
+/* line 620, ../sass/screen.scss */
+#spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  bottom: 50%;
+  right: 50%;
+  width: 32px;
+  height: 32px;
+  display: block;
+  background: url(../img/ajax-loader.gif) no-repeat;
+}
