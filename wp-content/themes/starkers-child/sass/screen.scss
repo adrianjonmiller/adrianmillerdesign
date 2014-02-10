@@ -19,6 +19,10 @@
 	@include animate();
 }
 
+a {
+	color: $link-color;
+}
+
 //-----------------------------------------------
 // The following html5-boilerplate styles should
 // probably be customized for each site
@@ -162,8 +166,12 @@ nav {
 	
 	ul {
 		@extend .clearfix;
+		margin: 0;
+		padding: 0;
+		list-style: none;
 						
 		li {
+			list-style: none;
 			position: relative;
 			float: left;
 			padding: 0;
@@ -397,53 +405,53 @@ nav {
 				}
 			}
 		}
-//		.controls {
-//			position: absolute;
-//			width: 100%;
-//			height: 100%;
-//			top: 0;
-//			
-//			.pagenation {
-//				position: absolute;
-//				right: 0;
-//				bottom: -30px;
-//				display: block;
-//			}
-//			
-//			.previous, .next {
-//				position: absolute;
-//				left: -80px;
-//				top: 50%;
-//				
-//				@media screen and (max-width: 480px) {
-//					display: none;
-//				}
-//				
-//				a  {
-//					span {
-//						width: 60px;
-//						height: 60px;
-//						display: block;
-//						background-image: url(../img/prev_next.png);
-//						background-repeat: no-repeat;
-//						text-indent: -9999em;
-//						opacity: .5;
-//					}
-//					&:hover span {
-//						opacity: 1;
-//					}
-//				}	
-//			
-//			}
-//			.next {
-//				left: auto;
-//				right: -80px;
-//				
-//				a span {
-//					background-position: right top;
-//				}
-//			}
-//		}
+		.controls {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			
+			.pagenation {
+				position: absolute;
+				right: 0;
+				bottom: -30px;
+				display: block;
+			}
+			
+			.previous, .next {
+				position: absolute;
+				left: -80px;
+				top: 50%;
+				
+				@media screen and (max-width: 480px) {
+					display: none;
+				}
+				
+				a  {
+					span {
+						width: 60px;
+						height: 60px;
+						display: block;
+						background-image: url(../img/prev_next.png);
+						background-repeat: no-repeat;
+						text-indent: -9999em;
+						opacity: .5;
+					}
+					&:hover span {
+						opacity: 1;
+					}
+				}	
+			
+			}
+			.next {
+				left: auto;
+				right: -80px;
+				
+				a span {
+					background-position: right top;
+				}
+			}
+		}
 
 	.portfolio-thumbnails {
 		list-style: none;

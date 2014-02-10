@@ -51,6 +51,9 @@ function starkers_script_enqueuer() {
         wp_register_script( 'waypoints', get_stylesheet_directory_uri().'/js/vendors/waypoints.min.js', array( 'jquery' ), false, true );
     	wp_enqueue_script( 'waypoints' );
 		
+        wp_register_style( 'fonts', get_stylesheet_directory_uri().'/bower_components/normalize-css/normalize.css', '', '', 'screen' );
+        wp_enqueue_style( 'fonts' );
+
 		wp_register_style( 'fonts', get_stylesheet_directory_uri().'/css/fonts/stylesheet.css', '', '', 'screen' );
 		wp_enqueue_style( 'fonts' );
 		

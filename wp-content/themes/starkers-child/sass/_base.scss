@@ -37,6 +37,7 @@
 
 * {
 	@include box-sizing(border-box);
+	-webkit-font-smoothing: antialiased;
 }
 
 header, #main, footer {
