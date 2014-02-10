@@ -2,7 +2,7 @@
 @import "partials/base";
 
 // Then we'll import the compass extension
-@import "html5-boilerplate";
+// @import "html5-boilerplate";
 
 // Now, you can simply include everything
 // (except print and helpers) by uncommeting this line
@@ -10,19 +10,19 @@
 
 // Or, you can pick and choose only the sections
 // you want by using the this include
-@include html5-boilerplate-normalize((
-  html5,
-  base,
-  selection,
-  links,
-  typography,
-  lists,
-  images,
-  svg,
-  figures,
-  forms,
-  tables
-));
+// @include html5-boilerplate-normalize((
+//   html5,
+//   base,
+//   selection,
+//   links,
+//   typography,
+//   lists,
+//   images,
+//   svg,
+//   figures,
+//   forms,
+//   tables
+// ));
 
 
 // Or, you can import the "overrides" partial if
@@ -38,13 +38,13 @@
 
 
 // Helpers classes should come second-to-last
-@include html5-boilerplate-helpers((
-  ir,
-  hidden,
-  visuallyhidden,
-  invisible,
-  clearfix
-));
+// @include html5-boilerplate-helpers((
+//   ir,
+//   hidden,
+//   visuallyhidden,
+//   invisible,
+//   clearfix
+// ));
 
 // Media should come last
 @import "partials/media";
