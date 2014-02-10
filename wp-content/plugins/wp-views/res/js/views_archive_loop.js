@@ -88,7 +88,7 @@ function wpv_archive_taxonomy_loop_cancel() {
 }
 
 /////////////////////////////////////////////////////
-// taxonomy archive loop functions for View Templates
+// taxonomy archive loop functions for Content Templates
 /////////////////////////////////////////////////////
 
 var archive_view_template_taxonomy_loop_selected = Array();
@@ -130,7 +130,7 @@ function wpv_view_template_taxonomy_loop_cancel() {
 }
 
 //////////////////////////////////////////////////////
-// post type archive loop functions for View Templates
+// post type archive loop functions for Content Templates
 //////////////////////////////////////////////////////
 
 var archive_view_template_post_type_loop_selected = Array();

@@ -20,22 +20,31 @@ function wpv_filter_post_category($query, $view_settings) {
 		
 		if (isset($view_settings[$relationship_name])) {
 			
-			$save_name = ( $category->name == 'category' ) ? 'post_category' : 'tax_input_' . $category->name;			
+			$save_name = ( $category->name == 'category' ) ? 'post_category' : 'tax_input_' . $category->name;
 			
-			if (!isset($query['tax_query'])) {
-				$query['tax_query'] = array('relation' => $view_settings['taxonomy_relationship']);
-			}
+			$attribute_operator = ( isset( $view_settings['taxonomy-' . $category->name . '-attribute-operator'] ) ) ? $view_settings['taxonomy-' . $category->name . '-attribute-operator'] : 'IN';
 			
 			if ($view_settings['tax_' . $category->name . '_relationship'] == "FROM PAGE") {
 				// we need to get the terms from the current page.
 				$current_page = $WP_Views->get_current_page();
 				if ($current_page) {
-					$terms = wp_get_post_terms($current_page->ID, $category->name, array("fields" => "ids"));
+				//	$terms = wp_get_post_terms($current_page->ID, $category->name, array("fields" => "ids"));
+				//	we can save a SQL query if we use get_the_terms and wp_list_pluck instead of wp_get_post_terms
+					$terms = array();
+					$term_obj = get_the_terms( $current_page->ID, $category->name );
+					if ( $term_obj && !is_wp_error( $term_obj ) ) {
+						$terms = array_values( wp_list_pluck( $term_obj, 'term_id' ) );
+					}
 					if (count($terms)) {
 						$query['tax_query'][] = array('taxonomy' => $category->name,
 												  'field' => 'id',
 												  'terms' => _wpv_get_translated_terms($terms, $category->name),
 												  'operator' => "IN");
+					} else { // if the current page has no term in the given taxonomy, return nothing
+						$query['tax_query'][] = array('taxonomy' => $category->name,
+						'field' => 'id',
+						'terms' => 0,
+						'operator' => "IN");
 					}
 				}
 			} else if ($view_settings['tax_' . $category->name . '_relationship'] == "FROM ATTRIBUTE") {
@@ -63,6 +72,11 @@ function wpv_filter_post_category($query, $view_settings) {
 						$query['tax_query'][] = array('taxonomy' => $category->name,
 						'field' => 'id',
 						'terms' => _wpv_get_translated_terms($term_ids, $category->name),
+						'operator' => $attribute_operator);
+					} else if ( count( $terms ) > 1 ) { // if the shortcode attribute exists and is not empty, and no term matches the value, return nothing
+						$query['tax_query'][] = array('taxonomy' => $category->name,
+						'field' => 'id',
+						'terms' => 0,
 						'operator' => "IN");
 					}
 				}
@@ -93,9 +107,14 @@ function wpv_filter_post_category($query, $view_settings) {
 						$query['tax_query'][] = array('taxonomy' => $category->name,
 						'field' => 'id',
 						'terms' => _wpv_get_translated_terms($term_ids, $category->name),
+						'operator' => $attribute_operator);
+					} else if ( !empty( $_GET[$url_parameter] ) ) { // if the URL parameter exists and is not empty, and no term matches the value, return nothing
+						$query['tax_query'][] = array('taxonomy' => $category->name,
+						'field' => 'id',
+						'terms' => 0,
 						'operator' => "IN");
 					}
-				}				
+				}
 			} else if ($view_settings['tax_' . $category->name . '_relationship'] == "FROM PARENT VIEW") {
 	            $parent_term_id = $WP_Views->get_parent_view_taxonomy();
 				if ($parent_term_id) {
@@ -103,8 +122,13 @@ function wpv_filter_post_category($query, $view_settings) {
 											  'field' => 'id',
 											  'terms' => _wpv_get_translated_terms(array($parent_term_id), $category->name),
 											  'operator' => "IN");
+				} else { // if the parent View does not set any term, return nothing
+					$query['tax_query'][] = array('taxonomy' => $category->name,
+						'field' => 'id',
+						'terms' => 0,
+						'operator' => "IN");
 				}
-			} else if (isset($view_settings[$save_name])) {
+			} else if (isset($view_settings[$save_name])) { // when relationship is IN, NOT IN or AND
 			
 				$term_ids = $view_settings[$save_name];
 			    
@@ -113,6 +137,11 @@ function wpv_filter_post_category($query, $view_settings) {
 										  'terms' => _wpv_get_translated_terms($term_ids, $category->name),
 										  'operator' => $view_settings['tax_' . $category->name . '_relationship']);
 			}
+			
+			if ( isset( $query['tax_query'] ) ) {
+				$query['tax_query']['relation'] = $view_settings['taxonomy_relationship'];
+			}
+			
 		}
     }
     

@@ -32,7 +32,7 @@ abstract class WPRC_Extensions_API
   * 
   * @param string extension type ( 'plugins' | 'themes' )
   */    
-    public function renderAdditionalSearchUI($extension_type)
+    public function renderAdditionalSearchUI($extension_type = false)
     {
         if(!isset($extension_type))
         {
@@ -511,7 +511,7 @@ abstract class WPRC_Extensions_API
  * Search plugins in multiple repositories 
  * This method replaces 'plugins_api' and 'themes_api' function
  */ 
-    public function extensionsApi($state, $action, $args, $extension_type)
+    public function extensionsApi($state, $action, $args, $extension_type = false)
     {
 
 		// default wp behaviour for tabs other than search

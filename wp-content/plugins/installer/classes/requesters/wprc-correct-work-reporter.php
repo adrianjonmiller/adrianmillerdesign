@@ -2,6 +2,8 @@
 class WPRC_CorrectWorkReporter extends WPRC_Requester
 {
     private $sent_reports_list_option_name = 'wprc_sent_reports_list';
+    private $option_name = 'wprc_info_extension';
+    private $option_saved = 'wprc_info_extension_analysis';
 
 /**
  * Return option name of sent reports list
@@ -196,6 +198,8 @@ class WPRC_CorrectWorkReporter extends WPRC_Requester
         
         $edm->updateExtensionData($extension_data);
         
+		self::doComparation($extension_data);
+		
         // set timer for extension
         WPRC_Loader::includeExtensionTimer();
         $timer_is_set = WPRC_ExtensionTimer::setTimer($extension_name);
@@ -609,5 +613,281 @@ class WPRC_CorrectWorkReporter extends WPRC_Requester
         WPRC_Loader::includeExtensionTimer();
         WPRC_ExtensionTimer::deleteTimer($plugin_name);
     }
+
+/**
+ * Use to make a comparison between the stored version and the latest version.
+ * 
+ * @param string extension data
+ */     
+    public function doComparation($extension_data = '')
+	{
+		$getAllData = get_option($this->option_name);
+		if( !empty($extension_data) && !is_array($extension_data) && is_string($extension_data) )
+		{
+			if(self::isPluginActive($extension_data) )
+			{				
+				$getList = self::doListActivePlugins($extension_data);
+				unset($getList['activated_extensions'][$extension_data]);
+				
+				//update report list
+				update_option($this->option_name, $getList);
+				
+				//update check list
+				$option_saved = get_option($this->option_saved);
+				unset($option_saved[$extension_data]);
+				update_option($this->option_saved, $option_saved);
+
+				$extension_data = $getList;
+			}
+		}
+		
+		//convert all extensions data to format [plugin-slug/plugin-slug.php] => plugin-version
+		$getPlugins = array();
+		foreach((array)$extension_data['activated_extensions'] as $getPluginsKey => $getPluginsValue)
+		{
+			$getPlugins[$getPluginsKey] = $getPluginsValue['version'];
+		}
+			
+		$getAllData = get_option($this->option_name);
+		$getSaved = get_option($this->option_saved);
+		$getRSaved = (is_array( $getSaved ) ? array_keys( $getSaved ) : array() );
+		$getVersion = array();
+		
+		foreach((array)$getPlugins as $getPluginsKeys => $getPluginsValue)
+		{
+			if( !array_key_exists($getPluginsKeys, $getAllData) )
+			{
+				$getAllData[$getPluginsKeys] = $extension_data;
+				update_option($this->option_name, $getAllData);
+			}
+		}
+
+		foreach((array)$getAllData as $getAllDataKeys => $getAllDataValues)
+		{
+			if( !array_key_exists( $getAllDataKeys, $getPlugins) )
+			{
+				unset($getAllData[$getAllDataKeys]);
+				update_option($this->option_name, $getAllData);
+			}
+		}
+		
+		foreach((array)$getAllData as $getAllDataKeys => $getAllDataValues)
+		{
+			if( array_key_exists( $getAllDataKeys, $getPlugins ) )
+			{
+				//looking inside another plugins and add the new extension data
+				foreach((array)$getPlugins as $getPluginsKeys => $getPluginsValue)
+				{
+					if( !array_key_exists( $getPluginsKeys, $getAllDataValues['activated_extensions'] ) )
+					{
+						$getAllData[$getAllDataKeys] = $extension_data;
+						update_option($this->option_name, $getAllData);
+					}
+				}
+				
+				//looking inside another plugins and remove old extensions
+				foreach((array)$getAllDataValues['activated_extensions'] as $getSKeys => $getSValue)
+				{
+					if( !array_key_exists( $getSKeys, $getPlugins ) )
+					{
+						unset($getAllData[$getAllDataKeys]['activated_extensions'][$getSKeys]);
+						update_option($this->option_name, $getAllData);
+					}
+				}
+			}
+			
+		}
+		
+		$getFirstElement = array_values($getAllData);
+		$getExtensions = $getFirstElement[0];
+		
+		$currentPlugins = array();
+		foreach((array)$getExtensions['activated_extensions'] as $currentPluginsKey => $currentPluginsValue)
+		{
+			$currentPlugins[$currentPluginsKey] = $currentPluginsValue['version'];
+		}
+		
+		$array_diff = array_diff( (array)$currentPlugins, (array)$getSaved );
+		
+		//if more than one, then we have to update the sending reports
+		if( count($array_diff) >= 1 ) {
+			foreach((array)$array_diff as $array_diff_key => $array_diff_value) {
+				
+				//schedule to send report, because extension has changed
+				WPRC_Loader::includeExtensionTimer();
+				$timer_is_set = WPRC_ExtensionTimer::setTimer($array_diff_key);
+			}
+			
+			$array_merge = array_merge( (array)$currentPlugins, (array)$array_diff );
+			//save extension_data. Format: [plugin-slug] => plugin-version
+			self::doUpdateCurrentVersions($extension_data);
+		}	
+    }
+
+/**
+ * We will receive the post with new plugins (installed) and save.
+ * 
+ * @param string extension data
+ */
+	public function doUpdateCurrentVersions($extension_data)
+	{
+		$plugins = array();
+		foreach((array)$extension_data['activated_extensions'] as $allplugins_key => $allplugins_value)
+		{
+			$plugins[$allplugins_key] = $allplugins_value['version'];
+		}
+		
+		$getPlugins = get_option($this->option_saved);
+		
+		if(is_array($getPlugins))
+		{
+			$result = update_option($this->option_saved, $plugins);	
+		}
+		else
+		{
+			$result = add_option($this->option_saved, $plugins);
+		}
+		
+		return $result;
+	}
+	
+	public function doListActivePlugins($extension_name = '')
+	{
+		if($extension_name == '')
+        {
+            return false;
+        }
+        
+        // get list of active plugins
+        $active_plugins = array();
+        
+        $extension_model = WPRC_Loader::getModel('extensions');
+        $active_plugins_names = $extension_model->getActivePlugins();
+        
+        $active_plugins_names[] = $extension_name; // add current extension to the list of active plugins
+        
+        // get all active plugins data
+        $extensions_tree = $extension_model->getFullExtensionsTree();
+        $extensions_tree['themes'] = $extension_model->changeExtensionsKey($extensions_tree['themes'],'Name');
+        
+		$active_plugins_all_data=array();
+        if(array_key_exists('plugins', $extensions_tree))
+        {
+            if(count($extensions_tree['plugins'])>0)
+            {
+                
+                foreach ( $active_plugins_names as $active_plugin ) {
+                    if(!array_key_exists($active_plugin,$extensions_tree['plugins']))
+                    {
+                        continue;
+                    }
+                    $active_plugins_all_data[$active_plugin] = $extensions_tree['plugins'][$active_plugin];
+                }
+            }
+        }       
+        
+        if(count($active_plugins_all_data)>0)
+        {  
+            foreach($active_plugins_all_data AS $plugin_path => $plugin_attr)
+            {                
+                if(!is_array($plugin_attr))
+                {
+                    continue;
+                }
+                
+                $version = '';
+                if(array_key_exists('Version', $plugin_attr))
+                {
+                    $version = $plugin_attr['Version'];
+                }
+
+                $name = '';
+                if(array_key_exists('Name', $plugin_attr))
+                {
+                    $name = $plugin_attr['Name'];
+                }
+
+                $slug = '';
+                if(array_key_exists('extension_slug', $plugin_attr))
+                {
+                    $slug = $plugin_attr['extension_slug'];
+                }
+
+                $repository_url = '';
+                if(array_key_exists('repository_endpoint_url', $plugin_attr))
+                {
+                    $repository_url = $plugin_attr['repository_endpoint_url'];
+                }
+
+                $active_plugins[$plugin_path] = array(
+                    'name' => $name,
+                    'type' => 'plugin',
+                    'path' => $plugin_path, 
+                    'version' => $version,
+                    'slug' => $slug,
+                    'repository_url' => $repository_url
+                );
+            }
+        }
+        
+        //$current_theme = $extension_model->getCurrentTheme();
+        $current_theme_name = $extension_model->getCurrentThemeName();
+
+        $current_theme = array();
+        if(isset($extensions_tree['themes'][$current_theme_name]))
+       {
+            $current_theme = $extensions_tree['themes'][$current_theme_name];
+        }
+
+        if($extension_name <> $current_theme_name) // current extension is not a theme
+        {
+            $version = '';
+            if(array_key_exists('Version', $current_theme))
+            {
+                $version = $current_theme['Version']; 
+            }
+
+            $slug = '';
+            if(array_key_exists('extension_slug', $current_theme))
+            {
+                $slug = $current_theme['extension_slug'];
+            }
+
+            $repository_url = '';
+            if(array_key_exists('repository_endpoint_url', $current_theme))
+            {
+                $repository_url = $current_theme['repository_endpoint_url'];
+            }
+
+            if(array_key_exists('Name', $current_theme))
+            {
+                $active_plugins[$current_theme['Name']] = array(
+                    'name' => $current_theme['Name'],
+                    'type' => 'theme',
+                    'path' => null,
+                    'version' => $version,
+                    'slug' => $slug,
+                    'repository_url' => $repository_url
+                );
+            }
+        }
+        
+        $extension_data = array(
+            'activated_extensions' => $active_plugins, 
+            'last_activation_date' => time()
+        );
+		
+		return $extension_data;
+	}
+	
+	private function debug($content){
+		error_log( print_r($content, true), 3, dirname(__FILE__) . '/error.log');
+	}
+
+	//Check whether the plugin is active by checking the active_plugins list.
+	private function isPluginActive( $plugin ) {
+			return in_array( $plugin, (array) get_option( 'active_plugins', array() ) ) || is_plugin_active_for_network( $plugin );
+	}
+
 }
 ?>

@@ -1,4 +1,4 @@
-The Embedded version lets you create View Templated and Views for your theme or plugin, without requiring any plugin.
+The Embedded version lets you create Content Templated and Views for your theme or plugin, without requiring any plugin.
 
 = Instructions =
 

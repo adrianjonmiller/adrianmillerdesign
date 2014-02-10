@@ -88,7 +88,7 @@ class WPRC_RepositoryConnector
  * @param string url to send
  * @param mixed arguments to send
  */ 
-    public function sendRequest($method,$url,$args,$timeout=15)
+    public static function sendRequest($method,$url,$args,$timeout=15)
     {
         WPRC_Loader::includeWordpressHttp();
         

@@ -20,9 +20,30 @@ add_filter('the_content', 'wpv_resolve_internal_shortcodes', 9);
  * @param string page content to be evaluated for internal shortcodes
  */
 function wpv_parse_content_shortcodes($content) {
+	global $WP_Views;
+	$options = $WP_Views->get_options();
 	$inner_expressions = array();
 	$inner_expressions[] = "/\\[types.*?\\].*?\\[\\/types\\]/i";
-	$inner_expressions[] = "/\\[(wpv-post-|wpv-taxonomy-|types|wpv-current-user).*?\\]/i";
+	$inner_expressions[] = "/\\[(wpv-post-|wpv-taxonomy-|types|wpv-current-user|wpv-user).*?\\]/i";
+	// support for custom inner shortcodes via settings page
+	// since 1.4
+	$custom_inner_shortcodes = array();
+	if ( isset( $options['wpv_custom_inner_shortcodes'] ) && is_array( $options['wpv_custom_inner_shortcodes'] ) ) {
+		$custom_inner_shortcodes = $options['wpv_custom_inner_shortcodes'];
+	}
+	// wpv_custom_inner_shortcodes filter
+	// since 1.4
+	// takes an array of shortcodes and returns an array of shortcodes
+	$custom_inner_shortcodes = apply_filters( 'wpv_custom_inner_shortcodes', $custom_inner_shortcodes );
+	// remove duplicates
+	$custom_inner_shortcodes = array_unique( $custom_inner_shortcodes );
+	// add the custom inner shortcodes, whether they are self-closing or not
+	if ( sizeof( $custom_inner_shortcodes ) > 0 ) {
+		foreach ( $custom_inner_shortcodes as $custom_inner_shortcode ) {
+			$inner_expressions[] = "/\\[" . $custom_inner_shortcode . ".*?\\].*?\\[\\/" . $custom_inner_shortcode . "\\]/i";
+		}
+		$inner_expressions[] = "/\\[(" . implode( '|', $custom_inner_shortcodes ) . ").*?\\]/i";
+	}
 	// search for shortcodes
 	$matches = array();
 	$counts = _find_outer_brackets($content, $matches);

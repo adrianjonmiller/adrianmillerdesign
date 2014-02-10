@@ -6,9 +6,9 @@ class WPRC_Plugins_API extends WPRC_Extensions_API
   */ 
     private $extension_type = 'plugins';
   
-    protected function extensionApiArgsQueryExtensions($args)
+    protected function extensionApiArgsQueryExtensions($args, $per_page = WPRC_PLUGINS_API_QUERY_PLUGINS_PER_PAGE)
     {
-        return parent::extensionApiArgsQueryExtensions($args, WPRC_PLUGINS_API_QUERY_PLUGINS_PER_PAGE); 
+        return parent::extensionApiArgsQueryExtensions($args, $per_page);
     }
     
 /**
@@ -148,9 +148,10 @@ class WPRC_Plugins_API extends WPRC_Extensions_API
         return $result;
     }
   
-    public function extensionsApi($state, $action, $args)
+    public function extensionsApi($state, $action, $args, $extension_type = false)
     {
-        return parent::extensionsApi($state, $action, $args, $this->extension_type);
+		$extension_type = $extension_type ? $extension_type : $this->extension_type;
+        return parent::extensionsApi($state, $action, $args, $extension_type);
     }
     
 
@@ -233,9 +234,10 @@ class WPRC_Plugins_API extends WPRC_Extensions_API
  /**
   * Render additional search UI
   */    
-    public function renderAdditionalSearchUI()
+    public function renderAdditionalSearchUI($extension_type = false)
     {
-        parent::renderAdditionalSearchUI($this->extension_type);    
+		$extension_type = $extension_type ? $extension_type : $this->extension_type;
+		parent::renderAdditionalSearchUI($extension_type);
     } 
 }
 ?>

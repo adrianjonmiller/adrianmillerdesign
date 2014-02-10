@@ -29,6 +29,13 @@ function wpv_filter_post_author($query, $view_settings) {
 				$show_author_array[] = $view_settings['author_id']; // set the array to only the selected user ID
 			}
 		}
+		
+		if ($view_settings['author_mode'][0] == 'parent_view') {
+			$parent_user_id = $WP_Views->get_parent_view_user();
+			if ( $parent_user_id ) {
+				$show_author_array[] = $parent_user_id;
+			}
+		}
         
 		if ($view_settings['author_mode'][0] == 'by_url') {
 			if (isset($view_settings['author_url']) && '' != $view_settings['author_url']) {
@@ -57,7 +64,7 @@ function wpv_filter_post_author($query, $view_settings) {
 							case 'username':
 								foreach ($authors_to_load as $username_author_to_load) {
 									$username_author_to_load = strip_tags($username_author_to_load);
-									$author_username_id = $wpdb->get_var("SELECT ID FROM {$wpdb->prefix}users WHERE user_login='{$username_author_to_load}'");
+									$author_username_id = username_exists( $username_author_to_load );
 									if ($author_username_id) {
 										$show_author_array[] = $author_username_id; // if user exists, add it to the array
 									}
@@ -94,7 +101,7 @@ function wpv_filter_post_author($query, $view_settings) {
 						case 'username':
 							foreach ($author_candidates as $username_candid) {
 								$username_candid = trim(strip_tags($username_candid));
-								$username_candid_id = $wpdb->get_var("SELECT ID FROM {$wpdb->prefix}users WHERE user_login='{$username_candid}'");
+								$username_candid_id = username_exists( $username_candid );
 								if ($username_candid_id) {
 									$show_author_array[] = $username_candid_id; // if user exists, add it to the array
 								}

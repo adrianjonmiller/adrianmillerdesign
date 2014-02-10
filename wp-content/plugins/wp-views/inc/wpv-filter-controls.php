@@ -1,55 +1,7 @@
 <?php
 
-if(is_admin()){
-	add_action('init', 'wpv_control_init');
-	
-	function wpv_control_init() {
-        add_action('admin_head', 'wpv_controls_js');            
-    }
-}
 
-
-function wpv_controls_js() {
-	?>
-	
-    <script type="text/javascript">
-		var wpv_submit_text = '<?php echo esc_js(__('Apply', 'wpv-views')); ?>';
-		var wpv_submit_button_text = '<?php echo esc_js(__('Submit button', 'wpv-views')); ?>';
-        var wpv_ok = '<?php echo esc_js(__('OK', 'wpv-views')); ?>';
-        var wpv_cancel = '<?php echo esc_js(__('Cancel', 'wpv-views')); ?>';
-        var wpv_remove = '<?php echo esc_js(__('Remove', 'wpv-views')); ?>';
-        var wpv_add_another_value = '<?php echo esc_js(__('Add another value', 'wpv-views')); ?>';
-        var wpv_edit_background = '<?php echo WPV_EDIT_BACKGROUND; ?>';
-        var wpv_no_values = '<?php echo esc_js(__('There are no values', 'wpv-views')); ?>';
-        var wpv_values = '<?php echo esc_js(__('Values', 'wpv-views')); ?>';
-        var wpv_display_values = '<?php echo esc_js(__('Display values', 'wpv-views')); ?>';
-        var wpv_title = '<?php echo esc_js(__('Title', 'wpv-views')); ?>';
-        var wpv_url_param_deleted_message = '<?php echo esc_js(__('The filter for this is not found.', 'wpv-views')); ?>';
-        var wpv_auto_fill_on = '<?php echo esc_js(__('Use existing custom field values when showing this control', 'wpv-views')); ?>';
-        var wpv_auto_fill_off = '<?php echo esc_js(__('Use the manually entered values', 'wpv-views')); ?>';
-        var wpv_auto_fill_default = '<?php echo esc_js(__('Use this as the default value', 'wpv-views')); ?>';
-	</script>
-	
-    <script type="text/javascript">
-        //<![CDATA[
-        function wpv_insert_view_form_popup(view_id) {
-
-            var url = "<?php echo admin_url('admin-ajax.php'); ?>?action=wpv_view_form_popup&_wpnonce=<?php echo wp_create_nonce('wpv_editor_callback'); ?>&view_id="+view_id+"&keepThis=true&TB_iframe=true&height=400&width=400";
-            tb_show("<?php _e('Insert View Form', 'wpcf');    ?>", url);
-        }
-        
-        var wpcfFieldsEditorCallback_redirect = null;
-        
-        function wpcfFieldsEditorCallback_set_redirect(function_name, params) {
-            wpcfFieldsEditorCallback_redirect = {'function' : function_name, 'params' : params};
-        }
-        
-        //]]>
-    </script>
-    
-	<?php
-}
-function wpv_filter_controls_admin($view_settings){
+function wpv_filter_controls_admin($view_settings){ // DEPRECATED
     
     $select = '<select name="" >';
     $select .= '<option value="types-auto">' . __('Types auto style', 'wpv-views') . '&nbsp;</option>';
@@ -81,7 +33,7 @@ function wpv_filter_controls_admin($view_settings){
     ?>
     
     <div id="wpv_filter_controls_admin_summary" <?php echo ($view_settings['query_type'][0] == 'posts' && count($view_settings['filter_controls_param'])) > 0 ? '' : 'style="display:none"'; ?>>
-        <strong><?php _e('Filter controls: ', 'wpv-views') ?></strong>
+        <strong><?php _e('Parametric search controls: ', 'wpv-views') ?></strong>
         <input class="button-secondary" type="button" value="<?php echo __('Edit', 'wpv-views'); ?>" name="<?php echo __('Edit', 'wpv-views'); ?>" onclick="wpv_filter_controls_edit()"/>
     </div>
 
@@ -89,8 +41,8 @@ function wpv_filter_controls_admin($view_settings){
         <div style="margin:20px;">
             <br />
             <p>
-                <strong><?php _e('Filter controls settings', 'wpv-views') ?></strong>
-                <?php echo '&nbsp;<a class="wpv-help-link" href="' . WPV_ADD_FILTER_CONTROLS_LINK . '" target="_blank">' . sprintf(__('Learn more about filter controls', 'wpv-views')) . ' &raquo;</a>'; ?>
+                <strong><?php _e('Search controls settings', 'wpv-views') ?></strong>
+                <?php echo '&nbsp;<a class="wpv-help-link" href="' . WPV_ADD_FILTER_CONTROLS_LINK . '" target="_blank">' . sprintf(__('Learn more about parametric search', 'wpv-views')) . ' &raquo;</a>'; ?>
             </p>
             <table id="view_filter_controls_table" class="widefat fixed">
                 <thead>
@@ -292,7 +244,7 @@ function _wpv_initialize_url_param_controls($view_settings) {
 
 add_filter('wpv_view_settings_save', 'wpv_filter_controls_save');
 
-function wpv_filter_controls_save($view_settings) {
+function wpv_filter_controls_save($view_settings) { // MAYBE DEPRECATED
     
     if (isset($view_settings['filter_controls_enable'])) {
 
@@ -320,136 +272,4 @@ function wpv_filter_controls_save($view_settings) {
     }
     
     return $view_settings;
-}
-
-
-function wpv_ajax_wpv_view_form_popup() {
-    
-    global $wpdb;
-    
-    if (wp_verify_nonce($_GET['_wpnonce'], 'wpv_editor_callback')) {
-
-        $view_id = $_GET['view_id'];
-        
-        $title = $wpdb->get_var("SELECT post_title FROM {$wpdb->posts} WHERE ID={$view_id}");
-        
-        // Find the posts that use this view
-        
-        $posts = $wpdb->get_results("SELECT ID, post_title, post_content FROM {$wpdb->posts} WHERE post_content LIKE '%name=\"{$title}\"%' AND post_type NOT IN ('revision')");
-        
- 
-        wp_enqueue_script('jquery');
-
-        ?>
-        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-        <html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
-            <head>
-                <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
-                <title></title>
-                <?php
-				global $wp_version;
-                if (version_compare($wp_version, '3.2.1', '<=')) {
-                    wp_admin_css('global');
-                }
-                wp_admin_css();
-                wp_admin_css('colors');
-                wp_admin_css('ie');
-                do_action('admin_print_styles');
-                do_action('admin_print_scripts');
-    
-                ?>
-                <style type="text/css">
-                    html { height: auto; }
-                </style>
-            </head>
-            <body style="padding: 20px;">
-                <?php
-
-                echo sprintf(__('Insert the filter section from View - %s', 'wpv-views'), '<strong>' . $title . '</strong>');
-
-                ?>
-                <input type="hidden" value="<?php echo $view_id; ?>" id="wpv_view_id" />
-                <br />
-                
-                <br />
-                
-                <?php echo __('When the form is submitted, go to this post:', 'wpv-views'); ?>
-                <select id="wpv_filter_form_target" />
-                    
-                    <option value="0">None</option>
-                    <?php
-                        $first = true;
-                        foreach($posts as $post) {
-                            $post_title = $post->post_title;
-                            if ($post_title == '') {
-                                $post_title = $post->ID;
-                            }
-                            if ($first) {
-                                echo '<option value="' . $post->ID . '" selected="selected" >' . $post->post_title . '</option>';
-                            } else {
-                                echo '<option value="' . $post->ID . '">' . $post->post_title . '</option>';
-                            }
-                            $first = false;
-                        }
-                    
-                    ?>
-                
-                </select>
-                
-                <br />
-                <br />
-                
-                <?php
-                    if (count($posts) == 0) {
-                        
-                        echo '<strong>' . __('No target posts were found that use this View', 'wpv-views') . '</strong>';
-                        echo '<br /><br />';
-                    }
-                ?>
-        
-                <input type="button" class="button-secondary" value="<?php echo __('Insert shortcode', 'wpv-views'); ?>" onclick="wpv_insert_form_shortcode()" />
-                
-                <script type="text/javascript">
-                    //<![CDATA[
-                    function wpv_insert_form_shortcode() {
-                        
-                        var data = '&action=wpv_insert_form_shortcode'
-                        data += '&_wpnonce=<?php echo wp_create_nonce('wpv_editor_callback'); ?>';
-                        data += '&view_id=' + jQuery('#wpv_view_id').val();
-                        data += '&target=' + jQuery('#wpv_filter_form_target').val();
-                        
-                        jQuery.ajaxSetup({async:false});
-                        jQuery.post('<?php echo admin_url('admin-ajax.php'); ?>', data, function(response) {
-                            jQuery('body').append(response);
-                            
-                        });
-                        
-                    }
-                    
-                    //]]>
-                </script>
-                    
-                
-            </body>
-        </html>
-        
-        <?php
-
-    }        
-    die();
-}
-
-function wp_ajax_wpv_insert_form_shortcode() {
-    if (wp_verify_nonce($_POST['_wpnonce'], 'wpv_editor_callback')) {
-
-        global $wpdb;
-        
-        $view_id = $_POST['view_id'];
-        $target = $_POST['target'];
-        $title = $wpdb->get_var("SELECT post_title FROM {$wpdb->posts} WHERE ID={$view_id}");
-    
-        editor_admin_popup_insert_shortcode_js('[wpv-form-view name="' . $title . '" target_id="' . $target . '"]');
-    
-    }
-    die();
 }

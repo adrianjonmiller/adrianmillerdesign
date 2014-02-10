@@ -35,7 +35,7 @@ class WPV_Widget extends WP_Widget{
     
     function form( $instance ) {
         global $WP_Views;
-        $views = $WP_Views->get_views();        
+        $views = wpv_check_views_exists('normal');     
         $instance = wp_parse_args( (array) $instance, 
             array( 
                 'title' => '',
@@ -52,7 +52,7 @@ class WPV_Widget extends WP_Widget{
             <p style="float: right;">
             <?php _e('View:', 'wpv-views'); ?> <select name="<?php echo $this->get_field_name('view'); ?>">
             <?php foreach($views as $v): ?>
-				<option value="<?php echo $v->ID ?>"<?php if($view == $v->ID): ?> selected="selected"<?php endif;?>><?php echo esc_html($v->post_title) ?></option>
+				<option value="<?php echo $v ?>"<?php if($view == $v): ?> selected="selected"<?php endif;?>><?php echo esc_html( get_the_title( $v ) ) ?></option>
             <?php endforeach;?>             
             </select>
             </p>
@@ -61,7 +61,7 @@ class WPV_Widget extends WP_Widget{
         <?php else: ?>
             <?php
                 if (!$WP_Views->is_embedded()) {
-                    printf(__('No views defined. You can add them <a%s>here</a>.'), ' href="' . admin_url('edit.php?post_type=view'). '"');
+                    printf(__('No Views defined. You can add them <a%s>here</a>.'), ' href="' . admin_url('admin.php?page=views'). '"');
                 }
             ?>
         <?php endif;?>
@@ -131,11 +131,16 @@ class WPV_Widget_filter extends WP_Widget{
     }
     
     function form( $instance ) {
-        global $WP_Views, $wpdb;
-        $views = $WP_Views->get_views();        
-
-        $posts = $wpdb->get_results("SELECT ID, post_title, post_content FROM {$wpdb->posts} WHERE post_content LIKE '%[wpv-view%' AND post_type NOT IN ('revision')");
-
+        global $WP_Views, $sitepress, $wpdb;
+        $views = wpv_check_views_exists('normal');
+        $view_forms = array();
+        
+        foreach ( $views as $vi ) {
+		 if ( $WP_Views->does_view_have_form_controls( $vi ) ) {
+			$view_forms[] = $vi;
+		 }
+        }
+        
         $instance = wp_parse_args( (array) $instance, 
             array( 
                 'title' => '',
@@ -145,10 +150,37 @@ class WPV_Widget_filter extends WP_Widget{
         );
         $title = $instance['title'];
         $view  = $instance['view'];
-		$target_id = $instance['target_id'];
+	$target_id = $instance['target_id'];
+	
+	$trans_join = '';
+	$trans_where = '';
+	
+	if (function_exists('icl_object_id')) {
+		// Adjust for WPML support
+		if ( $target_id != '0' ) {
+			$target_post_type = $wpdb->get_var("SELECT post_type FROM {$wpdb->posts} WHERE ID='{$target_id}'");
+			if ( $target_post_type ) {
+				$target_id = icl_object_id($target_id, $target_post_type, true);
+				$translatable_post_types = array_keys($sitepress->get_translatable_documents());
+				if(in_array($target_post_type, $translatable_post_types)){
+					$current_lang_code = $sitepress->get_current_language();
+					$trans_join = " JOIN {$wpdb->prefix}icl_translations t ";
+					$trans_where = " AND ID = t.element_id AND t.language_code =  '{$current_lang_code}' ";
+				}
+			}
+		} else { // if there is no target set, for example when adding the widget for the first time
+			$current_lang_code = $sitepress->get_current_language();
+			$trans_join = " JOIN {$wpdb->prefix}icl_translations t ";
+			$trans_where = " AND ID = t.element_id AND t.language_code =  '{$current_lang_code}' ";
+		}
+	}
+        
+        $posts = $wpdb->get_results("SELECT ID, post_title, post_content FROM {$wpdb->posts} {$trans_join} WHERE post_content LIKE '%[wpv-view%' AND post_type NOT IN ('view','view-template','revision','cred-form') AND post_status='publish' {$trans_where}");
+
+        
          ?>
         
-        <?php if($views): ?>
+        <?php if( count( $view_forms ) > 0 ): ?>
             <p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
         
             <table width="100%">
@@ -158,8 +190,8 @@ class WPV_Widget_filter extends WP_Widget{
 					</td>
 					<td>
 						<select name="<?php echo $this->get_field_name('view'); ?>" style="width:100%">
-						<?php foreach($views as $v): ?>
-							<option value="<?php echo $v->ID ?>"<?php if($view == $v->ID): ?> selected="selected"<?php endif;?>><?php echo esc_html($v->post_title) ?></option>
+						<?php foreach($view_forms as $v): ?>
+							<option value="<?php echo $v ?>"<?php if($view == $v): ?> selected="selected"<?php endif;?>><?php echo esc_html( get_the_title( $v ) ) ?></option>
 						<?php endforeach;?>             
 						</select>
 					</td>
@@ -184,7 +216,7 @@ class WPV_Widget_filter extends WP_Widget{
         <?php else: ?>
             <?php
                 if (!$WP_Views->is_embedded()) {
-                    printf(__('No views defined. You can add them <a%s>here</a>.'), ' href="' . admin_url('edit.php?post_type=view'). '"');
+                    printf(__('No Views with frontend forms defined. You can add them <a%s>here</a>.'), ' href="' . admin_url('admin.php?page=views'). '"');
                 }
             ?>
         <?php endif;?>
@@ -212,20 +244,11 @@ class WPV_Widget_filter extends WP_Widget{
 
 function widget_view_link($view_id) {
 	
-	global $WP_Views;
-
-	remove_filter('edit_post_link', array($WP_Views, 'edit_post_link'), 10, 2);
+	$link =  '<a href="'. admin_url() .'admin.php?page=views-editor&view_id='. $view_id .'" title="'.__('Edit view', 'wpv-views').'">'.__('Edit view', 'wpv-views').' "'.get_the_title($view_id).'</a>';
 		
-	ob_start();
-		
-	edit_post_link(__('Edit view', 'wpv-views').' "'.get_the_title($view_id).'" ', '', '', $view_id);
-		
-	$link = ob_get_clean();
-		
-	add_filter('edit_post_link', array($WP_Views, 'edit_post_link'), 10, 2);
+	$link = apply_filters( 'wpv_edit_view_link', $link );
 	
 	return $link;
 }
-
   
 ?>

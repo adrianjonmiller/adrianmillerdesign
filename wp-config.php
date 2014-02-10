@@ -16,16 +16,16 @@
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define('DB_NAME', 'wp_ajmd');
+define( 'DB_NAME', 'wordpress' );
 
 /** MySQL database username */
-define('DB_USER', 'wp_ajmd_user');
+define( 'DB_USER', 'root' );
 
 /** MySQL database password */
-define('DB_PASSWORD', '&3(y4<&X2nbho7L6]eKs');
+define( 'DB_PASSWORD', 'root' );
 
 /** MySQL hostname */
-define('DB_HOST', 'localhost');
+define( 'DB_HOST', 'localhost' );
 
 /** Database Charset to use in creating database tables. */
 define('DB_CHARSET', 'utf8');
@@ -59,7 +59,7 @@ define('NONCE_SALT',       'VQ#ON8x&I(umf[y?jCd **U_*+P`L9r!f__}?0&VMC>;yx(Ot_u]
  * You can have multiple installations in one database if you give each a unique
  * prefix. Only numbers, letters, and underscores please!
  */
-$table_prefix  = 'wp_';
+$table_prefix = 'adrianmillerdesign_';
 
 /**
  * WordPress Localized Language, defaults to English.
@@ -80,8 +80,8 @@ define('WPLANG', '');
  */
 define('WP_DEBUG', false);
 
-define('WP_HOME','http://adrianmillerdesign.com/');
-define('WP_SITEURL','http://adrianmillerdesign.com/');
+define( 'WP_HOME', 'http://adrianmillerdesign.dev:8888' );
+define( 'WP_SITEURL', 'http://adrianmillerdesign.dev:8888' );
 
 /* That's all, stop editing! Happy blogging. */
 

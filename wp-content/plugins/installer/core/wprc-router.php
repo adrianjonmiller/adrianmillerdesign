@@ -28,7 +28,7 @@ class WPRC_Router
             }
             exit;
         }
-    }
+    } 
     
     private static function getParam($param_name)
     {

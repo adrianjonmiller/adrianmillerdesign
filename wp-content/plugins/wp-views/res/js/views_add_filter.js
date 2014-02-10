@@ -94,10 +94,44 @@ function wpv_add_filter_submit(div_id) {
 	}
     }
     
+	if (jQuery('input[name=id_mode\\[\\]]:checked').val() == 'by_url') {
+		if (jQuery('input[name=post_ids_url]').val() == '') {
+			jQuery('.wpv_id_url_param_missing').show();
+			jQuery('.wpv_id_shortcode_param_missing').hide();
+			return;
+		} else {
+			var pat = /^[a-z0-9\-\_]+$/;
+			var t = jQuery('input[name=post_ids_url]').val();
+			if(pat.test(t) == false)
+			{
+			  jQuery('.wpv_id_helper').html('');
+			  jQuery('.wpv_id_url_param_ilegal').show();
+			  return;
+			}
+		}
+    }
+    
+    if (jQuery('input[name=id_mode\\[\\]]:checked').val() == 'shortcode') {
+		if (jQuery('input[name=post_ids_shortcode]').val() == '') {
+			jQuery('.wpv_id_url_param_missing').hide();
+			jQuery('.wpv_id_shortcode_param_missing').show();
+			return;
+		} else {
+			var pat = /^[a-z0-9]+$/;
+			var t = jQuery('input[name=post_ids_shortcode]').val();
+			if(pat.test(t) == false)
+			{
+			  jQuery('.wpv_id_helper').html('');
+			  jQuery('.wpv_id_shortcode_param_ilegal').show();
+			  return;
+			}
+		}
+    }
+	
     if (type.substr(0, 13) == 'custom-field-') {
         if (wpv_add_edit_custom_field(div_id, type, 'add')) {
 			jQuery('option[value="'+type+'"]').hide();
-			jQuery('#popup_add_filter_select option:visible:first').attr('selected', 'selected');
+			jQuery('#popup_add_filter_select option:first').attr('selected', 'selected');
 			jQuery('#popup_add_filter_select').trigger('change');
 			wpv_initialize_filter_select('popup_add_custom_field');
 		}
@@ -107,7 +141,7 @@ function wpv_add_filter_submit(div_id) {
     if (type == 'post_category' || type.substr(0, 9) == 'tax_input') {
         if (wpv_add_edit_taxonomy(div_id, type, 'add')) {
 			jQuery('option[value="'+type+'"]').hide();
-			jQuery('#popup_add_filter_select option:visible:first').attr('selected', 'selected');
+			jQuery('#popup_add_filter_select option:first').attr('selected', 'selected');
 			jQuery('#popup_add_filter_select').trigger('change');
 			wpv_initialize_filter_select('popup_add_category_field');
 		}
@@ -127,9 +161,11 @@ function wpv_add_filter_submit(div_id) {
     // get search if set
     var search = '';
     var mode = '';
+    var search_content = '';
     if (jQuery('input[name=post_search_value]').length) {
         search = jQuery('input[name=post_search_value]').val();
         mode = jQuery('input[name=post_search_mode\\[\\]]:checked').val();
+	search_content = jQuery('select[name=post_search_content]').val();
     }
     
     // get taxonomy search if set
@@ -167,6 +203,7 @@ function wpv_add_filter_submit(div_id) {
         checkboxes : checkboxes,
         search : search,
         mode : mode,
+	search_content : search_content,
         taxonomy_search : taxonomy_search,
         taxonomy_mode : taxonomy_mode,
         parent_mode : parent_mode,
@@ -223,10 +260,10 @@ function wpv_add_filter_submit(div_id) {
     // Remove option
     jQuery('option[value="'+type+'"]').hide();
     if (query_type == 'posts') {
-		jQuery('#popup_add_filter_select option:visible:first').attr('selected', 'selected');
+		jQuery('#popup_add_filter_select option:first').attr('selected', 'selected');
 		jQuery('#popup_add_filter_select').trigger('change');
     } else if (query_type == 'taxonomy') {
-		jQuery('#popup_add_filter_taxonomy_select option:visible:first').attr('selected', 'selected');
+		jQuery('#popup_add_filter_taxonomy_select option:first').attr('selected', 'selected');
 		jQuery('#popup_add_filter_taxonomy_select').trigger('change');
 	}
 
@@ -275,6 +312,9 @@ function on_delete_wpv_filter(index) {
     }
     if(jQuery('#wpv_filter_row_' + index + ' input[name="_wpv_settings\\[parent_mode\\]\\[\\]"]').length) {
         jQuery('option[value="post_parent"]').show();
+    }
+    if(jQuery('#wpv_filter_row_' + index + ' input[name="_wpv_settings\\[author_mode\\]\\[\\]"]').length) {
+	    jQuery('option[value="post_author"]').show();
     }
     
     jQuery('#wpv_filter_row_' + index).remove();

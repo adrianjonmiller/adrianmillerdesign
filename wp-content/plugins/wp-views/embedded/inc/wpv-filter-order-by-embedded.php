@@ -1,6 +1,6 @@
 <?php
 
-add_filter('wpv_view_settings', 'wpv_order_by_default_settings', 10, 2);
+add_filter('wpv_view_settings', 'wpv_order_by_default_settings', 10, 2); // TODO this should not be needed
 function wpv_order_by_default_settings($view_settings) {
 
     if (!isset($view_settings['orderby'])) {
@@ -16,8 +16,9 @@ function wpv_order_by_default_settings($view_settings) {
 $orderby_meta = '';
 add_filter('wpv_filter_query', 'wpv_filter_get_order_arg', 100, 2); // Make this happens after custom fields
 function wpv_filter_get_order_arg($query, $view_settings) {
+	global $WP_Views;
     $orderby = $view_settings['orderby'];
-    if (isset($_GET['wpv_column_sort_id']) && esc_attr($_GET['wpv_column_sort_id']) != 'undefined' && esc_attr($_GET['wpv_column_sort_id']) != '') {
+    if (isset($_GET['wpv_column_sort_id']) && esc_attr($_GET['wpv_column_sort_id']) != 'undefined' && esc_attr($_GET['wpv_column_sort_id']) != '' && esc_attr($_GET['wpv_view_count']) == $WP_Views->get_view_count() ) {
         $orderby = esc_attr($_GET['wpv_column_sort_id']);
     }
     
@@ -43,11 +44,14 @@ function wpv_filter_get_order_arg($query, $view_settings) {
     
     // check for column sorting GET parameters.
     
-    if (!$orderby_set && isset($_GET['wpv_column_sort_id']) && esc_attr($_GET['wpv_column_sort_id']) != 'undefined' && esc_attr($_GET['wpv_column_sort_id']) != '') {
+    if (!$orderby_set && isset($_GET['wpv_column_sort_id']) && esc_attr($_GET['wpv_column_sort_id']) != 'undefined' && esc_attr($_GET['wpv_column_sort_id']) != '' && esc_attr($_GET['wpv_view_count']) == $WP_Views->get_view_count()) {
         $field = esc_attr($_GET['wpv_column_sort_id']);
         if (strpos($field, 'post-field') === 0) {
             $query['meta_key'] = substr($field, 11);
             $query['orderby'] = 'meta_value';
+            if (_wpv_is_numeric_field('field-wpcf-' . $query['meta_key'])) {// This will ensure that numeric fields created outside Types but under Types control can sort properly
+                $query['orderby'] = 'meta_value_num';
+            }
         } elseif (strpos($field, 'types-field') === 0) {
             $query['meta_key'] = strtolower(substr($field, 12));
             if (function_exists('wpcf_types_get_meta_prefix')) {
@@ -63,7 +67,7 @@ function wpv_filter_get_order_arg($query, $view_settings) {
         }
     }
     
-    if (isset($_GET['wpv_column_sort_dir']) && esc_attr($_GET['wpv_column_sort_dir']) != 'undefined' && esc_attr($_GET['wpv_column_sort_dir']) != '') {
+    if (isset($_GET['wpv_column_sort_dir']) && esc_attr($_GET['wpv_column_sort_dir']) != 'undefined' && esc_attr($_GET['wpv_column_sort_dir']) != '' && esc_attr($_GET['wpv_view_count']) == $WP_Views->get_view_count()) {
         $query['order'] = strtoupper(esc_attr($_GET['wpv_column_sort_dir']));
     }    
 
@@ -72,6 +76,9 @@ function wpv_filter_get_order_arg($query, $view_settings) {
     }
     if ($query['orderby'] == 'post_body') {
         $query['orderby'] = 'post_content';
+    }
+    if ( $query['orderby'] == 'post_slug' ) {
+        $query['orderby'] = 'name';
     }
 
     if (strpos($query['orderby'], 'post_') === 0) {

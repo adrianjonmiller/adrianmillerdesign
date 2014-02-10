@@ -91,26 +91,38 @@ function wpv_add_time_functions( $value ) {
  * 
  * 
  */
-function wpv_condition( $atts ) {
+function wpv_condition( $atts, $post_to_check = null ) {
     extract(
             shortcode_atts( array('evaluate' => FALSE), $atts )
     );
 
-    global $post;
+    // Do not overwrite global post
+//    global $post;
 
     // if in admin, get the post from the URL
     if ( is_admin() ) {
-        // Get post
-        if ( isset( $_GET['post'] ) ) {
-            $post_id = (int) $_GET['post'];
-        } else if ( isset( $_POST['post_ID'] ) ) {
-            $post_id = (int) $_POST['post_ID'];
+        if ( empty($post_to_check->ID) ) {
+            // Get post
+            if ( isset( $_GET['post'] ) ) {
+                $post_id = (int) $_GET['post'];
+            } else if ( isset( $_POST['post_ID'] ) ) {
+                $post_id = (int) $_POST['post_ID'];
+            } else {
+                $post_id = 0;
+            }
+            if ( $post_id ) {
+                $post = get_post( $post_id );
+            }
         } else {
-            $post_id = 0;
+            $post = $post_to_check;
         }
-        if ( $post_id ) {
-            $post = get_post( $post_id );
-        }
+    }
+    if ( empty($post->ID) ) {
+        global $post;
+    }
+    if ( empty($post->ID) ) {
+        // Will trigger errors if $post->ID is empty
+        return false;
     }
 
     global $wplogger;
@@ -141,7 +153,7 @@ function wpv_condition( $atts ) {
             $evaluate = str_replace( $matches[0][$i], $is_empty, $evaluate );
         }
     }
-
+    
     // find variables that are to be used as strings.
     // eg '$f1'
     // will replace $f1 with the actual field value
@@ -523,7 +535,7 @@ function WPV_wpcf_record_post_relationship_belongs( $content ) {
 
 /**
  * Form for Enlimbo calls for wpv-control shortcode calls
-
+ *
  * @param unknown_type $elements
  */
 function wpv_form_control( $elements ) {

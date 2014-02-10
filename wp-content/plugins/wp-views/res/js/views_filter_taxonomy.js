@@ -1,5 +1,5 @@
 jQuery(document).ready(function($){
-    wvp_initialize_tax_relationship_select();
+    wpv_initialize_tax_relationship_select();
     update_taxonomy_term_check();
     
     jQuery('input[name="_wpv_settings\\[taxonomy_type\\]\\[\\]"]').click(function () {
@@ -26,7 +26,7 @@ function wpv_tax_term_mode_change(selector) {
     }
 }
 
-function wvp_tax_relationship_change(selector) {
+function wpv_tax_relationship_change(selector) {
     var relationship = jQuery(selector).val();
     
     if (relationship == "FROM PAGE" ||
@@ -59,14 +59,14 @@ function wvp_tax_relationship_change(selector) {
 
 }
 
-function wvp_initialize_tax_relationship_select() {
+function wpv_initialize_tax_relationship_select() {
     jQuery('.wpv_taxonomy_relationship').change(function() {
-        wvp_tax_relationship_change(this);
+        wpv_tax_relationship_change(this);
     });
 
     jQuery('.wpv_taxonomy_relationship').each(function(index) {
         // trigger the change event to setup the help.
-        wvp_tax_relationship_change(this);
+        wpv_tax_relationship_change(this);
     });
     
 }
@@ -310,7 +310,7 @@ function wpv_add_edit_taxonomy(div_id, type, mode) {
         }
 
         wpv_update_category_selectors();
-        wvp_initialize_tax_relationship_select();
+        wpv_initialize_tax_relationship_select();
     });
 }
 

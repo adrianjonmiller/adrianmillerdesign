@@ -3,18 +3,18 @@
 function wpv_register_type_view_template() 
 {
   $labels = array(
-    'name' => _x('View templates', 'post type general name'),
-    'singular_name' => _x('View template', 'post type singular name'),
+    'name' => _x('Content templates', 'post type general name'),
+    'singular_name' => _x('Content template', 'post type singular name'),
     'add_new' => _x('Add New', 'book'),
-    'add_new_item' => __('Add New View Template', 'wpv-views'),
-    'edit_item' => __('Edit View Template', 'wpv-views'),
-    'new_item' => __('New View Template', 'wpv-views'),
+    'add_new_item' => __('Add New Content Template', 'wpv-views'),
+    'edit_item' => __('Edit Content Template', 'wpv-views'),
+    'new_item' => __('New Content Template', 'wpv-views'),
     'view_item' => __('View Views-Templates', 'wpv-views'),
-    'search_items' => __('Search View Templates', 'wpv-views'),
-    'not_found' =>  __('No view templates found', 'wpv-views'),
-    'not_found_in_trash' => __('No view templates found in Trash', 'wpv-views'), 
+    'search_items' => __('Search Content Templates', 'wpv-views'),
+    'not_found' =>  __('No content templates found', 'wpv-views'),
+    'not_found_in_trash' => __('No content templates found in Trash', 'wpv-views'), 
     'parent_item_colon' => '',
-    'menu_name' => 'View Templates'
+    'menu_name' => 'Content Templates'
 
   );
   $args = array(

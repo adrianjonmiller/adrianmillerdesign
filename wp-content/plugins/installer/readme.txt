@@ -3,8 +3,8 @@ Contributors: Nikos M., AmirHelzer, mihaimihai, igmoweb
 Donate link: http://wp-compatibility.com/installer-plugin/
 Tags: install, upgrade, manage, plugins, themes, commercial
 Requires at least: 3.3
-Tested up to: 3.5.1
-Stable tag: 0.5
+Tested up to: 3.6
+Stable tag: 0.6
 
 A unified process for buying, installing and updating commercial themes and plugins.
 
@@ -85,3 +85,12 @@ Of course. You'll select the software sources you're interested in and activate 
 * Updated login message in plugins list
 * Login option in plugins list
 * Added tabs on plugins/themes search
+
+= 0.6 =
+* Bug fixes and compatibility with WordPress 3.6
+
+= 0.7 =
+* Bug fixes, multisite support and compatibility with WordPress 3.7
+
+= 0.7.1 =
+* Bug fixes

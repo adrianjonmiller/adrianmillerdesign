@@ -7,6 +7,7 @@
 }
 img.ui-datepicker-trigger {
     margin-left: 5px;
+    cursor: pointer;
 }
 #poststuff .inside .wpcf-meta-box-description p {
     margin: 5px 0 15px 0;
@@ -63,4 +64,15 @@ img.ui-datepicker-trigger {
 .fields-preview img{
 	max-width:200px;
 	height:auto;	
+}
+.types-cp-preview {
+    width: 22px;
+    height: 22px;
+    float: left;
+    border: 1px solid #BBBBBB;
+}
+#types-preview-warning {
+    margin: 10px 5px 0 0;
+    display: none;
+    clear: both;
 }

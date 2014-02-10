@@ -6,7 +6,7 @@ function wpv_taxonomy_defaults_save($view_settings) {
     global $taxonomy_checkboxes_defaults;
 
     // we need to set 0 for the checkboxes that aren't checked and are missing for the $_POST.
-    
+
     $defaults = array();
     foreach($taxonomy_checkboxes_defaults as $key => $value) {
         $defaults[$key] = 0;
@@ -17,36 +17,36 @@ function wpv_taxonomy_defaults_save($view_settings) {
 }
 
 function wpv_get_taxonomy_filter_summary($view_settings) {
-    
+
     $view_settings = wpv_taxonomy_default_settings($view_settings);
     $selected = $view_settings['taxonomy_type'];
-    
+
 	$taxonomies = get_taxonomies('', 'objects');
-	
+
 	if (isset($taxonomies[$selected[0]])) {
 		$name = $taxonomies[$selected[0]]->labels->name;
 	} else {
 		$name = $selected[0];
 	}
-    echo sprintf(__('This View selects <strong>Taxonomy</strong> of type <strong>%s</strong>', 'wpv-views'), $name);
-            
+    echo sprintf(__('This View selects Taxonomy of type %s', 'wpv-views'), $name);
+
 }
 
 
 function wpv_taxonomy_radios($view_settings) {
 	$taxonomies = get_taxonomies('', 'objects');
-    
+
     // remove any  that don't exist any more.
     foreach($view_settings['taxonomy_type'] as $type) {
         if (!isset($taxonomies[$type])) {
             unset($view_settings['taxonomy_type'][$type]);
         }
     }
-    
+
     ?>
         <ul style="padding-left:30px;">
             <?php foreach($taxonomies as $tax):?>
-                <?php 
+                <?php
                     if (sizeof($view_settings['taxonomy_type']) == 0) {
                         $view_settings['taxonomy_type'][] = $tax->name;
                     }
@@ -59,7 +59,7 @@ function wpv_taxonomy_radios($view_settings) {
 }
 
 function wpv_taxonomy_settings($view_settings) {
-    
+
     ?>
     <strong><?php echo __('Settings:', 'wpv-views'); ?></strong>
     <ul style="padding-left:30px;">

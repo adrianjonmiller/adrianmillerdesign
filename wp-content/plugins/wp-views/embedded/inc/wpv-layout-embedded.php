@@ -10,7 +10,7 @@
 add_shortcode('wpv-heading', 'wpv_header_shortcode');
 function wpv_header_shortcode($atts, $value){
     extract(
-        shortcode_atts( array(), $atts )
+        shortcode_atts( array('name' => ''), $atts )
     );
 
     if (isset($atts['name']) && strpos($atts['name'], 'types-field-')) {
@@ -23,18 +23,21 @@ function wpv_header_shortcode($atts, $value){
     //'wpv_column_sort_id'
     $order_class = 'wpv-header-no-sort';
     
-    if ($view_settings['view-query-mode'] == 'normal' && $atts['name'] != 'post-body' && $atts['name'] != 'wpv-post-taxonomy') {
+    if ($view_settings['view-query-mode'] == 'normal' && $atts['name'] != 'post-body' && $atts['name'] != 'wpv-post-taxonomy' && !empty( $atts['name'] ) 
+	// remove table column sorting for certain fields un Views listing users
+	&& ( $view_settings['query_type'][0] != 'users' || in_array( $atts['name'],array('user_email', 'user_login', 'display_name', 'user_url', 'user_registered') ) )
+    ) {
 	
 	$head_name = $atts['name'];
 	if ( strpos( $head_name, 'types-field') === 0 ) {
 		$field_name = 'wpcf-' . strtolower( substr( $head_name, 12 ) );
 		if ( !function_exists( '_wpv_is_field_of_type' ) ) include_once( WPV_PATH_EMBEDDED . '/inc/wpv-filter-embedded.php');
 		if ( _wpv_is_field_of_type( $field_name, 'checkboxes' ) || _wpv_is_field_of_type( $field_name, 'skype' ) ) {
-			return $value;
+			return wpv_do_shortcode( $value );
 		}
 	}
 
-        if (isset($_GET['wpv_column_sort_id']) && esc_attr($_GET['wpv_column_sort_id']) == $atts['name']) {
+        if (isset($_GET['wpv_column_sort_id']) && esc_attr($_GET['wpv_column_sort_id']) == $atts['name'] && isset($_GET['wpv_view_count']) && $WP_Views->get_view_count() == esc_attr($_GET['wpv_view_count']) ) {
             
             if (isset($_GET['wpv_column_sort_dir']) && esc_attr($_GET['wpv_column_sort_dir']) != '') {
                 if (esc_attr($_GET['wpv_column_sort_dir']) == 'asc') {
@@ -57,10 +60,10 @@ function wpv_header_shortcode($atts, $value){
         } else {
             $dir = "asc";
         }
-        $link = '<a href="#" class="' . $order_class . '" onclick=" return wpv_column_head_click_' . $WP_Views->get_view_count() . '(\'' . $atts['name'] . '\', \'' . $dir . '\')">' . $value . '<span class="wpv-sorting-indicator"></span></a>';
+        $link = '<a href="#" class="' . $order_class . ' js-wpv-column-header-click" data-viewnumber="' . $WP_Views->get_view_count() . '" data-name="' . $atts['name'] . '" data-direction="' . $dir . '">' . wpv_do_shortcode( $value ) . '<span class="wpv-sorting-indicator"></span></a>';
         return $link;
     } else {
-        return $value;
+        return wpv_do_shortcode( $value );
     }
 }
 
@@ -78,7 +81,7 @@ function wpv_layout_start_shortcode($atts){
             if (strpos($script, '[theme]') == 0) {
                 $script = str_replace('[theme]', get_stylesheet_directory_uri(), $script);
             }
-            add_action('wp_footer', create_function('$a=1, $script=\'' . $script. '\'', 'echo "<script type=\"text/javascript\" src=\"$script?ver=" . rand(1, 1000) . "\"></script>";'));
+            add_action('wp_footer', create_function('$a=1, $script=\'' . $script. '\'', 'echo "<script type=\"text/javascript\" src=\"$script?ver=" . rand(1, 1000) . "\"></script>";'), 21); // Set priority higher than 20, when all the footer scripts are loaded
             $count++;
         }
     }
@@ -88,13 +91,13 @@ function wpv_layout_start_shortcode($atts){
     $speed = '';
     if (($view_settings['pagination'][0] == 'enable' && $view_settings['ajax_pagination'][0] == 'enable') || $view_settings['pagination']['mode'] == 'rollover') {
         $class[] = 'wpv-pagination';
+        $class[] = 'js-wpv-pagination-responsive';
         if (!isset($view_settings['pagination']['preload_images'])) {
             $view_settings['pagination']['preload_images'] = false;
         }
         if (!isset($view_settings['rollover']['preload_images'])) {
             $view_settings['rollover']['preload_images'] = false;
         }
-        $class[] = 'wpv-pagination';
         if (($view_settings['pagination']['mode'] == 'paged' && $view_settings['pagination']['preload_images'])
             || ($view_settings['pagination']['mode'] == 'rollover' && $view_settings['rollover']['preload_images'])) {
             $class[] = 'wpv-pagination-preload-images';
@@ -119,7 +122,7 @@ function wpv_layout_start_shortcode($atts){
             $add .= ' style="' . implode(' ', $style) . '"';
         }
         if (!empty($speed)) {
-	    $add .= ' data-duration="' . $speed .  '"';
+			$add .= ' data-duration="' . $speed .  '"';
         }
         
         return "<div id=\"wpv-view-layout-" . $WP_Views->get_view_count() . "\"$add>\n";

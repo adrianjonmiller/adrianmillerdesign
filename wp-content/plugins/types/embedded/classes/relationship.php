@@ -2,7 +2,6 @@
 /*
  * Post relationship class.
  */
-require_once dirname( __FILE__ ) . '/relationship/model.php';
 
 /**
  * Post relationship class
@@ -17,14 +16,6 @@ require_once dirname( __FILE__ ) . '/relationship/model.php';
  */
 class WPCF_Relationship
 {
-
-    var $model;
-//    var $parent;
-//    var $parents = array();
-//    var $child;
-//    var $children = array();
-//    var $post_type = null;
-
     /**
      * Custom field
      * 
@@ -48,8 +39,9 @@ class WPCF_Relationship
      */
     function __construct() {
         $this->cf = new WPCF_Field;
-        $this->model = new WPCF_Relationship_Model();
         $this->settings = get_option( 'wpcf_post_relationship', array() );
+        add_action( 'wp_ajax_add-types_reltax_add',
+                array($this, 'ajaxAddTax') );
     }
 
     /**
@@ -123,6 +115,13 @@ class WPCF_Relationship
         return $output;
     }
 
+    /**
+     * Returns HTML formatted form.
+     * 
+     * @param type $parent
+     * @param type $child
+     * @return \WPCF_Relationship_Child_Form
+     */
     function _get_child_form( $parent, $child ) {
         require_once dirname( __FILE__ ) . '/relationship/form-child.php';
         return new WPCF_Relationship_Child_Form(
@@ -138,21 +137,6 @@ class WPCF_Relationship
         $r->form = $this->_get_child_form( $r->parent, $this->child );
         return $r;
     }
-
-    /**
-     * Meta box form on post edit page.
-     * 
-     * @param type $key Field key as stored
-     * @return array
-     */
-//    function parent_meta_form($post, $post_type, $data) {
-//        $output = '';
-//        require_once dirname(__FILE__) . '/relationship/form-parent.php';
-//        $this->parent_form = new WPCF_Relationship_Parent_Form($post, $post_type, $data);
-//        $output .= $this->parent_form->render();
-//
-//        return $output;
-//    }
 
     /**
      * Save items_per_page settings.
@@ -228,10 +212,6 @@ class WPCF_Relationship
             return new WP_Error( 'wpcf-relationship-save-child', 'no parent/child post' );
         }
 
-        // TODO Move to conditional.php
-        // Fix for Common Conditional check
-        $_POST['post_ID'] = $child->ID;
-
         // Save relationship
         update_post_meta( $child->ID,
                 '_wpcf_belongs_' . $parent->post_type . '_id', $parent->ID );
@@ -241,10 +221,6 @@ class WPCF_Relationship
         $check = get_post_meta( $child->ID, '_wpcf_relationship_new', true );
         $new = !empty( $check );
         delete_post_meta( $child->ID, '_wpcf_relationship_new' );
-
-        if ( $new ) {
-            
-        }
 
         // Set post data
         $post_data['ID'] = $child->ID;
@@ -261,13 +237,18 @@ class WPCF_Relationship
         } else {
             $post_title = $save_fields['_wp_title'];
         }
-		
+
         $post_data['post_title'] = $post_title;
+        $post_data['post_name'] = $post_title;
         $post_data['post_content'] = isset( $save_fields['_wp_body'] ) ? $save_fields['_wp_body'] : $child->post_content;
-		
         $post_data['post_type'] = $child->post_type;
-        // TODO This should be revised
-        $post_data['post_status'] = 'publish';
+        
+        // Check post status - if new, convert to 'publish' else keep remaining
+        if ( $new ) {
+            $post_data['post_status'] =  'publish';
+        } else {
+            $post_data['post_status'] =  get_post_status( $child->ID );
+        }
 
         /*
          * 
@@ -285,17 +266,42 @@ class WPCF_Relationship
 
         // Save parents
         if ( !empty( $save_fields['parents'] ) ) {
-            foreach ( $save_fields['parents'] as $parent_post_type =>
-                        $parent_post_id ) {
+            foreach ( $save_fields['parents'] as $parent_post_type => $parent_post_id ) {
                 update_post_meta( $child->ID,
                         '_wpcf_belongs_' . $parent_post_type . '_id',
                         $parent_post_id );
             }
         }
 
+        // Update taxonomies
+        if ( !empty( $save_fields['taxonomies'] ) && is_array( $save_fields['taxonomies'] ) ) {
+            $_save_data = array();
+            foreach ( $save_fields['taxonomies'] as $taxonomy => $t ) {
+                if ( !is_taxonomy_hierarchical( $taxonomy ) ) {
+                    $_save_data[$taxonomy] = strval( $t );
+                    continue;
+                }
+                foreach ( $t as $term_id ) {
+                    if ( $term_id != '-1' ) {
+                        $term = get_term( $term_id, $taxonomy );
+                        if ( empty( $term ) ) {
+                            continue;
+                        }
+                        $_save_data[$taxonomy][] = $term_id;
+                    }
+                }
+            }
+            wp_delete_object_term_relationships( $child->ID,
+                    array_keys( $save_fields['taxonomies'] ) );
+            foreach ( $_save_data as $_taxonomy => $_terms ) {
+                wp_set_post_terms( $child->ID, $_terms, $_taxonomy,
+                        $append = false );
+            }
+        }
+
         // Unset non-types
         unset( $save_fields['_wp_title'], $save_fields['_wp_body'],
-                $save_fields['parents'] );
+                $save_fields['parents'], $save_fields['taxonomies'] );
         /*
          * 
          * 
@@ -311,24 +317,12 @@ class WPCF_Relationship
             $this->cf->save( $value );
         }
 
-        // Set the language
-        // TODO WPML
-        // TODO Move this and use hook
-        global $sitepress;
-        if ( isset( $sitepress ) ) {
-            $lang_details = $sitepress->get_element_language_details( $parent->ID,
-                    'post_' . $parent->post_type );
-            if ( $lang_details ) {
-                $sitepress->set_element_language_details( $child->ID,
-                        'post_' . $child->post_type, null,
-                        $lang_details->language_code );
-            }
-        }
-
         do_action( 'wpcf_relationship_save_child', $child, $parent );
 
         clean_post_cache( $parent->ID );
         clean_post_cache( $child->ID );
+        // Added because of caching meta 1.5.4
+        wp_cache_flush();
 
         return true;
     }
@@ -341,6 +335,9 @@ class WPCF_Relationship
      * @return type
      */
     function add_new_child( $parent_id, $post_type ) {
+
+        global $wpdb;
+
         $parent = get_post( $parent_id );
         if ( empty( $parent ) ) {
             return new WP_Error( 'wpcf-relationship-no-parent', 'No parent' );
@@ -352,14 +349,17 @@ class WPCF_Relationship
         );
         $id = wp_insert_post( $new_post, true );
         if ( !is_wp_error( $id ) ) {
-            // Fix for Common Conditional check
-            $_POST['post_ID'] = $id;
             // Mark that it is new post
             update_post_meta( $id, '_wpcf_relationship_new', 1 );
             // Save relationship
             update_post_meta( $id,
                     '_wpcf_belongs_' . $parent->post_type . '_id', $parent->ID );
+            // Fix title
+            $wpdb->update( $wpdb->posts,
+                    array('post_title' => $post_type . ' ' . $id),
+                    array('ID' => $id), array('%s'), array('%d') );
         }
+        wp_cache_flush();
         return $id;
     }
 
@@ -388,6 +388,67 @@ class WPCF_Relationship
             $_field_slug = $field;
         }
         return isset( $_POST['wpcf_post_relationship'][$parent_id][$child_id][$_field_slug] ) ? $_POST['wpcf_post_relationship'][$parent_id][$child_id][$_field_slug] : null;
+    }
+
+    /**
+     * Gets all parents per post type.
+     * 
+     * @param type $child
+     * @return type
+     */
+    public static function get_parents( $child ) {
+        $parents = array();
+        $item_parents = wpcf_pr_admin_get_belongs( $child->post_type );
+        if ( $item_parents ) {
+            foreach ( $item_parents as $post_type => $data ) {
+
+                // Get parent ID
+                $meta = wpcf_get_post_meta( $child->ID,
+                        '_wpcf_belongs_' . $post_type . '_id', true );
+
+                if ( !empty( $meta ) ) {
+
+                    $parent_post = get_post( $meta );
+
+                    if ( !empty( $parent_post ) ) {
+                        $parents[$parent_post->post_type] = $parent_post;
+                    }
+                }
+            }
+        }
+        return $parents;
+    }
+
+    /**
+     * Gets post parent by post type.
+     * 
+     * @param type $post_id
+     * @param type $parent_post_type
+     * @return type
+     */
+    public static function get_parent( $post_id, $parent_post_type ) {
+        return wpcf_get_post_meta( $post_id,
+                        '_wpcf_belongs_' . $parent_post_type . '_id', true );
+    }
+    
+    /**
+     * AJAX adding taxonomies
+     */
+    public function ajaxAddTax() {
+        if ( isset( $_POST['types_reltax'] ) ) {
+            $data = array_shift( $_POST['types_reltax'] );
+            $tax = key( $data );
+            $val = array_shift( $data );
+            $__nonce = array_shift( $_POST['types_reltax_nonce'] );
+            $nonce = array_shift( $__nonce );
+            $_POST['action'] = 'add-' . $tax;
+            $_POST['post_category'][$tax] = $val;
+            $_POST['tax_input'][$tax] = $val;
+            $_POST['new'.$tax] = $val;
+            $_REQUEST["_ajax_nonce-add-{$tax}"] = $nonce;
+            _wp_ajax_add_hierarchical_term();
+        }
+        die();
     }
 
 }

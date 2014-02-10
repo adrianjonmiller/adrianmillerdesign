@@ -5,6 +5,8 @@
 jQuery(document).ready(function(){
     // Trigger main func
     wpcfConditionalInit();
+    // Form edit screen
+    wpcfConditionalFormDateInit();
 });
 
 /**
@@ -55,7 +57,6 @@ function wpcfConditionalInit(selector) {
          */
         if (triggered == false) {
             wpcfConditionalVerify(jQuery(this), jQuery(this).attr('name'), jQuery(this).val());
-            wpcfCdGroupVerify(jQuery(this), jQuery(this).attr('name'), jQuery(this).val(), jQuery(this).parents('.postbox').one().attr('id'));
             triggered = true;
         }
     });
@@ -82,7 +83,7 @@ function wpcfConditionalVerify(object, name, value) {
     var form = jQuery('#post').find(':input').not('#_wpnonce');
     
     // Get group slug
-    var group = object.parents('.postbox').attr('id');
+    var group = object.parents('.postbox').attr('id').substr(11);
     
     // If triggered from relationship table send just row
     if (object.parents('.wpcf-pr-table-wrapper').length > 0) {
@@ -107,6 +108,7 @@ function wpcfConditionalVerify(object, name, value) {
             data: form.serialize()+'&wpcf_group='+group+'&wpcf_main_post_id='+jQuery('#post_ID').val()+'&action=wpcf_ajax&wpcf_action=cd_verify&_wpnonce='+wpcfConditionalVerify_nonce,
             cache: false,
             beforeSend: function() {
+                typesSpinner.show(object);
             },
             success: function(data) {
                 if (data != null) {
@@ -118,6 +120,10 @@ function wpcfConditionalVerify(object, name, value) {
                             && data.wpcf_nonce_ajax_callback == wpcf_nonce_ajax_callback)) {
                         eval(data.execute);
                     }
+                }
+                typesSpinner.hide(object);
+                if (typeof typesValidation != 'undefined') {
+                    typesValidation.setRules();
                 }
             }
         });
@@ -136,7 +142,7 @@ function wpcfDisableAddCondition(id) {
 /**
  * Checks if group is valid
  */
-function wpcfCdGroupVerify(object, name, value, group_id) {
+function wpcfCdGroupVerify(object, group_id) {
     var form = jQuery('#post');
     jQuery.ajax({
         url: ajaxurl,
@@ -145,6 +151,7 @@ function wpcfCdGroupVerify(object, name, value, group_id) {
         data: form.serialize()+'&group_id='+group_id+'&action=wpcf_ajax&wpcf_action=cd_group_verify&_wpnonce='+window.wpcfConditionalVerifyGroup,
         cache: false,
         beforeSend: function() {
+            typesSpinner.show(object);
         },
         success: function(data) {
             if (data != null) {
@@ -153,6 +160,10 @@ function wpcfCdGroupVerify(object, name, value, group_id) {
                         && data.wpcf_nonce_ajax_callback == wpcf_nonce_ajax_callback)) {
                     eval(data.execute);
                 }
+            }
+            typesSpinner.hide(object);
+            if (typeof typesValidation != 'undefined') {
+                typesValidation.setRules();
             }
         }
     });
@@ -184,9 +195,21 @@ function wpcfCdCreateSummary(id) {
         }
         skip = false;
         //                }
+        var field = jQuery(this).find('.wpcf-cd-field :selected');
+
         condition += '($'+jQuery(this).find('.wpcf-cd-field').val();
         condition += ' ' + jQuery(this).find('.wpcf-cd-operation').val();
-        condition += ' ' + jQuery(this).find('.wpcf-cd-value').val() + ') ';
+        // Date
+        if (field.hasClass('wpcf-conditional-select-date')) {
+            var date = jQuery(this).find('.wpcf-custom-field-date');
+            var month = date.children(':first');
+            var mm = month.val();
+            var jj = month.next().val();
+            var aa = month.next().next().val();
+            condition += ' DATE(' + jj + ',' + mm + ',' + aa + ')) ';
+        } else {
+            condition += ' ' + jQuery(this).find('.wpcf-cd-value').val() + ') ';
+        }
     });
     jQuery('#'+id).val(condition);
 }
@@ -195,21 +218,24 @@ function wpcfCdCreateSummary(id) {
  * Add New Condition AJAX call
  */
 function wpcfCdAddCondition(object, isGroup) {
-    if (object.parent().parent().find('.wpcf-cd-entry').length > 0) {
-        object.parent().parent().find('.toggle-cd').show();
-        object.parent().parent().find('.wpcf-cd-relation').show();
+    var wrapper = isGroup ? object.parents('#wpcf-cd-group') : object.parents('.wpcf-cd-fieldset');
+    if (wrapper.find('.wpcf-cd-entry').length > 0) {
+        wrapper.find('.toggle-cd').show();
+        wrapper.find('.wpcf-cd-relation').show();
     }
-    var url = object.attr('href')+'&count='+object.parent().parent().find('input[type=hidden]').val();
+    var url = object.attr('href')+'&count='+wrapper.find('input[type=hidden]').val();
     if (isGroup) {
         url += '&group=1';
     } else {
-        url += '&field='+object.parent().parent().attr('id');
+        url += '&field='+wrapper.attr('id');
     }
     jQuery.get(url, function(data) {
         if (typeof data.output != 'undefined') {
-            object.parent().find('.wpcf-cd-entries').append(data.output);
-            var count = object.parent().find('input[type=hidden]').val();
-            object.parent().find('input[type=hidden]').val(parseInt(count)+1);
+            var condition = jQuery(data.output);
+            wrapper.find('.wpcf-cd-entries').append(condition);
+            var count = wrapper.find('input[type=hidden]').val();
+            wrapper.find('input[type=hidden]').val(parseInt(count)+1);
+            wpcfConditionalFormDateToggle(condition.find('.wpcf-cd-field'));
         }
     }, "json");
 }
@@ -232,73 +258,66 @@ function wpcfCdRemoveCondition(object) {
 }
 
 /**
- * Performed on #post edit pages.
- * @todo Check wpcfConditionalPassed and wpcfConditionalHiddenFailed
- * @todo Loop preventing not needed
+ * Init Date conditional form check.
  */
-function wpcfConditionalInvalidHandler(selector, elements, _form, validator) {
-    if (selector.indexOf('#post') !== -1
-        && typeof window.wpcfConditionalHiddenCached == 'undefined') {
-        
-        var form = jQuery(selector);
-        var element_id = 0;
-        var element = null;
-        var passed = new Array();
-        var failed = new Array();
-        var failedHidden = new Array();
-
-        for (var i = 0; i < elements.length; i++) {
-            selector = elements[i];
-            element = jQuery('#'+selector);
-            /*
-             * If element found
-             * TODO add debug code
-             */
-            if (element.length > 0) {
-                /*
-                 * TODO Check this!
-                 * Remove previous data
-                 */
-                jQuery('#wpcf_conditional_hidden_check_'+element.attr('id')).remove();
-                if (wpcfConditionalIsHidden(element)) {
-                    window.wpcfConditionalPassed.push(selector);
-                    failedHidden.push(selector);
-                } else {
-                    window.wpcfConditionalHiddenFailed.push(selector);
-                    failed.push(selector);
-                }
-            }
-        }
-        
-        if (failed.length > 0) {
-            return false;
-        } else if (failedHidden.length > 0) {
-            return true;
-        }
-        return false;
-    }
-    
-    return false;
+function wpcfConditionalFormDateInit() {
+    jQuery('#wpcf-form-fields-main').on('change', '.wpcf-cd-field', function(){
+        wpcfConditionalFormDateToggle(jQuery(this));
+    }).find('.wpcf-cd-field').each(function(){
+        wpcfConditionalFormDateToggle(jQuery(this));
+    });
 }
 
 /**
- * Determine if object is conditional and hidden
+ * Toggles input textfield to date inputs on Group edit screen.
  */
-function wpcfConditionalIsHidden(object) {
-    // Check if meta-box is hidden
-    /*
-     * TODO This is not exact match if meta-box is collapsed
-     */
-    if (object.parents('.wpcf-conditional').length > 0
-        && object.parents('.inside').is(':hidden')) {
-        if (object.parents('.wpcf-conditional').css('display') == 'none') {
-            return true;
+function wpcfConditionalFormDateToggle(object) {
+    var show = object.find(':selected').hasClass('wpcf-conditional-select-date');
+    var parent = object.parent();
+    var select = parent.find('.wpcf-cd-operation');
+    if (show) {
+        parent.find('.wpcf-cd-value').hide();
+        parent.find('.wpcf-custom-field-date').show();
+        select.find("option[value='==='], option[value='!==']")
+        .attr('disabled', 'disabled');
+        var selected = select.find(':selected').val()
+        if (selected == '===') {
+            select.val('=').trigger('click');
+        } else if (selected == '!==') {
+            select.val('<>').trigger('click');
         }
-        object.parents('.handlediv').trigger('click');
-        return false;
     } else {
-        return object.parents('.wpcf-conditional').length > 0 && object.is(':hidden');
+        parent.find('.wpcf-cd-value').show();
+        parent.find('.wpcf-custom-field-date').hide();
+        select.find("option[value='==='], option[value='!=='], option[value='<>']")
+        .removeAttr('disabled');
     }
+}
+
+/**
+ * Checks if Date is valid on Group edit screen.
+ */
+function wpcfConditionalFormDateCheck() {
+    var is_ok = true;
+    jQuery('.wpcf-custom-field-date').each(function(index) {
+        var field = jQuery(this).parent().find('.wpcf-cd-field :selected');
+        if (field.hasClass('wpcf-conditional-select-date')) {
+            var month = jQuery(this).children(':first');
+            var mm = month.val();
+            var jj = month.next().val();
+            var aa = month.next().next().val();
+            var newD = new Date( aa, mm - 1, jj);
+
+            if ( newD.getFullYear() != aa || (1 + newD.getMonth()) != mm || newD.getDate() != jj) {
+                jQuery(this).parent().find('.wpcf_custom_field_invalid_date').show();
+                jQuery(this).parents('fieldset').children('.fieldset-wrapper').slideDown();
+                is_ok = false;
+            } else {
+                jQuery(this).parent().find('.wpcf_custom_field_invalid_date').hide();
+            }
+        }
+    });
+    return is_ok;
 }
 
 /*

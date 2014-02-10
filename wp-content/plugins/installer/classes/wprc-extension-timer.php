@@ -98,7 +98,8 @@ class WPRC_ExtensionTimer
   * @param int expired time
   */    
     public static function setTimer($extension_name, $period = '')
-    {
+    {	
+    	$extension_name=md5($extension_name);
         $period = self::getPeriod($period);
         
         $timer_name = self::getTimerName($extension_name);

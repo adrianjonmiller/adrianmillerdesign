@@ -5,13 +5,13 @@ class WPRC_Themes_API extends WPRC_Extensions_API
  * Extension type of this class
  */ 
     private $extension_type = 'themes';
-    
+
 /**
  * Form arguments for extensions_api function
- * 
+ *
  * @param mixed arguments array
  * @param string action
- */ 
+ */
     public function extensionsApiArgs($args, $action)
     {
         switch($action)
@@ -76,9 +76,11 @@ class WPRC_Themes_API extends WPRC_Extensions_API
  * Search plugins in multiple repositories 
  * This method replaces 'plugins_api' and 'themes_api' function
  */ 
-    public function extensionsApi($state, $action, $args)
-    { 
-         return parent::extensionsApi($state, $action, $args, $this->extension_type);
+    public function extensionsApi($state, $action, $args, $extension_type = false)
+    {
+		$extension_type = $extension_type ? $extension_type : $this->extension_type;
+
+		return parent::extensionsApi($state, $action, $args, $extension_type );
     }
     
 /**
@@ -220,9 +222,10 @@ class WPRC_Themes_API extends WPRC_Extensions_API
 /**
  * Render additional search UI
  */    
-    public function renderAdditionalSearchUI()
+    public function renderAdditionalSearchUI($extension_type = false)
     {
-        parent::renderAdditionalSearchUI($this->extension_type);    
+		$extension_type = $extension_type ? $extension_type : $this->extension_type;
+        parent::renderAdditionalSearchUI($extension_type);
     }
 }
 ?>

@@ -376,9 +376,9 @@ input.wpcf-form-error {
     margin-right: 10px;
 }
 
-#wpcf-ajax * {
+/*#wpcf-ajax * {
     width: auto;
-}
+}*/
 #wpcf-ajax #wpcontent {
     margin: 0px;
 }
@@ -422,5 +422,33 @@ input.wpcf-form-error {
     display: none;
 }
 .ac_results{
-	width:200px !important;	
+	width:200px !important;
+}
+
+/* temp */
+.wpcf_custom_field_invalid_date {
+    display: none;
+}
+.types-help {
+    border: 1px solid;
+    border-radius: 4px 4px 4px 4px;
+    clear: both;
+    margin: 20px 0;
+    position: relative;
+    background: linear-gradient(to bottom, #ECFCE8 0%, #DCFFD4 100%) repeat scroll 0 0 transparent;
+    border-color: #BAFCA9;
+    min-height: 140px;
+}
+.types-help-content {
+    color: #4F4F4F;
+    min-height: 105px;
+    padding: 15px 160px 15px 15px;
+}
+.types-help-content a {
+    display: inline-block;
+    line-height: 18px;
+    text-decoration: underline;
+}
+.types-help-content p, .toolset-help-content ul, .toolset-help-content ol {
+    line-height: 1.6;
 }

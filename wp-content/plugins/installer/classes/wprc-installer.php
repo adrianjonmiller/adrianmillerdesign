@@ -254,13 +254,29 @@ class WPRC_Installer
     {
         self::getSiteId();
         self::prepareDB();
-
+		
+		//update installer version
+		self::insertInstallerVersion();
+		
         self::clear_all_cache();
 
         $login_msg = sprintf( __( 'Do you have accounts with some theme or plugin vendors? <a href="%s"> Log-in to their repositories </a> and automatically download their stuff.', 'installer' ),
                                 admin_url('options-general.php?page=installer/pages/repositories.php')
                             );
         WPRC_AdminNotifier::addMessage('login-repos',$login_msg, 'info', true);
+    }
+    
+    public static function showMessageLogAgain($repository_id = '') {
+        
+        $repo_model = WPRC_Loader::getModel('repositories');
+        $repo = $repo_model->getRepositoryByField('id', $repository_id);
+        
+        $notice_log_msg = sprintf( __( 'Failed to log in to the repository <a href="%s">%s</a>. Please review your login information.', 'installer' ),
+                                admin_url('options-general.php?page=installer/pages/repositories.php'),
+                                $repo->repository_name
+                            );
+        WPRC_AdminNotifier::addMessage("relog-repos-".$repository_id, $notice_log_msg, 'info', true);
+        
     }
 
     public static function clear_all_cache() {
@@ -457,12 +473,15 @@ class WPRC_Installer
     
     public static function onPluginDeactivation($plugin_name)
     {
-		if ($plugin_name==WPRC_PLUGIN_BASENAME) return;
-		
-	   $reporter = WPRC_Loader::getRequester('correct-work-reporter');
+        if ($plugin_name==WPRC_PLUGIN_BASENAME) return;
+        
+       $reporter = WPRC_Loader::getRequester('correct-work-reporter');
         
         // Reset timer of deactivated plugin
         $reporter->resetPluginTimer($plugin_name);
+		
+		//remove plugin from list
+		$reporter->doComparation($plugin_name);
     }
     
     public static function onSwitchTheme($theme_name)
@@ -635,9 +654,8 @@ class WPRC_Installer
         if(array_key_exists('activate_plugin', $install_actions))
         {
             // get parameters from the GET
-            $repository_id = $_GET['repository_id'];
-            $plugin_slug = $_GET['plugin'];
-        
+			$repository_id = isset($_GET['repository_id']) ? $_GET['repository_id'] : null;
+			$plugin_slug = isset($_GET['plugin']) ? $_GET['plugin'] : null;        
             // get activation link from the html
             preg_match('/href="(?<activation_link>[^"]*)"/', $install_actions['activate_plugin'], $matches);
             $activation_link = $matches['activation_link'];
@@ -718,7 +736,7 @@ class WPRC_Installer
         return $result;
     }
 
-    public function addPluginCompatibilityLink($actions, $plugin_file, $plugin_data, $context)
+    public static function addPluginCompatibilityLink($actions, $plugin_file, $plugin_data, $context)
     {
         $name = $plugin_data['Name'];
 
@@ -765,13 +783,13 @@ class WPRC_Installer
         return $actions;
     }
 
-    public function cacheApiRequest($server_url, $action, $args, $results)
+    public static function cacheApiRequest($server_url, $action, $args, $results)
     {
         $cacher = WPRC_Loader::getRequestCacher();
         return $cacher->cacheApiRequest($server_url, $action, $args, $results);
     }
 
-    public function getCachedApiRequest($server_url, $action, $args)
+    public static function getCachedApiRequest($server_url, $action, $args)
     {
         $cacher = WPRC_Loader::getRequestCacher();
         return $cacher->getCachedApiRequest($server_url, $action, $args);
@@ -1003,7 +1021,7 @@ class WPRC_Installer
             $file_info = pathinfo($file);
             $local_file = $upload_dir['path'] . '/' . $file_info['basename'];
             $local_file_url = $upload_dir['url'] . '/' . $file_info['basename'];
-            $file_get_result = file_put_contents( $local_file, file_get_contents( $file ) );
+            $file_get_result = file_put_contents( $local_file, $remote_file['body'] );
             if ( !empty( $file_get_result ) )
                 return $local_file_url;
         }
@@ -1181,5 +1199,27 @@ class WPRC_Installer
         }
          
     }
+	
+	public static function insertInstallerVersion() {
+		
+		$get_installer_version = get_option('installer_current_version');
+		
+		//if 0.6 version
+		if(!$get_installer_version)
+		{
+			delete_option('wprc_usage_reports_schedule');
+		}
+		
+		if($get_installer_version)
+		{
+			$return = update_option('installer_current_version', WPRC_VERSION);
+		}
+		else
+		{
+			$return = add_option('installer_current_version', WPRC_VERSION);
+		}
+		
+		return $return;
+	}
 }
 ?>

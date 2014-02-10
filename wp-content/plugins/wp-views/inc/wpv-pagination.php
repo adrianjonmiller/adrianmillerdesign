@@ -15,7 +15,7 @@ if (isset($_GET['wpv-pagination-spinner-media-insert'])) {
  * get the pagination display returned by ajax.
  */
 
-function wpv_ajax_pagination() {
+function wpv_ajax_pagination() { // DEPRECATED
     if (wp_verify_nonce($_POST['wpv_nonce'], 'wpv_pagination_nonce')
             && !empty($_POST['_wpv_settings'])) {
         $settings['posts_per_page'] = $_POST['_wpv_settings']['posts_per_page'];
@@ -46,7 +46,7 @@ function wpv_ajax_pagination() {
     
 */
 
-function wpv_pagination_admin($view_settings) {
+function wpv_pagination_admin($view_settings) { // DEPRECATED
     global $post;
     $rollover_effects = array(
         'fade' => __('Fade', 'wpv-views'),
@@ -259,7 +259,7 @@ function wpv_pagination_admin($view_settings) {
                             <label><?php _e('with duration',  'wpv-views'); ?>
                                 <?php if ( !isset( $view_settings['rollover']['duration'] ) ) $view_settings['rollover']['duration'] = 500;
 				?>
-                             <input type="text" class="transition-duration" name="_wpv_settings[rollover][duration]" value="<?php echo $view_settings['rollover']['duration']; ?>" size="5">
+				<input type="text" class="transition-duration" name="_wpv_settings[rollover][duration]" value="<?php echo $view_settings['rollover']['duration']; ?>" size="5">
                              <?php _e('miliseconds', 'wpv-views'); ?>
                              <span class="duration-error" style="color:red;display:none;"><?php _e(' <- Please add a numeric value', 'wpv-views'); ?></span>
                              </label>
@@ -336,7 +336,7 @@ function wpv_pagination_admin($view_settings) {
 /**
  * Media popup JS.
  */
-function wpv_pagination_spinner_media_admin_head() {
+function wpv_pagination_spinner_media_admin_head() { // DEPRECATED
 
     ?>
     <script type="text/javascript">
@@ -359,7 +359,7 @@ function wpv_pagination_spinner_media_admin_head() {
  * @param type $post
  * @return type 
  */
-function wpv_pagination_spinner_attachment_fields_to_edit_filter($form_fields, $post) {
+function wpv_pagination_spinner_attachment_fields_to_edit_filter($form_fields, $post) {// DEPRECATED
     $type = (strpos($post->post_mime_type, 'image/') !== false) ? 'image' : 'file';
     $form_fields['wpcf_fields_file'] = array(
         'label' => __('Views Pagination', 'wpv-views'),
@@ -379,7 +379,7 @@ function wpv_pagination_spinner_attachment_fields_to_edit_filter($form_fields, $
  * @param type $tabs
  * @return type 
  */
-function wpv_pagination_spinner_media_upload_tabs_filter($tabs) {
+function wpv_pagination_spinner_media_upload_tabs_filter($tabs) { // DEPRECATED
     unset($tabs['type_url']);
     return $tabs;
 }

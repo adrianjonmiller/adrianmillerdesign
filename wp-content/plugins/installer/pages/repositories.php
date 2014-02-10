@@ -197,7 +197,29 @@ $wp_list_table->display();
 echo '</form>';
 echo '</div>';
 
-
-
-
+echo '<hr>';
+echo '<h2>'.__('Clear Cache', 'installer').'</h2>';
+echo '<p>'.__("By cleaning the cache you shoul be able to see all the update from repositories", 'installer').'</p>';
+echo '<input type="submit" class="button-secondary" id="clear_extension_search_cache" name="clear_extension_search_cache" value="'.__('Clear Cache', 'installer').'" /><span id="clear-results-loading"></span><span class="description" id="clear-cache-result"></span>';
+	 echo '<hr>';
 ?>
+ <script type="text/javascript">
+	jQuery('#clear_extension_search_cache').click(function(e) {
+	    e.preventDefault();
+	    jQuery.ajax({
+	        url: ajaxurl,
+	        data:{
+	            action: 'clear-extension-search-cache'
+	        },
+	        beforeSend: function() {
+	            jQuery('#clear-cache-result').html('');
+	            jQuery('#clear-results-loading').css('display','inline-block');
+	        },
+	        success: function(resp) {
+	            jQuery('#clear-results-loading').hide();
+	            jQuery('#clear-cache-result').html(resp);
+	            location.reload()
+	        }
+	    });
+	});
+</script>

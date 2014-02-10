@@ -1,3 +1,19 @@
+.wpv_pagination_links ul.wpv_pagination_dots {
+	margin: 0;
+	list-style: none outside none;
+}
+
+ul.wpv_pagination_dots li.wpv_pagination_dots_item {
+	float: left;
+	margin-right: 5px;
+	list-style-position: outside;
+	list-style-type: none;
+}
+
+.wpv_pagination_dots li.wpv_page_current a {
+    background-position: 0 -16px;
+}
+
 .wpv_pagination_dots li a {
     background-image: url("../img/pagination_dots.png");
     display: block;
@@ -8,16 +24,19 @@
     width: 16px;
 }
 
-ul.wpv_pagination_dots {
-
-    list-style: none outside none;
-}
-
-.wpv_pagination_dots li.wpv_page_current a {
-    background-position: 0 -16px;
-}
-
 .wpv-filter-next-link,
 .wpv-filter-previous-link {
     z-index: 10;
+}
+
+.wpv-pagination:before,
+.wpv-pagination:after {
+    content: " ";
+    display: table;
+}
+.wpv-pagination:after {
+    clear: both;
+}
+.wpv-pagination {
+    *zoom: 1;
 }

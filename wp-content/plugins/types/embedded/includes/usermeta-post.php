@@ -17,11 +17,7 @@ require_once WPCF_EMBEDDED_ABSPATH . '/includes/conditional-display.php';
 function wpcf_admin_userprofile_init($user_id){
 	global $wpcf;
 	
-	wpcf_admin_add_js_settings( 'wpcf_nonce_toggle_group',
-            '\'' . wp_create_nonce( 'group_form_collapsed' ) . '\'' );
-    wpcf_admin_add_js_settings( 'wpcf_nonce_toggle_fieldset',
-            '\'' . wp_create_nonce( 'form_fieldset_toggle' ) . '\'' );
-	$user_role = array_shift($user_id->roles);
+	$user_role = isset($user_id->roles) ? array_shift($user_id->roles) : 'subscriber';
 	$groups = wpcf_admin_usermeta_get_groups_fields();
 	$wpcf_active = false;
 	$profile_only_preview = '';
@@ -30,14 +26,14 @@ function wpcf_admin_userprofile_init($user_id){
             $wpcf_active = true;
 			$for_users = wpcf_admin_get_groups_showfor_by_group($group['id']);
 			$profile_only_preview = '';
-			
 			if ( count($for_users) != 0){
 				if ( !in_array($user_role,$for_users)){
 					continue;	
 				}
 				else{
 					//If Access plugin activated
-					if (function_exists('wpcf_access_register_caps')){ 
+					if (function_exists('wpcf_access_register_caps')){
+					    
 						//If user can't view own profile fields
 						if (!current_user_can('view_own_in_profile_' . $group['slug'])){
 							continue;	
@@ -51,6 +47,16 @@ function wpcf_admin_userprofile_init($user_id){
 					}		
 				}
 			}
+            else{
+                 if (function_exists('wpcf_access_register_caps')){
+                     if (!current_user_can('view_own_in_profile_' . $group['slug'])){
+                       continue;   
+                     }
+                     if (!current_user_can('modify_own_' . $group['slug'])){
+                        $profile_only_preview = 1;
+                     }
+                  }          
+            }
 
             // Process fields
 			if ( empty($profile_only_preview) ){
@@ -121,8 +127,6 @@ function wpcf_usermeta_preview_profile( $user_id, $group, $echo = ''){
 		$params['post_type'] = 'wp-types-user-group';
 		$params['option_name'] = 'wpcf-usermeta';
 		$params['separator'] = ', ';
-		$field = wpcf_fields_get_field_by_slug( $field['slug'] , 'wpcf-usermeta' );
-		
 		if ( wpcf_admin_is_repetitive( $field ) ) {
         $wpcf->usermeta_repeater->set( $user_id, $field );
         $_meta = $wpcf->usermeta_repeater->_get_meta();
@@ -171,9 +175,10 @@ function wpcf_usermeta_preview_profile( $user_id, $group, $echo = ''){
                     }
                 }
                 if ( !empty( $output ) && isset( $params['separator'] ) ) {
-                    $output = implode( $params['separator'], $output );
+                    $output = implode( html_entity_decode( $params['separator'] ),
+                            $output );
                 } else if ( !empty( $output ) ) {
-                    $output = implode( '', $output );
+                    $output = implode( ' ', $output );
                 }
             } else {
                 // Make sure indexed right
@@ -344,6 +349,8 @@ function wpcf_admin_userprofilesave_init($user_id){
             continue;
         }
 		if ( $field['#type'] == 'checkbox') {
+            $field_data = wpcf_admin_fields_get_field( $field['wpcf-id'], false,
+                    false, false, 'wpcf-usermeta' );
 			if ( !isset( $_POST['wpcf'][$field['wpcf-slug']] ) ){
 				if ( isset( $field_data['data']['save_empty'] )
                     && $field_data['data']['save_empty'] == 'yes' ) {
@@ -354,6 +361,25 @@ function wpcf_admin_userprofilesave_init($user_id){
 				}
 			}
 		}
+        if ( $field['#type'] == 'checkboxes' ) {
+            $field_data = wpcf_admin_fields_get_field( $field['wpcf-id'], false,
+                    false, false, 'wpcf-usermeta' );
+            if ( !empty( $field_data['data']['options'] ) ) {
+                $update_data = array();
+                foreach ( $field_data['data']['options'] as $option_id => $option_data ) {
+                    if ( !isset( $_POST['wpcf'][$field['wpcf-slug']][$option_id] ) ) {
+                        if ( isset( $field_data['data']['save_empty'] ) && $field_data['data']['save_empty'] == 'yes' ) {
+                            $update_data[$option_id] = 0;
+                        }
+                    } else {
+                        $update_data[$option_id] = $_POST['wpcf'][$field['wpcf-slug']][$option_id];
+                    }
+                }
+                update_user_meta( $user_id,
+                        wpcf_types_get_meta_prefix( $field ) . $field['wpcf-slug'],
+                        $update_data );
+            }
+        }
 	}
 	
 
@@ -527,8 +553,10 @@ function wpcf_admin_usermeta_process_fields( $user_id, $fields = array(),
 
     global $wpcf;
 
-    // TODO Document this properties
+    $wpcf->usermeta_field->use_cache = $use_cache;
+    $wpcf->usermeta_field->add_to_editor = $add_to_editor;
     $wpcf->usermeta_repeater->use_cache = $use_cache;
+    $wpcf->usermeta_repeater->add_to_editor = $add_to_editor;
    
 	
 	if( is_object( $user_id ) ){

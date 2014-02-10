@@ -4,18 +4,18 @@
  * Media popup functions and filters.
  */
 
-if ( isset( $_GET['wpv-media-insert'] ) || isset( $_GET['wpv-media-edit'] ) ) { // Button "Add Media"
+if ( isset( $_GET['wpv-media-insert'] ) || isset( $_GET['wpv-media-edit'] ) ) { // Button "Add Media" // DEPRECATED
 	// Remove unwanted tabs
 	add_filter('media_upload_tabs', 'wpv_media_upload_tabs_filter');
 	// Remove "Insert into post" button and add button-secondary class to Delete link
 	add_action( 'admin_head-media-upload-popup', 'wpv_media_popup_changes' );
 }
 
-function wpv_layout_taxonomy_V($menu) {
+function wpv_layout_taxonomy_V($menu) { // MAYBE DEPRECATED NOT deprecated at all: used to generate the V icon popup for taxonomy Views
     
     // remove post items and add taxonomy items.
     
-    global $wpv_shortcodes;
+    global $wpv_shortcodes, $sitepress;
     
     $basic = __('Basic', 'wpv-views');
     $menu = array($basic => array());
@@ -23,6 +23,7 @@ function wpv_layout_taxonomy_V($menu) {
     $taxonomy = array('wpv-taxonomy-title',
                       'wpv-taxonomy-link',
                       'wpv-taxonomy-url',
+                      'wpv-taxonomy-slug',
                       'wpv-taxonomy-description',
                       'wpv-taxonomy-post-count');
 
@@ -31,7 +32,18 @@ function wpv_layout_taxonomy_V($menu) {
                                                                         $wpv_shortcodes[$key][0],
                                                                         $basic,
                                                                         '');
-    }    
+    }
+    
+    // Add the translatable string shortcodes
+    
+    if ( isset( $sitepress ) && function_exists( 'wpml_string_shortcode' ) ) {
+	$translatable_string_title = __('Translatable string', 'wpv-views');
+	$menu[$basic][$translatable_string_title] = array($translatable_string_title,
+                                                                        'wpml-string',
+                                                                        $basic,
+                                                                        'wpv_insert_translatable_string_popup()');
+    }
+    
     return $menu;
 
 }
@@ -42,7 +54,7 @@ function wpv_layout_taxonomy_V($menu) {
     
 */
 
-function wpv_layout_meta_html_admin($post, $view_layout_settings) {
+function wpv_layout_meta_html_admin($post, $view_layout_settings) { // DEPRECATED
     global $WP_Views;
     
     $view_settings = $WP_Views->get_view_settings($post->ID);

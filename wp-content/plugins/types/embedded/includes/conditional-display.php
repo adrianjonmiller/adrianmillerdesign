@@ -29,12 +29,6 @@ if ( !function_exists( 'wpv_filter_parse_date' ) ) {
     require_once WPCF_EMBEDDED_ABSPATH . '/common/wpv-filter-date-embedded.php';
 }
 
-/*
- * since Types 1.2 Filter validation JS
- */
-add_filter( 'wpcf_validation_js_invalid_handler',
-        'wpcf_conditional_validation_js_invalid_handler_filter', 10, 3 );
-
 /**
  * Filters groups on post edit page.
  * 
@@ -90,7 +84,7 @@ function wpcf_cd_post_groups_filter( $groups, $post, $context ) {
                             $group['id'] );
                 }
                 $fields['evaluate'] = $evaluate;
-                $check = wpv_condition( $fields );
+                $check = wpv_condition( $fields, $post );
                 $passed = $check;
                 if ( !is_bool( $check ) ) {
                     $passed = false;
@@ -105,16 +99,30 @@ function wpcf_cd_post_groups_filter( $groups, $post, $context ) {
                 $passed_one = false;
                 foreach ( $group['conditional_display']['conditions'] as
                             $condition ) {
+                    foreach ( array('field', 'value', 'operation') as $_v) {
+                        if ( !isset( $condition[$_v] ) ) {
+                            $passed_all = false;
+                            continue;
+                        }
+                    }
                     // Load field
                     $field = wpcf_admin_fields_get_field( $condition['field'] );
+                    if ( empty( $field ) ) {
+                        $passed_all = false;
+                        continue;
+                    }
                     wpcf_fields_type_action( $field['type'] );
 
                     wpcf_cd_add_group_js( 'add', $condition['field'],
                             $condition['value'], $condition['operation'],
                             $group['id'] );
-                    $value = get_post_meta( $post->ID,
-                            wpcf_types_get_meta_prefix( $condition['field'] ) . $condition['field'],
-                            true );
+                    if (defined( 'DOING_AJAX' )) {
+                        $value = isset($_POST['wpcf'][$condition['field']]) ? $_POST['wpcf'][$condition['field']] : null;
+                    } else {
+                        $value = get_post_meta( $post->ID,
+                                wpcf_types_get_meta_prefix( $field ) . $condition['field'],
+                                true );
+                    }
                     $value = apply_filters( 'wpcf_conditional_display_compare_meta_value',
                             $value, $condition['field'],
                             $condition['operation'], $key, $post );
@@ -165,6 +173,11 @@ function wpcf_cd_post_edit_field_filter( $element, $field, $post,
 
     // Do not use on repetitive
     if ( defined( 'DOING_AJAX' ) && $context == 'repetitive' ) {
+        return $element;
+    }
+    
+    // Use only with postmeta
+    if ( $field['meta_type'] != 'postmeta' ) {
         return $element;
     }
 
@@ -325,30 +338,35 @@ function wpcf_cd_add_group_js_render( $conditions = array() ) {
 
     ?>
     <script type="text/javascript">
-        jQuery(document).ready(function(){
+        jQuery(document).ready(function($){
     <?php
     foreach ( $conditions as $groups ) {
         foreach ( $groups as $field => $data ) {
-
+            $fieldData = types_get_field($field);
+            if (empty($fieldData)) {
+                continue;
+            }
+            $selector = in_array($fieldData['type'], array('date', 'skype')) ? "[name^=\"wpcf[{$field}][\"]" : "[name=\"wpcf[{$field}]\"]"; 
             ?>
-                            if (jQuery('[name="wpcf[<?php echo $field; ?>]"]').hasClass('radio')
-                                || jQuery('[name="wpcf[<?php echo $field; ?>]"]').hasClass('checkbox')) {
-                                jQuery('[name="wpcf[<?php echo $field; ?>]"]').bind('click', function(){
-                                    wpcfCdGroupVerify(jQuery(this), jQuery(this).attr('name'), jQuery(this).val(), <?php echo $data['group_id']; ?>);
-                                });
-                            } else if (jQuery('[name="wpcf[<?php echo $field; ?>]"]').hasClass('select')) {
-                                jQuery('[name="wpcf[<?php echo $field; ?>]"]').bind('change', function(){
-                                    wpcfCdGroupVerify(jQuery(this), jQuery(this).attr('name'), jQuery(this).val(), <?php echo $data['group_id']; ?>);
-                                });
-                            } else if (jQuery('[name="wpcf[<?php echo $field; ?>]"]').hasClass('wpcf-datepicker')) {
-                                jQuery('[name="wpcf[<?php echo $field; ?>]"]').bind('wpcfDateBlur', function(){
-                                    wpcfCdGroupVerify(jQuery(this), jQuery(this).attr('name'), jQuery(this).val(), <?php echo $data['group_id']; ?>);
-                                });
-                            } else {
-                                jQuery('[name="wpcf[<?php echo $field; ?>]"]').bind('blur', function(){
-                                    wpcfCdGroupVerify(jQuery(this), jQuery(this).attr('name'), jQuery(this).val(), <?php echo $data['group_id']; ?>);
-                                });
-                            }
+            $('<?php echo $selector; ?>').each(function(){
+                if ($(this).hasClass('radio') || $(this).hasClass('checkbox')) {
+                    $(this).bind('click', function(){
+                        wpcfCdGroupVerify($(this), <?php echo $data['group_id']; ?>);
+                    });
+                } else if ($(this).hasClass('select')) {
+                    $(this).bind('change', function(){
+                        wpcfCdGroupVerify($(this), <?php echo $data['group_id']; ?>);
+                    });
+                } else if ($(this).hasClass('wpcf-datepicker')) {
+                    $(this).bind('wpcfDateBlur', function(){
+                        wpcfCdGroupVerify($(this), <?php echo $data['group_id']; ?>);
+                    });
+                } else {
+                    $(this).bind('blur', function(){
+                        wpcfCdGroupVerify($(this), <?php echo $data['group_id']; ?>);
+                    });
+                }
+            });
             <?php
         }
     }
@@ -363,6 +381,8 @@ function wpcf_cd_add_group_js_render( $conditions = array() ) {
 /**
  * Passes $_POST values for AJAX call.
  * 
+ * @todo still used by group.
+ * 
  * @param type $null
  * @param type $object_id
  * @param type $meta_key
@@ -374,44 +394,6 @@ function wpcf_cd_meta_ajax_validation_filter( $null, $object_id, $meta_key,
     $meta_key = str_replace( 'wpcf-', '', $meta_key );
     $field = wpcf_admin_fields_get_field( $meta_key );
     return !empty( $field ) && isset( $_POST['wpcf'][$meta_key] ) ? $_POST['wpcf'][$meta_key] : '';
-}
-
-/**
- * Filters jQuery invalidHandler.
- * 
- * Added to allow additonal processing when form is invalid.
- * 
- * @since 1.1.5
- * @param type $string 
- * @param type $elements
- */
-function wpcf_conditional_validation_js_invalid_handler_filter( $string,
-        $elements, $selector ) {
-
-    if ( empty( $elements ) ) {
-        return '';
-    }
-
-    global $wpcf;
-
-    /*
-     * Get element and check if element is conditional AND hidden.
-     * If so - remove rule and submit form.
-     * This is done only on #post NOT internal Types forms
-     */
-    if ( strpos( trim( $selector ), '#post' ) === 0 ) {
-        ob_start();
-
-        ?>
-        if (wpcfConditionalInvalidHandler('<?php echo $selector; ?>', elements, form, validator)) {
-        passed = true;
-        }
-        <?php
-        $string .= ob_get_contents();
-        ob_end_clean();
-    }
-
-    return $string;
 }
 
 /**

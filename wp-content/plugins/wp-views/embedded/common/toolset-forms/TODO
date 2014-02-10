@@ -1,0 +1,84 @@
+- Enable rendering just fields (without form headers)
+
+- Added $value to field constructor
+
+
+
+Remarks on WPToolset_Field_Textfield (field class)
+Too loose adding field properties.
+Too much processing in construct.
+Is all necessary?
+Can we add only methods and variables that we're absolutely sure that are needed?
+For me it makes harder to follow whole thing.
+
+Remarks on config class
+Has same methods as abstract field.
+Looks to me like double job.
+Do we need both?
+For me it makes harder to follow whole thing.
+
+wpv_condition works only with post meta.
+We need to make it work with various data (passed e.g. usermeta etc).
+
+Repetitive fields should not be used as conditional triggers.
+Config for field is passed but not for triggers.
+How to determine if trigger is repetitive?
+
+field::metaform()
+Is where all handling is processed. Since it is used by Types only for now,
+it was easier for me to implement it there.
+I do not know where and how to implement when whole form is rendered.
+
+
+Types
+
+Srdjan
+I tried to add only things I know are absolutely necessary.
+
+Simple fields
+
+Textfield
+Textarea
+Email
+Numeric
+Phone
+URL
+Embed
+
+Rest of fields
+
+Audio
+Colorpicker
+Video
+
+Date
+Date requires it's own library encapsulated.
+Similar like image resizing and image utilities.
+
+File
+Image
+Similar type, requires adjustments.
+Image extends File.
+File needs library encapsulated.
+
+
+Skype
+Opens popup. Has array as value.
+
+Checkbox
+Needs checking if submitted or not. Using single fields needs manual check.
+
+Checkboxes
+Radio
+Select
+Fields with options.
+
+WYSIWYG
+WP editor. Code works fine with WP 3.4 - 3.8 but consider updating.
+
+
+
+
+
+JS Caching
+We need caching JS. I think Bruce and Riccardo have caching library.

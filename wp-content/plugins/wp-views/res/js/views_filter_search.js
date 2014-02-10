@@ -1,11 +1,13 @@
 
 var previous_search_text = '';
 var previous_search_mode;
+var previous_search_content = '';
 
 
 function wpv_show_filter_search_edit(search_div_pre, search_value, search_mode) {
     previous_search_text = jQuery('input[name="_wpv_settings\\[' + search_value + '\\]"]').val();
-    previous_search_mode = jQuery('input[name=_wpv_settings\\[' + search_mode + '\\]\\[\\]]:checked'); 
+    previous_search_mode = jQuery('input[name=_wpv_settings\\[' + search_mode + '\\]\\[\\]]:checked');
+    previous_search_content = jQuery('select[name="_wpv_settings\\[post_search_content\\]"]').val();
     
     jQuery('#' + search_div_pre + '-edit').parent().parent().css('background-color', jQuery('#' + search_div_pre + '-edit').css('background-color'));
 
@@ -25,6 +27,7 @@ function wpv_show_filter_search_edit_ok(search_div_pre, search_value, search_mod
         row : row,
         search : jQuery('input[name="_wpv_settings\\[' + search_value + '\\]"]').val(),
         mode : jQuery('input[name=_wpv_settings\\[' + search_mode + '\\]\\[\\]]:checked').val(),
+        search_content : jQuery('select[name="_wpv_settings\\[post_search_content\\]"]').val(),
         wpv_nonce : jQuery('#wpv_get_table_row_ui_nonce').attr('value')
     };
     
@@ -52,7 +55,8 @@ function wpv_show_filter_search_edit_cancel(search_div_pre, search_value, search
         jQuery(this).attr('checked', false); 
     });
     previous_search_mode.attr('checked', true);
-
+    jQuery('select[name="_wpv_settings\\[post_search_content\\]"]').val(previous_search_content);
+    
     
     jQuery('#' + search_div_pre + '-edit').parent().parent().css('background-color', '');
     jQuery('#' + search_div_pre + '-edit').hide();

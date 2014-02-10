@@ -101,7 +101,7 @@ function wpcf_admin_custom_types_form() {
      */
     $attributes = array();
     if ( !empty( $_POST['ct']['slug'] ) ) {
-        $reserved = wpcf_is_reserved_name( $_POST['ct']['slug'] );
+        $reserved = wpcf_is_reserved_name( $_POST['ct']['slug'], 'post_type' );
         if ( is_wp_error( $reserved ) ) {
             $attributes = array(
                 'class' => 'wpcf-form-error',
@@ -203,6 +203,10 @@ function wpcf_admin_custom_types_form() {
         $options[$category_slug]['#default_value'] = !empty( $ct['taxonomies'][$category_slug] );
         $options[$category_slug]['#inline'] = true;
         $options[$category_slug]['#after'] = '&nbsp;&nbsp;';
+        if ( is_rtl() ) {
+            $options[$category_slug]['#before'] = '<div style="float:right;margin-left:10px;">';
+            $options[$category_slug]['#after'] .= '</div>';
+        }
     }
 
     $form['table-3-open'] = array(
@@ -626,7 +630,7 @@ function wpcf_admin_custom_types_form_submit( $form ) {
     $custom_types = get_option( 'wpcf-custom-types', array() );
 
     // Check reserved name
-    $reserved = wpcf_is_reserved_name( $post_type );
+    $reserved = wpcf_is_reserved_name( $post_type, 'post_type' );
     if ( is_wp_error( $reserved ) ) {
         wpcf_admin_message( $reserved->get_error_message(), 'error' );
         return false;
@@ -658,6 +662,10 @@ function wpcf_admin_custom_types_form_submit( $form ) {
                 array('post_type' => $data['wpcf-post-type']), array('%s'),
                 array('%s')
         );
+
+        // Sync action
+        do_action( 'wpcf_post_type_renamed', $post_type, $data['wpcf-post-type'] );
+
         // Set protected data
         $protected_data_check = $custom_types[$data['wpcf-post-type']];
         // Delete old type

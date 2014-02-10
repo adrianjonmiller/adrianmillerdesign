@@ -125,7 +125,7 @@ class WPRC_Model_Repositories extends WPRC_Model
     {
         $predefined_repos = array(
             array(
-                'repository_name' => 'Wordress.org Plugins',
+                'repository_name' => 'WordPress.org Plugins',
                 'repository_endpoint_url' => WPRC_WP_PLUGINS_REPO,
                 'repository_username' => '',
                 'repository_website_url' => WPRC_WP_PLUGINS_SITE,
@@ -138,7 +138,7 @@ class WPRC_Model_Repositories extends WPRC_Model
                 'requires_login' => 0
                 ),
             array(
-                'repository_name' => 'Wordress.org Themes',
+                'repository_name' => 'WordPress.org Themes',
                 'repository_endpoint_url' => WPRC_WP_THEMES_REPO,
                 'repository_username' => '',
                 'repository_website_url' => WPRC_WP_THEMES_SITE,

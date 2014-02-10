@@ -6,7 +6,6 @@ require_once WPCF_EMBEDDED_INC_ABSPATH . '/editor-support/post-relationship-edit
 
 add_action( 'wpcf_admin_post_init', 'wpcf_pr_admin_post_init_action', 10, 4 );
 add_action( 'save_post', 'wpcf_pr_admin_save_post_hook', 20, 2 ); // Trigger afer main hook
-add_filter( 'get_post_metadata', 'wpcf_pr_meta_belongs_filter', 10, 4 );
 
 /**
  * Init function.
@@ -73,22 +72,23 @@ function wpcf_pr_admin_post_init_action( $post_type, $post, $groups,
  * @return type 
  */
 function wpcf_pr_admin_get_has( $post_type ) {
-    if ( empty( $post_type ) ) {
-        return false;
+    static $cache = array();
+    if ( isset( $cache[$post_type] ) ) {
+        return $cache[$post_type];
     }
     $relationships = get_option( 'wpcf_post_relationship', array() );
     if ( empty( $relationships[$post_type] ) ) {
         return false;
     }
     // See if enabled
-    foreach ( $relationships[$post_type] as $temp_post_type =>
-                $temp_post_type_data ) {
+    foreach ( $relationships[$post_type] as $temp_post_type => $temp_post_type_data ) {
         $active = get_post_type_object( $temp_post_type );
         if ( !$active ) {
             unset( $relationships[$post_type][$temp_post_type] );
         }
     }
-    return !empty( $relationships[$post_type] ) ? $relationships[$post_type] : false;
+    $cache[$post_type] = !empty( $relationships[$post_type] ) ? $relationships[$post_type] : false;
+    return $cache[$post_type];
 }
 
 /**
@@ -98,8 +98,9 @@ function wpcf_pr_admin_get_has( $post_type ) {
  * @return type 
  */
 function wpcf_pr_admin_get_belongs( $post_type ) {
-    if ( empty( $post_type ) ) {
-        return false;
+    static $cache = array();
+    if ( isset( $cache[$post_type] ) ) {
+        return $cache[$post_type];
     }
     $relationships = get_option( 'wpcf_post_relationship', array() );
     $results = array();
@@ -115,7 +116,8 @@ function wpcf_pr_admin_get_belongs( $post_type ) {
             }
         }
     }
-    return !empty( $results ) ? $results : false;
+    $cache[$post_type] = !empty( $results ) ? $results : false;
+    return $cache[$post_type];
 }
 
 /**
@@ -150,7 +152,7 @@ function wpcf_pr_admin_post_meta_box_output( $post, $args ) {
     $output = '';
     $relationships = $args;
     $post_id = !empty( $post->ID ) ? $post->ID : -1;
-    $current_post_type = wpcf_admin_get_post_type( $post );
+    $current_post_type = wpcf_admin_get_edited_post_type( $post );
     /*
      * 
      * 
@@ -282,19 +284,45 @@ function wpcf_pr_admin_post_meta_box_belongs_form( $post, $type, $belongs ) {
  */
 function wpcf_pr_admin_update_belongs( $post_id, $data ) {
 
+    $errors = array();
     $post = get_post( intval( $post_id ) );
-    if ( empty( $post ) ) {
-        return __( 'Passed wrong parameters', 'wpcf' );
+    if ( empty( $post->ID ) ) {
+        return new WP_Error( 'wpcf_update_belongs',
+                sprintf( __( 'Missing child post ID %d', 'wpcf' ),
+                        intval( $post_id ) ) );
     }
 
     foreach ( $data as $post_type => $post_owner_id ) {
-        $post_owner = get_post( intval( $post_owner_id ) );
-        if ( intval( $post_owner_id ) == 0 ) {
-            delete_post_meta( $post_id, '_wpcf_belongs_' . $post_type . '_id' );
-        } else if ( !empty( $post_owner ) ) {
-            update_post_meta( $post_id, '_wpcf_belongs_' . $post_type . '_id',
-                    $post_owner_id );
+        // Check if relationship exists
+        if ( !wpcf_relationship_is_parent( $post_type, $post->post_type ) ) {
+            $errors[] = sprintf( __( 'Relationship do not exist %s -> %s',
+                            'wpcf' ), strval( $post_type ),
+                    strval( $post->post_type ) );
+            continue;
         }
+        if ( $post_owner_id == '0' ) {
+            delete_post_meta( $post_id, "_wpcf_belongs_{$post_type}_id" );
+            continue;
+        }
+        $post_owner = get_post( intval( $post_owner_id ) );
+        // Check if owner post exists
+        if ( empty( $post_owner->ID ) ) {
+            $errors[] = sprintf( __( 'Missing parent post ID %d', 'wpcf' ),
+                    intval( $post_owner_id ) );
+            continue;
+        }
+        // Check if owner post type matches required
+        if ( $post_owner->post_type != $post_type ) {
+            $errors[] = sprintf( __( 'Parent post ID %d is not type of %s',
+                            'wpcf' ), intval( $post_owner_id ),
+                    strval( $post_type ) );
+            continue;
+        }
+        update_post_meta( $post_id, "_wpcf_belongs_{$post_type}_id", $post_owner->ID );
+    }
+
+    if ( !empty( $errors ) ) {
+        return new WP_Error( 'wpcf_update_belongs', implode( '; ', $errors ) );
     }
 
     return __( 'Post updated', 'wpcf' );
@@ -383,7 +411,7 @@ function wpcf_pr_admin_save_post_hook( $parent_post_id ) {
      * Problematic This should be done once per save (on saving main post)
      * remove_action( 'save_post', 'wpcf_pr_admin_save_post_hook', 11);
      */
-    static $cached = false;
+    static $cached = array();
     /*
      * 
      * TODO Monitor this
@@ -391,7 +419,7 @@ function wpcf_pr_admin_save_post_hook( $parent_post_id ) {
     // Remove main hook?
     // CHECKPOINT We remove temporarily main hook
 //    remove_action( 'save_post', 'wpcf_admin_save_post_hook', 10, 2 );
-    if ( !$cached ) {
+    if ( !isset( $cached[$parent_post_id] ) ) {
         if ( isset( $_POST['wpcf_post_relationship'][$parent_post_id] ) ) {
             $wpcf->relationship->save_children( $parent_post_id,
                     (array) $_POST['wpcf_post_relationship'][$parent_post_id] );
@@ -410,26 +438,9 @@ function wpcf_pr_admin_save_post_hook( $parent_post_id ) {
         // Actually needs looping over all relationships
 //        debug($_POST['wpcf_pr_belongs']);
 
-        $cached = true;
+        $cached[$parent_post_id] = true;
     }
 
-}
-
-/**
- * Returned translated '_wpcf_belongs_XXX_id' if any.
- * 
- * @global type $sitepress
- * @param type $value
- * @param type $object_id
- * @param type $meta_key
- * @param type $single
- * @return type 
- */
-function wpcf_pr_meta_belongs_filter( $value, $object_id, $meta_key, $single ) {
-    // WPML
-    $value = wpcf_wpml_relationship_meta_belongs_filter( $value, $object_id,
-            $meta_key, $single );
-    return $value;
 }
 
 /**
@@ -452,32 +463,12 @@ function wpcf_relationship_ajax_data_filter( $posted, $field ) {
 }
 
 /**
- * Filters Custom Conditional Statement
- * 
- * @see /embedded/classes/conditional/evaluate.php
- * add_filter( 'get_post_metadata',
-  'wpcf_relationship_custom_statement_meta_ajax_validation_filter',
-  10, 4 );
- * @global type $wpcf
- * @param type $null
- * @param type $object_id
- * @param type $meta_key
- * @param type $single
+ * Checks if post type is parent
+ * @param type $parent_post_type
+ * @param type $child_post_type
  * @return type
  */
-function wpcf_relationship_custom_statement_meta_ajax_validation_filter( $null,
-        $object_id, $meta_key, $single ){
-
-    global $wpcf;
-
-    $null = wpcf_relationship_ajax_data_filter( $null, $meta_key );
-
-    if ( !empty( $null ) && !empty( $field ) && $field['type'] == 'date' ) {
-        $time = strtotime( $null );
-        if ( $time ) {
-            return $time;
-        }
-    }
-
-    return $null;
+function wpcf_relationship_is_parent( $parent_post_type, $child_post_type ) {
+    $has = wpcf_pr_admin_get_has( $parent_post_type );
+    return isset( $has[$child_post_type] );
 }

@@ -1,64 +1,64 @@
-<?php
-
-function wpv_admin_import_form($file_name) {
-
+<?php function wpv_admin_import_form($file_name) {
     ?>
 
-    <form name="View_import" enctype="multipart/form-data" action="" method="post">
-        <?php if ($file_name != ''): ?>
-            <h2><?php _e('Import Views and View Templates for your Theme',
-                    'wpv-views'); ?></h2>
-        <?php else: ?>
-            <h2><?php _e('Import Views and View Templates',
-                'wpv-views'); ?></h2>
-    <?php endif; ?>
+    <div class="wpv-setting-container">
 
-        <p><strong><?php _e('Settings:',
-            'wpv-views'); ?></strong></p>
-        <ul style="margin-left:10px">
-            <li>
-                <input id="checkbox-1" type="checkbox" name="views-overwrite" />
-                <label for="checkbox-1"><?php _e('Bulk overwrite if View exists',
-            'wpv-views'); ?></label>
-            </li>
-            <li>
-                <input id="checkbox-2" type="checkbox" name="views-delete" />
-                <label for="checkbox-2"><?php _e('Delete any existing Views that are not in the import',
-            'wpv-views'); ?></label>
-            </li>
-            <li>
-                <input id="checkbox-3" type="checkbox" name="view-templates-overwrite" />
-                <label for="checkbox-3"><?php _e('Bulk overwrite if View Template exists',
-            'wpv-views'); ?></label>
-            </li>
-            <li>
-                <input id="checkbox-4" type="checkbox" name="view-templates-delete" />
-                <label for="checkbox-4"><?php _e('Delete any existing View Templates that are not in the import',
-            'wpv-views'); ?></label>
-            </li>
-            <li>
-                <input id="checkbox-5" type="checkbox" name="view-settings-overwrite" />
-                <label for="checkbox-5"><?php _e('Overwrite Views settings',
-            'wpv-views'); ?></label>
-            </li>
-        </ul>
-        <label for="upload-views-file"><?php __('Select the views xml file to upload from your computer:&nbsp;',
-            'wpv-views'); ?></label>
+        <div class="wpv-settings-header">
+            <?php if ($file_name != ''): ?>
+                <h3><?php _e('Import Views and Content Templates for your Theme','wpv-views'); ?></h3>
+            <?php else: ?>
+                <h3><?php _e('Import Views and Content Templates','wpv-views'); ?></h3>
+            <?php endif; ?>
+        </div>
 
-    <?php if ($file_name != ''): ?>
-            <input type="hidden" id="upload-views-file" name="import-file" value="<?php echo $file_name; ?>" />
-    <?php else: ?>
-            <input type="file" id="upload-views-file" name="import-file" />
-    <?php endif; ?>
+        <form name="View_import" enctype="multipart/form-data" action="" method="post">
 
-        <input id="wpv-import" class="button-primary" type="submit" value="<?php _e('Import',
-            'wpv-views'); ?>" name="import" />
+            <div class="wpv-setting">
+                <h4><?php _e('Settings','wpv-views'); ?>:</h4>
+                <ul>
+                    <li>
+                        <input id="checkbox-1" type="checkbox" name="views-overwrite" />
+                        <label for="checkbox-1"><?php _e('Bulk overwrite if View exists','wpv-views'); ?></label>
+                    </li>
+                    <li>
+                        <input id="checkbox-2" type="checkbox" name="views-delete" />
+                        <label for="checkbox-2"><?php _e('Delete any existing Views that are not in the import','wpv-views'); ?></label>
+                    </li>
+                    <li>
+                        <input id="checkbox-3" type="checkbox" name="view-templates-overwrite" />
+                        <label for="checkbox-3"><?php _e('Bulk overwrite if Content Template exists', 'wpv-views'); ?></label>
+                    </li>
+                    <li>
+                        <input id="checkbox-4" type="checkbox" name="view-templates-delete" />
+                        <label for="checkbox-4"><?php _e('Delete any existing Content Templates that are not in the import','wpv-views'); ?></label>
+                    </li>
+                    <li>
+                        <input id="checkbox-5" type="checkbox" name="view-settings-overwrite" />
+                        <label for="checkbox-5"><?php _e('Overwrite Views settings','wpv-views'); ?></label>
+                    </li>
+                </ul>
 
-        <input type="hidden" name="page" value="views-import-export" />
-    <?php wp_nonce_field('wpv-import-nonce',
-            'wpv-import-nonce'); ?>
+                <h4><?php _e('Select the Views XML file to upload from your computer','wpv-views'); ?></h4>
+                <p>
+                    <label for="upload-views-file"><?php _e('Upload file','wpv-views'); ?>:</label>
+                    <?php if ($file_name != ''): ?>
+                        <input type="hidden" id="upload-views-file" name="import-file" value="<?php echo $file_name; ?>" />
+                    <?php else: ?>
+                        <input type="file" id="upload-views-file" name="import-file" />
+                    <?php endif; ?>
+                    <br>
+                    <input type="hidden" name="page" value="views-import-export" />
+                </p>
 
-    </form>
+                <p class="update-button-wrap">
+                    <input id="wpv-import" class="button-primary" type="submit" value="<?php _e('Import','wpv-views'); ?>" name="import" />
+                </p>
+
+                <?php wp_nonce_field('wpv-import-nonce','wpv-import-nonce'); ?>
+
+                </form>
+            </div>
+        </div>
 
     <?php
 }
@@ -113,7 +113,7 @@ function wpv_admin_import_data() {
             $file['size'] = filesize($file['tmp_name']);
         }
     }
-    
+
     if ( empty( $file['name'] ) ){
 	return new WP_Error('could_not_open_file', __('Could not read the Views import file.',
                                 'wpv-views'));
@@ -141,7 +141,7 @@ function wpv_admin_import_data() {
             fclose($fh);
         }
     }
-    
+
     if (!empty($data)) {
 
         if (!function_exists('simplexml_load_string')) {
@@ -156,21 +156,21 @@ function wpv_admin_import_data() {
         }
 
         $import_data = wpv_admin_import_export_simplexml2array($xml);
-        
 
-        // import view templates first.   
+
+        // import Content Templates first.
         $error = wpv_admin_import_view_templates($import_data);
         if ($error) {
             return $error;
         }
 
-        // import views next.   
+        // import views next.
         $error = wpv_admin_import_views($import_data);
         if ($error) {
             return $error;
         }
 
-        // import views next.   
+        // import views next.
         $error = wpv_admin_import_settings($import_data);
         if ($error) {
             return $error;
@@ -188,7 +188,7 @@ function wpv_admin_import_data() {
 */
 function wpv_admin_import_data_from_xmlstring($xmlstring, $items = array(), $import_type = null) {
     global $WP_Views;
-    
+
     if (!empty($xmlstring)) {
 
         if (!function_exists('simplexml_load_string')) {
@@ -203,10 +203,10 @@ function wpv_admin_import_data_from_xmlstring($xmlstring, $items = array(), $imp
         }
 
         $import_data = wpv_admin_import_export_simplexml2array($xml);
-        
+
         if ( isset( $import_type ) ) {
 
-		// import view templates
+		// import Content Templates
 		if ( 'view-templates' == $import_type )
 		{
 			$result = wpv_admin_import_view_templates($import_data, $items);
@@ -216,7 +216,7 @@ function wpv_admin_import_data_from_xmlstring($xmlstring, $items = array(), $imp
 		}
 		// import views
 		elseif ( 'views' == $import_type )
-		{  
+		{
 			$result = wpv_admin_import_views($import_data, $items);
 			if ($result) {
 			return $result;
@@ -233,7 +233,7 @@ function wpv_admin_import_data_from_xmlstring($xmlstring, $items = array(), $imp
 			);
 			return $results;
 		}
-        
+
         }
 
     } else { // empty xml string
@@ -262,18 +262,18 @@ function wpv_admin_import_view_templates($import_data, $items = array()) {
 	'errors' => array()
     );
     $newitems = array();
-    
+
     global $_wp_additional_image_sizes;
     if (!isset($_wp_additional_image_sizes) || !is_array($_wp_additional_image_sizes)) {
 		$_wp_additional_image_sizes = array();
     }
     $attached_images_sizes=array_merge(
 	// additional thumbnail sizes
-	array_keys($_wp_additional_image_sizes), 
+	array_keys($_wp_additional_image_sizes),
 	// wp default thumbnail sizes
 	array('thumbnail', 'medium', 'large')
     );
-    
+
     if (false!==$items && is_array($items))
     {
 	$import_items=array();
@@ -286,7 +286,7 @@ function wpv_admin_import_view_templates($import_data, $items = array()) {
     if (isset($import_data['view-templates']['view-template'])) {
         $view_templates = $import_data['view-templates']['view-template'];
 
-        // check for a single view template
+        // check for a single Content Template
         if (!isset($view_templates[0])) {
             $view_templates = array($view_templates);
         }
@@ -308,12 +308,17 @@ function wpv_admin_import_view_templates($import_data, $items = array()) {
 				$template_extra_js = $view_template['template_extra_js'];
 				unset($view_template['template_extra_js']);
 			}
+			$template_description = '';
+			if (isset($view_template['template_description'])) {
+				$template_description = $view_template['template_description'];
+				unset($view_template['template_description']);
+			}
 			$template_images = array();
 			if ( isset( $view_template['attachments'] ) ) {
 				$template_images = array($view_template['attachments']);
 				unset( $view_template['attachments'] );
 			}
-			
+
             $post_to_update = $wpdb->get_var($wpdb->prepare(
                             "SELECT ID FROM $wpdb->posts
                                 WHERE post_name = %s AND post_type = %s",
@@ -321,7 +326,7 @@ function wpv_admin_import_view_templates($import_data, $items = array()) {
 
             $idflag = 0;
             $id_to_import = $view_template['ID'];
-            
+
 			if ($post_to_update) {
                 $imported_view_templates[] = $post_to_update;
 
@@ -336,7 +341,7 @@ function wpv_admin_import_view_templates($import_data, $items = array()) {
                                                         'wpv-views'),
                                                 $view_template['post_name']);
 			} else { // normal import
-				return new WP_Error('could_not_update_post', sprintf(__('Failed to update view template - %s.',
+				return new WP_Error('could_not_update_post', sprintf(__('Failed to update Content Template - %s.',
                                                         'wpv-views'),
                                                 $view_template['post_name']));
 			}
@@ -346,8 +351,8 @@ function wpv_admin_import_view_templates($import_data, $items = array()) {
 		    }
                 }
             } elseif ( empty( $import_items ) || ( !empty( $import_items ) && in_array( $view_template['ID'], $import_items) ) ) {
-                // it's a new view template: create it
-                // create if array $import_items is empty (normal import) or if array is not empty and the View template is on this array (Module Manager)
+                // it's a new Content template: create it
+                // create if array $import_items is empty (normal import) or if array is not empty and the Content template is on this array (Module Manager)
                 $old_view_template_id = $view_template['ID'];
                 unset($view_template['ID']);
                 $id = wp_insert_post($view_template, true);
@@ -355,9 +360,9 @@ function wpv_admin_import_view_templates($import_data, $items = array()) {
                     // it's an WP_Error object.
                     if ( in_array( $old_view_template_id, $import_items ) ) { // if using Module Manager
 				$results['failed'] += 1;
-				$results['errors'][] = sprintf(__('Failed to create view - %s.',
+				$results['errors'][] = sprintf(__('Failed to create Content Template - %s.',
                                                         'wpv-views'),
-                                                $view['post_name']);
+                                                $view_template['post_name']);
 			} else { // normal import
 				return $id;
 			}
@@ -367,26 +372,36 @@ function wpv_admin_import_view_templates($import_data, $items = array()) {
 			$idflag = $id;
 		}
             }
-			
+
 			if ($idflag && $output_mode != '') {
-				
+
 				update_post_meta($id, '_wpv_view_template_mode', $output_mode);
-				
+
 			}
 			if ($idflag && $template_extra_css != '') {
-				
+
 				update_post_meta($id, '_wpv_view_template_extra_css', $template_extra_css);
-					
+
 			}
 			if ($idflag && $template_extra_js != '') {
-					
+
 				update_post_meta($id, '_wpv_view_template_extra_js', $template_extra_js);
-					
+
+			}
+			if ($idflag && $template_description != '') {
+
+				update_post_meta($id, '_wpv-content-template-decription', $template_description);
+
 			}
 			
+			// Register wpml-string shortcodes for translation
+			if ( $idflag && isset( $view_template['post_content'] ) ) {
+				wpv_register_wpml_strings( $view_template['post_content'] );
+			}
+
 			// Juan - add images importing
 			// https://icanlocalize.basecamphq.com/projects/7393061-wp-views/todo_items/150919286/comments
-		
+
 			if ( $idflag && !empty( $template_images ) ) {
 				$upload_dir = wp_upload_dir();
 				$upload_path = $upload_dir['basedir'];
@@ -484,7 +499,7 @@ function wpv_admin_import_view_templates($import_data, $items = array()) {
 				}
 				if ( $path_flag ) rmdir($upload_path . DIRECTORY_SEPARATOR . 'views-import-temp');
 			}
-			
+
 		if ( $idflag ) {
 		$newitems[_VIEW_TEMPLATES_MODULE_MANAGER_KEY_.$id_to_import] = _VIEW_TEMPLATES_MODULE_MANAGER_KEY_.$idflag;
 	    }
@@ -505,15 +520,15 @@ function wpv_admin_import_view_templates($import_data, $items = array()) {
         }
     }
 
-    $import_messages[] = sprintf(__('%d View Templates found in the file. %d have been created and %d have been over written.',
+    $import_messages[] = sprintf(__('%d Content Templates found in the file. %d have been created and %d have been over written.',
                     'wpv-views'), sizeof($imported_view_templates), $new_count,
             $overwrite_count);
 
     if ($deleted_count) {
-        $import_messages[] = sprintf(__('%d existing View Templates were deleted.',
+        $import_messages[] = sprintf(__('%d existing Content Templates were deleted.',
                         'wpv-views'), $deleted_count);
     }
-    
+
     $results['updated'] = $overwrite_count;
     $results['new'] = $new_count;
 
@@ -539,18 +554,18 @@ function wpv_admin_import_views($import_data, $items = array()) {
 	'errors' => array()
     );
     $newitems = array();
-    
+
     global $_wp_additional_image_sizes;
     if (!isset($_wp_additional_image_sizes) || !is_array($_wp_additional_image_sizes)) {
 		$_wp_additional_image_sizes = array();
     }
     $attached_images_sizes=array_merge(
 	// additional thumbnail sizes
-	array_keys($_wp_additional_image_sizes), 
+	array_keys($_wp_additional_image_sizes),
 	// wp default thumbnail sizes
 	array('thumbnail', 'medium', 'large')
     );
-    
+
     if (false!==$items && is_array($items))
     {
 	$import_items=array();
@@ -559,7 +574,7 @@ function wpv_admin_import_views($import_data, $items = array()) {
 		$import_items[]=str_replace(_VIEWS_MODULE_MANAGER_KEY_,'',$item);
 	}
     }
-    
+
     if (isset($import_data['views']['view'])) {
         $views = $import_data['views']['view'];
 
@@ -573,13 +588,13 @@ function wpv_admin_import_views($import_data, $items = array()) {
 
             $meta = $view['meta'];
             unset($view['meta']);
-            
+
 		$view_images = array();
 		if ( isset( $view['attachments'] ) ) {
 			$view_images = array($view['attachments']);
 			unset( $view['attachments'] );
 		}
-            
+
             // SRDJAN - https://icanlocalize.basecamphq.com/projects/7393061-wp-views/todo_items/142389966/comments
             // Fix URLs
             if (!empty($import_data['site_url']) && !empty($import_data['fileupload_url'])) {
@@ -593,7 +608,7 @@ function wpv_admin_import_views($import_data, $items = array()) {
                                 $import_data['fileupload_url']);
                     }
             }
-            
+
             // SRDJAN - fix term_ids
             // https://icanlocalize.basecamphq.com/projects/7393061-wp-views/todo_items/142382866/comments
             if (!empty($meta['_wpv_settings']['taxonomy_terms']['taxonomy_term'])) {
@@ -608,19 +623,49 @@ function wpv_admin_import_views($import_data, $items = array()) {
                     }
                 }
             }
-            
+
             if (isset($meta['_wpv_settings']['author_mode'])) {
 		$meta['_wpv_settings']['author_mode'][0] = $meta['_wpv_settings']['author_mode']['type'];
 		unset($meta['_wpv_settings']['author_mode']['type']);
+	    }
+	    if (isset($meta['_wpv_settings']['taxonomy_parent_mode'])) {
+		$meta['_wpv_settings']['taxonomy_parent_mode'][0] = $meta['_wpv_settings']['taxonomy_parent_mode']['state'];
+		unset($meta['_wpv_settings']['taxonomy_parent_mode']['state']);
+	    }
+	    if (isset($meta['_wpv_settings']['taxonomy_search_mode'])) {
+		$meta['_wpv_settings']['taxonomy_search_mode'][0] = $meta['_wpv_settings']['taxonomy_search_mode']['state'];
+		unset($meta['_wpv_settings']['taxonomy_search_mode']['state']);
+	    }
+	    if (isset($meta['_wpv_settings']['search_mode'])) {
+		$meta['_wpv_settings']['search_mode'][0] = $meta['_wpv_settings']['search_mode']['state'];
+		unset($meta['_wpv_settings']['search_mode']['state']);
+	    }
+	    if (isset($meta['_wpv_settings']['id_mode'])) {
+		$meta['_wpv_settings']['id_mode'][0] = $meta['_wpv_settings']['id_mode']['state'];
+		unset($meta['_wpv_settings']['id_mode']['state']);
+	    }
+	    if (isset($meta['_wpv_settings']['users_mode'])) {
+		$meta['_wpv_settings']['users_mode'][0] = $meta['_wpv_settings']['users_mode']['type'];
+		unset($meta['_wpv_settings']['users_mode']['type']);
 	    }
 
             if (isset($meta['_wpv_settings'])) {
                 $meta['_wpv_settings'] = $WP_Views->convert_names_to_ids_in_settings($meta['_wpv_settings']);
             }
+            if (isset($meta['_wpv_settings']['post_id_ids_list']) && !empty($meta['_wpv_settings']['post_id_ids_list'])) {
+		$conversion = $WP_Views->convert_names_to_ids_in_filters($meta['_wpv_settings']['post_id_ids_list']);
+		if (!empty($conversion['ids_lost']) && 'by_ids' == $meta['_wpv_settings']['id_mode'][0]) {
+			$not_found_names[$view['post_title']] = implode(', ', $conversion['ids_lost']);
+		}
+		$meta['_wpv_settings']['post_id_ids_list'] = $conversion['ids_list'];
+            }
+            if (isset($meta['_wpv_settings']['id_mode']) && isset($meta['_wpv_settings']['id_mode'][0]) && 'shortcode' == $meta['_wpv_settings']['id_mode'][0]) {
+		$views_with_id_shortcodes[$view['post_title']] = $view['post_title'];
+            }
             if (isset($meta['_wpv_layout_settings'])) {
                 $meta['_wpv_layout_settings'] = $WP_Views->convert_names_to_ids_in_layout_settings($meta['_wpv_layout_settings']);
             }
-            
+
             $idflag = 0;  // add flag to know if we are overwritting or creating something
             $id_to_import = $view['ID'];
 
@@ -659,9 +704,16 @@ function wpv_admin_import_views($import_data, $items = array()) {
                         update_post_meta($id, '_wpv_layout_settings',
                                 $meta['_wpv_layout_settings']);
                     }
-                    
+                    if (isset($meta['_wpv_description'])) {
+                        update_post_meta($id, '_wpv_description',
+                                $meta['_wpv_description']);
+                    }
+
                     do_action('wpv_view_imported', $old_view_id, $id);
                     }
+                } else {
+			if (isset($not_found_names) && isset($not_found_names[$view['post_title']])) unset($not_found_names[$view['post_title']]);
+			if (isset($views_with_id_shortcodes) && isset($views_with_id_shortcodes[$view['post_title']])) unset($views_with_id_shortcodes[$view['post_title']]);
                 }
             } elseif ( empty( $import_items ) || ( !empty( $import_items ) && in_array( $view['ID'], $import_items) ) ) {
                 // it's a new view: create it
@@ -692,13 +744,31 @@ function wpv_admin_import_views($import_data, $items = array()) {
                     update_post_meta($id, '_wpv_layout_settings',
                             $meta['_wpv_layout_settings']);
                 }
+                if (isset($meta['_wpv_description'])) {
+			update_post_meta($id, '_wpv_description',
+				$meta['_wpv_description']);
+		}
                 do_action('wpv_view_imported', $old_view_id, $id);
                 }
             }
-            
+		
+		// Register wpml-string shortcodes for translation
+		if ( $idflag ) {
+			if ( isset( $view['post_content'] ) ) {
+				wpv_register_wpml_strings( $view['post_content'] );
+			}
+			if ( isset( $meta['_wpv_settings'] ) && isset( $meta['_wpv_settings']['filter_meta_html'] ) ) {
+				wpv_add_controls_labels_to_translation( $meta['_wpv_settings']['filter_meta_html'], $idflag );
+				wpv_register_wpml_strings( $meta['_wpv_settings']['filter_meta_html'] );
+			}
+			if ( isset( $meta['_wpv_layout_settings'] ) && isset( $meta['_wpv_layout_settings']['layout_meta_html'] ) ) {
+				wpv_register_wpml_strings( $meta['_wpv_layout_settings']['layout_meta_html'] );
+			}
+		}
+
 		// Juan - add images importing
 		// https://icanlocalize.basecamphq.com/projects/7393061-wp-views/todo_items/150919286/comments
-            
+
 	    if ( $idflag && !empty( $view_images ) ) {
 		$upload_dir = wp_upload_dir();
 		$upload_path = $upload_dir['basedir'];
@@ -857,11 +927,11 @@ function wpv_admin_import_views($import_data, $items = array()) {
 		}
 		if ( $path_flag ) rmdir($upload_path . DIRECTORY_SEPARATOR . 'views-import-temp');
 	    }
-	    
+
 	    if ( $idflag ) {
 		$newitems[_VIEWS_MODULE_MANAGER_KEY_. $id_to_import] = _VIEWS_MODULE_MANAGER_KEY_.$idflag;
 	    }
-            
+
         }
     }
 
@@ -886,10 +956,19 @@ function wpv_admin_import_views($import_data, $items = array()) {
         $import_messages[] = sprintf(__('%d existing Views were deleted.',
                         'wpv-views'), $deleted_count);
     }
-    
+
+    if (isset($not_found_names) && !empty($not_found_names)) {
+	$view_names = implode(', ', array_keys($not_found_names));
+	$import_messages[] = __('This Views have filters by IDs that were not correctly imported because they filter by posts that do not exist. Please review them: ', 'wpv-views') . '<strong>' . $view_names . '</strong>';
+    }
+    if (isset($views_with_id_shortcodes) && !empty($views_with_id_shortcodes)) {
+	$view_names = implode(', ', array_keys($views_with_id_shortcodes));
+	$import_messages[] = __('This Views filter by post IDs using a shortcode attribute. You may need to modify the Views shortcodes if post IDs have changed during import: ', 'wpv-views') . '<strong>' . $view_names . '</strong>';
+    }
+
     $results['updated'] = $overwrite_count;
     $results['new'] = $new_count;
-    
+
 	if ( empty( $import_items ) ) { // normal import
 		return false; // no errors
 	} else { // Module Manager import
@@ -916,7 +995,7 @@ function wpv_admin_import_settings($data) {
                 if (strpos($option_name, 'view_') === 0
                         || strpos($option_name, 'views_template_') === 0) {
                     $post_type = strpos($option_name, 'view_') === 0 ? 'view' : 'view-template';
-                    
+
                     if ($option_value) {
 						$post_id = $wpdb->get_var($wpdb->prepare(
                                     "SELECT ID FROM $wpdb->posts
@@ -925,7 +1004,7 @@ function wpv_admin_import_settings($data) {
 					} else {
 						$post_id = 0;
 					}
-                    
+
                     if ($post_id) {
                         $options[$option_name] = $post_id;
                     } else {
@@ -966,9 +1045,9 @@ function wpv_import_messages() {
 
 /**
  * Loops over elements and convert to array or empty string.
- * 
+ *
  * @param type $element
- * @return string 
+ * @return string
  */
 function wpv_admin_import_export_simplexml2array($element) {
     $element = is_string($element) ? trim($element) : $element;
@@ -982,6 +1061,8 @@ function wpv_admin_import_export_simplexml2array($element) {
         $element = '';
     } else if (is_array($element)) {
         foreach ($element as $k => $v) {
+            $k = str_replace('___032___', ' ', $k); // unencode spaces
+
             $v = is_string($v) ? trim($v) : $v;
             if (!is_array($v) && strval($v) == '0') {
                 $element[$k] = 0;
@@ -1011,11 +1092,11 @@ function wpv_admin_import_export_simplexml2array($element) {
 
 /**
  * Converts URLs.
- * 
+ *
  * @param type $url
  * @param type $site_url
  * @param type $upload_url
- * @return type 
+ * @return type
  */
 function wpv_convert_url($url, $site_url, $upload_url) {
     // Check if uploaded files URL or other URL

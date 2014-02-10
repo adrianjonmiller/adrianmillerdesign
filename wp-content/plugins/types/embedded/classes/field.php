@@ -97,7 +97,7 @@ class WPCF_Field
     var $use_cache = true;
 
     /**
-     * Cache.
+     * Cache.DEPRECATED
      * 
      * @var type 
      */
@@ -134,19 +134,8 @@ class WPCF_Field
     var $unique_id = '';
 
     function __construct( $config = array() ) {
-
         // Parse args
         extract( wp_parse_args( (array) $config, $this->config ) );
-
-        // Config
-        if ( !empty( $use_form ) ) {
-            require_once WPCF_EMBEDDED_ABSPATH . '/classes/forms.php';
-            $this->form = new Enlimbo_Forms_Wpcf();
-        }
-
-        // Fields
-        $this->__fields_object = new WPCF_Fields();
-        $this->fields = $this->__fields_object->fields->all;
     }
 
     /**
@@ -164,15 +153,20 @@ class WPCF_Field
          * Check if $cf is string
          */
         if ( is_string( $cf ) ) {
-            if ( isset( $this->fields[$this->__get_slug_no_prefix( $cf )] ) ) {
-                $cf = $this->fields[$this->__get_slug_no_prefix( $cf )];
-            } else {
+            WPCF_Loader::loadInclude( 'fields' );
+            $_cf = wpcf_admin_fields_get_field( $this->__get_slug_no_prefix( $cf ) );
+            // Check if found without prefix
+            if ( empty( $_cf ) ) {
+                $_cf = wpcf_admin_fields_get_field( $cf );
+            }
+            if ( empty( $_cf ) ) {
                 /*
                  * TODO Check what happens if field is not found
                  */
                 $this->_reset();
                 return false;
             }
+            $cf = $_cf;
         }
 
         $this->post = is_integer( $post ) ? get_post( $post ) : $post;
@@ -241,24 +235,47 @@ class WPCF_Field
      * 
      * @global type $wpdb 
      */
-    function _get_meta( $check_post = false ) {
+    function _get_meta() {
         global $wpdb;
 
         $cache_key = md5( 'field::_get_meta' . $this->post->ID . $this->slug );
-        if ( $this->use_cache && isset( $this->cache[$cache_key] ) ) {
-            $r = $this->cache[$cache_key];
-        } else {
-            // Get straight from DB single value
+        $cache_group = 'types_cache';
+        $cached_object = wp_cache_get( $cache_key, $cache_group );
+        if ( $this->use_cache ) {
+			if ( false != $cached_object && is_array( $cached_object ) && isset( $cached_object[0] ) ) {// WordPress cache
+				$r = $cached_object[0];
+			} else {
+				// Cache all the postmeta for this same post
+				$all_postmeta = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->postmeta} WHERE post_id=%d", $this->post->ID), OBJECT );
+				if ( !empty( $all_postmeta ) ) {
+					$cache_key_keys = array();
+					foreach ( $all_postmeta as $metarow ) {
+						$mpid = intval($metarow->post_id);
+						$mkey = $metarow->meta_key;
+						$cache_key_keys[$mpid . $mkey][] = $metarow;
+						$cache_key_looped = md5( 'field::_get_meta' . $mpid . $mkey );
+						if ( $mkey == $this->slug ) {
+							$r = $metarow;
+						}
+					}
+					foreach ( $cache_key_keys as $single_meta_keys => $single_meta_values ) {
+						$cache_key_looped_new = md5( 'field::_get_meta' . $single_meta_keys );
+						wp_cache_add( $cache_key_looped_new, $single_meta_values, $cache_group );// WordPress cache
+					}
+				}
+			}
+		} else {
+			// If not using cache, get straight from DB single value
             $r = $wpdb->get_row(
                     $wpdb->prepare(
                             "SELECT * FROM $wpdb->postmeta
-                WHERE post_id=%d
-                AND meta_key=%s",
+							WHERE post_id=%d
+							AND meta_key=%s",
                             $this->post->ID, $this->slug )
             );
             // Cache it
-            $this->cache[$cache_key] = $r;
-        }
+            wp_cache_add( $cache_key, array( $r ), $cache_group );// WordPress cache
+		}
 
         // Sort meta
         $meta = array();
@@ -273,11 +290,6 @@ class WPCF_Field
             $this->meta_object->meta_value = null;
         }
 
-        // If forced $_POST
-        if ( $check_post ) {
-            $meta = $this->get_submitted_data();
-        }
-
         /*
          * Secret public object :)
          * Keeps original data
@@ -285,10 +297,7 @@ class WPCF_Field
         $this->__meta = $meta;
 
         /*
-         * 
          * Apply filters
-         * !!! IMPORTANT !!!
-         * TODO Make this only place where field meta value is filtered
          */
         $meta = apply_filters( 'wpcf_fields_value_get', $meta, $this );
         $meta = apply_filters( 'wpcf_fields_slug_' . $this->cf['slug']
@@ -314,7 +323,8 @@ class WPCF_Field
      * Save field.
      * 
      * If $value is empty, $_POST will be checked.
-     * Since Types 1.2 we do not save fields if empty.
+     * 1.3.2 Reverted saving empty fields
+     * removed - if ( !empty( $value ) || is_numeric( $value ) ) {
      * 
      * @param type $value 
      */
@@ -333,33 +343,28 @@ class WPCF_Field
          * It has no impact on frontend and covers a lot of cases
          * (e.g. user change mode from single to repetitive)
          */
+        do_action('wpcf_postmeta_before_delete', $this->post, $this->cf);
         delete_post_meta( $this->post->ID, $this->slug );
+        do_action('wpcf_postmeta_after_delete', $this->post, $this->cf);
 
-        // Save
-        if ( !empty( $value ) || is_numeric( $value ) ) {
-
-            // Trim
-            if ( is_string( $value ) ) {
-                $value = trim( $value );
-            }
-
-            // Apply filters
-            $_value = $this->_filter_save_value( $value );
-
-            if ( !empty( $_value ) || is_numeric( $_value ) ) {
-
-                // Save field
-                $mid = add_post_meta( $this->post->ID, $this->slug, $_value );
-
-                // CAll HOOKS
-                /*
-                 * 
-                 * Use these hooks to add future functionality.
-                 * Do not add any more code to core.
-                 */
-                $this->_action_save( $this->cf, $_value, $mid, $value );
-            }
+        // Trim
+        if ( is_string( $value ) ) {
+            $value = trim( $value );
         }
+
+        // Apply filters
+        $_value = $this->_filter_save_value( $value );
+
+        // Save field
+        $mid = add_post_meta( $this->post->ID, $this->slug, $_value );
+
+        // CAll HOOKS
+        /*
+         * 
+         * Use these hooks to add future functionality.
+         * Do not add any more code to core.
+         */
+        $this->_action_save( $this->cf, $_value, $mid, $value );
     }
 
     /**
@@ -558,6 +563,11 @@ class WPCF_Field
                     $element['#title'] = wpcf_translate( 'field '
                             . $this->cf['id'] . ' name', $_title );
 
+                    // Add asterisk for required fields
+                    if ( isset( $this->cf['data']['validate']['required'] ) ) {
+                        $element['#title'] .= '&#42;';
+                    }
+
                     $_description = isset( $element['#description'] ) ? $element['#description'] : $this->cf['description'];
                     $element['#description'] = wpautop( wpcf_translate( 'field '
                                     . $this->cf['id'] . ' description',
@@ -672,15 +682,9 @@ class WPCF_Field
         } else {
             $html = htmlspecialchars( $html );
         }
-        /*
-         * 
-         * Process shortcodes
-         * 
-         * Wachout for remove_shortcode('types');
-         * TODO Loop possible?
-         */
-        $shortcode = do_shortcode( $html );
-        $html = htmlspecialchars_decode( stripslashes( $shortcode ) );
+        // Process shortcodes too
+//        $shortcode = do_shortcode( $html );
+        $html = do_shortcode( htmlspecialchars_decode( stripslashes( $html ) ) );
 
         return $html;
     }
@@ -696,17 +700,18 @@ class WPCF_Field
          * We force checking our meta prefix
          */
         $key = $this->__get_slug_no_prefix( $field_key );
-        return !empty( $this->fields[$key] );
+        return WPCF_Fields::isUnderControl( $key );
     }
 
     /**
      * Return slug.
      * 
-     * @param type $field_key
+     * @param type $meta_key
      * @return type
      */
-    function __get_slug_no_prefix( $field_key ) {
-        return str_replace( WPCF_META_PREFIX, '', $field_key );
+    function __get_slug_no_prefix( $meta_key ) {
+        return strpos( $meta_key, WPCF_META_PREFIX ) === 0 ? substr( $meta_key,
+                        strlen( WPCF_META_PREFIX ) ) : $meta_key;
     }
 
     /**
@@ -724,7 +729,8 @@ class WPCF_Field
      * @return type
      */
     function alter_form_name( $prefix, $name ) {
-        $temp = array_pop( explode( '[', $name ) );
+        $temp = explode( '[', $name );
+        $temp = array_pop( $temp );
         $__name = trim( strval( $temp ), ']' );
         /*
          * This means form is single-valued

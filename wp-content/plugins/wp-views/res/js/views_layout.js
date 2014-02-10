@@ -73,7 +73,7 @@ function wpv_update_layout_rows() {
 		
 		var next_input = 2;
         if (Field_controls.children('div').length !== 0) {
-			// This is the select box for View template or views.
+			// This is the select box for Content template or views.
 			var id = Field_controls.children('div').attr('id');
 			id = id.substring(0, id.lastIndexOf('_') + 1);
             Field_controls.children('div').attr('id', id + row);
@@ -111,41 +111,35 @@ function on_add_field_wpv(menu, name, text) {
     var view_template = '';
     var view = '';
     var title = name;
-    var localized_title = title;
 	var types_field_name = '';
 	var types_field_data = '';
 
-    if (menu == 'View template') {
+    if (menu == 'Content template') {
         view_template = text;
         menu = '';
         name = 'Body';
         title = name;
-	localized_title = title;
     } else if (menu == wpv_taxonomy_view_text || menu == wpv_post_view_text) {
 		// This is for adding another View to a Taxonomy View
         view = text;
         name = wpv_taxonomy_view_text;
         menu = '';
         title = wpv_taxonomy_view_text;
-	localized_title = wpv_taxonomy_view_localized_text;
     } else if (menu == 'Child View') {
 		// This is for adding another View to a Post View
         view = text;
         name = wpv_post_view_text;
         menu = '';
         title = wpv_post_view_text;
-	localized_title = wpv_post_view_localized_text;
     } 
     // for taxonomies, add the necessary shortcode parts 
     else if(menu.indexOf(wpv_add_taxonomy_text +'-!-') == 0) {
-    	name = 'wpv-taxonomy type="' + name + '" separator=", " format="link" show="name"';
-	localized_title = title;
+    	name = 'wpv-taxonomy type="' + name + '" separator=", " format="link" show="name"'; 
     }
 	else if(menu.indexOf('Types-!-Complete-!-') == 0) {
 		m = text.match(/&quot;(.*?)&quot;/);
 		mfix = m[0].replace("&quot;", "").replace("&quot;", "");
 		title = 'Types - ' + mfix;
-		localized_title = title;
 		types_field_name = name;
 		types_field_data = text;
 		text = name;
@@ -154,17 +148,11 @@ function on_add_field_wpv(menu, name, text) {
     else if(menu.indexOf('Types-!-') == 0) {
         title = 'Types - ' + name;
         name = title;
-	localized_title = title;
-    }
-    else if(menu == 'Taxonomy') {
-	    localized_title = wpv_add_taxonomy_localized_text + ' - ' + name;
-	    name = menu + ' - ' + name;
-	    title = name;
     }
     else if (menu != '') {
         name = menu.split('-!')[0] + ' - ' + name;
         title = name;
-	localized_title = title;
+        
     }
     
  
@@ -186,7 +174,7 @@ function on_add_field_wpv(menu, name, text) {
     td += '<td width="120px"><input class="wpv_field_prefix" id="wpv_field_prefix_' + temp_index + '" type="text" value="" name="_wpv_layout_settings[fields][prefix_' + temp_index + ']" width="100%"></td>';
     td += '<td width="76px">';
 	
-	td += '<span id="wpv_field_name_' + temp_index + '"data-key="' + title + '">' + localized_title + '</span>';
+	td += '<span id="wpv_field_name_' + temp_index + '">' + title + '</span>';
 	td += '<input id="wpv_field_name_hidden_' + temp_index + '" type="hidden" value="' + name + '" name="_wpv_layout_settings[fields][name_' + temp_index + ']" >';
 	td += '<input id="wpv_types_field_name_hidden_' + temp_index + '" type="hidden" value="' + types_field_name + '" name="_wpv_layout_settings[fields][types_field_name_' + temp_index + ']" >';
 	td += '<input id="wpv_types_field_data_hidden_' + temp_index + '" type="hidden" value="' + types_field_data + '" name="_wpv_layout_settings[fields][types_field_data_' + temp_index + ']" >';
@@ -225,7 +213,7 @@ function on_add_field_wpv(menu, name, text) {
     show_view_and_view_template_controls();
     
     if (view_template != '') {
-        // We're adding a view template. Select in the drop down.
+        // We're adding a Content template. Select in the drop down.
         select_view_template_in_dropdown(temp_index, view_template);
     }
 
@@ -294,8 +282,7 @@ function on_generate_wpv_layout(force) {
     var add_index = 0;
     var add_type = 0;
     while (jQuery('#wpv_field_row_' + temp_index).length != 0) {
-    //    field_type = jQuery('#wpv_field_name_' + temp_index).html();
-    field_type = jQuery('#wpv_field_name_' + temp_index).data('key');
+        field_type = jQuery('#wpv_field_name_' + temp_index).html();
         if (field_type.indexOf(wpv_field_text) == 0) {
             add_type = 'custom';
             // a custom field
@@ -347,16 +334,16 @@ function on_generate_wpv_layout(force) {
                         var selected = jQuery('select[name="taxonomy_view_' + temp_index + '"]').val();
                         selected = jQuery('#taxonomy_view_' + temp_index + ' option[value="' + selected + '"]').text();
                         // remove the " - Post View" or " - Taxonomy View" from the selection.
-			selected = selected.replace(' - ' + wpv_taxonomy_view_localized_text, '');
-			selected = selected.replace(' - ' + wpv_post_view_localized_text, '');
+                        selected = selected.replace(' - ' + wpv_taxonomy_view_text, '');
+                        selected = selected.replace(' - ' + wpv_post_view_text, '');
                         field_type = '[wpv-view name="' + selected + '"]';
                     } else if (wpv_shortcodes[i][1] == wpv_layout_constants.WPV_POST_VIEW) {
                         add_type = 'posts';
                         var selected = jQuery('select[name="post_view_' + temp_index + '"]').val();
                         selected = jQuery('#post_view_' + temp_index + ' option[value="' + selected + '"]').text();
                         // remove the " - Post View" or " - Taxonomy View" from the selection.
-			selected = selected.replace(' - ' + wpv_taxonomy_view_localized_text, '');
-			selected = selected.replace(' - ' + wpv_post_view_localized_text, '');
+                        selected = selected.replace(' - ' + wpv_taxonomy_view_text, '');
+                        selected = selected.replace(' - ' + wpv_post_view_text, '');
                         field_type = '[wpv-view name="' + selected + '"]';
                     } else {
                         field_type = '[' + wpv_shortcodes[i][1] + ']';
@@ -489,7 +476,6 @@ function add_wpv_layout_data_to_content(c, data) {
 }
 
 function wpv_render_unformatted_layout(fields) {
-    
     var body = "";
     for ( var i = 0; i < fields.length; i++ ) {
         body += fields[i][0];
@@ -532,7 +518,7 @@ function wpv_render_table_layout(fields, cols) {
 }
 
 function wpv_render_table_of_fields_layout(fields) {
-    
+    console.log(fields);
     var output = "   <table width=\"100%\">\n";
 
     if (jQuery('#_wpv_layout_include_field_names').attr('checked')) {
@@ -682,11 +668,6 @@ jQuery(document).ready(function($){
     jQuery('.taxonomy_view_select').change(function() {
         on_generate_wpv_layout(false);
 		show_view_changed_message();
-    });
-    
-    jQuery('.post_view_select').change(function() {
-	    on_generate_wpv_layout(false);
-	    show_view_changed_message();
     });
     
     jQuery('.wpv_field_suffix').focusout(function() {

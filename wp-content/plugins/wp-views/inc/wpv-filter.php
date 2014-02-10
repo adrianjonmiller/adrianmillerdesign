@@ -50,6 +50,8 @@ function wpv_filter_add_js() {
     wp_enqueue_script( 'views-filter-meta-html-script' , WPV_URL . '/res/js/views_filter_meta_html.js', array(), WPV_VERSION);
     wp_enqueue_script( 'views-filter-post-relationship-script' , WPV_URL . '/res/js/views_filter_post_relationship.js', array(), WPV_VERSION);
     wp_enqueue_script( 'views-filter-author-script' , WPV_URL . '/res/js/views_filter_author.js', array(), WPV_VERSION);
+	wp_enqueue_script( 'views-filter-users-script' , WPV_URL . '/res/js/views_filter_users.js', array(), WPV_VERSION);
+	wp_enqueue_script( 'views-filter-id-script' , WPV_URL . '/res/js/views_filter_id.js', array(), WPV_VERSION);
     wp_enqueue_script( 'views-insert-controls-script' , WPV_URL . '/res/js/views_insert_controls.js', array(), WPV_VERSION);
     wp_enqueue_script( 'views-filter-controls-script' , WPV_URL . '/res/js/views_filter_controls.js', array(), WPV_VERSION);
 }
