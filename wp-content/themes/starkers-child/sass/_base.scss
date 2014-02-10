@@ -1,7 +1,4 @@
 @import "compass/css3/box-sizing";
-@import "html5-boilerplate";
-
-@include html5-boilerplate;
 
 @mixin clearfix() {
 	
@@ -100,7 +97,7 @@ header, #main, footer {
 	}
 }
 
-@mixin container-width($media-full: 1280px, $media-screen: 920px, $media-tablet: 720px, $media-mobile: 360px) {
+@mixin container-width($media-full: 1280px, $media-screen: 1024px, $media-tablet: 720px, $media-mobile: 360px) {
 	
 	@media screen and (min-width: $media-mobile)  {
 		.mobile-half {

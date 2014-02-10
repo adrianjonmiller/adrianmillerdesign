@@ -45,7 +45,7 @@ function starkers_script_enqueuer() {
 		wp_register_script( 'fittext', get_stylesheet_directory_uri().'/js/vendors/jquery.fittext.js', array( 'jquery' ), false, true );
 		wp_enqueue_script( 'fittext' );
 		
-		wp_register_script( 'inview', get_template_directory_uri().'/js/vendors/jquery.inview.min.js', array( 'jquery' ), false, true );
+		wp_register_script( 'inview', get_stylesheet_directory_uri().'/js/vendors/jquery.inview.min.js', array( 'jquery' ), false, true );
 		wp_enqueue_script( 'inview' );
 
         wp_register_script( 'waypoints', get_stylesheet_directory_uri().'/js/vendors/waypoints.min.js', array( 'jquery' ), false, true );
