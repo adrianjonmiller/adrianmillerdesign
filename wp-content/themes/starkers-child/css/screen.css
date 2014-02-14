@@ -478,11 +478,17 @@ nav.menu-primary-container ul#menu li:hover ul.sub-menu {
   background-position: 50% 0;
 }
 
-/* line 279, ../sass/screen.scss */
+/* line 276, ../sass/screen.scss */
+.module > ul {
+  list-style-image: url(../img/fleur.png);
+  margin-left: 26px;
+}
+
+/* line 285, ../sass/screen.scss */
 #Welcome .thumbnail-gallery {
   list-style: none;
 }
-/* line 291, ../sass/screen.scss */
+/* line 293, ../sass/screen.scss */
 #Welcome h2 {
   margin: 0;
   font-weight: 100;
@@ -490,18 +496,18 @@ nav.menu-primary-container ul#menu li:hover ul.sub-menu {
   line-height: 275px;
   text-shadow: 0 2px #fff;
 }
-/* line 299, ../sass/screen.scss */
+/* line 301, ../sass/screen.scss */
 #Welcome h3, #Welcome #qod-quote {
   font-weight: 100;
   font-size: 4.92308em;
   line-height: 1.125em;
 }
-/* line 304, ../sass/screen.scss */
+/* line 306, ../sass/screen.scss */
 #Welcome h4 {
   display: none;
   visibility: hidden;
 }
-/* line 309, ../sass/screen.scss */
+/* line 311, ../sass/screen.scss */
 #Welcome h5 {
   font-size: 1.5em;
   line-height: 1.23077em;
@@ -509,33 +515,33 @@ nav.menu-primary-container ul#menu li:hover ul.sub-menu {
   margin: .25em 0;
   font-weight: 300;
 }
-/* line 315, ../sass/screen.scss */
+/* line 317, ../sass/screen.scss */
 #Welcome h5 a {
   text-decoration: none;
 }
-/* line 318, ../sass/screen.scss */
+/* line 320, ../sass/screen.scss */
 #Welcome h5 a:hover {
   text-decoration: underline;
 }
-/* line 324, ../sass/screen.scss */
+/* line 326, ../sass/screen.scss */
 #Welcome blockquote {
   margin: 0;
 }
-/* line 328, ../sass/screen.scss */
+/* line 330, ../sass/screen.scss */
 #Welcome #qod-quote {
   font-weight: 300;
   font-size: 2.2em;
   line-height: 1.67832em;
 }
-/* line 336, ../sass/screen.scss */
+/* line 338, ../sass/screen.scss */
 #Welcome #qod-quote .qod-text {
   margin: 0;
 }
-/* line 340, ../sass/screen.scss */
+/* line 342, ../sass/screen.scss */
 #Welcome #qod-quote .qod-author {
   margin: .5em 0 0;
 }
-/* line 343, ../sass/screen.scss */
+/* line 345, ../sass/screen.scss */
 #Welcome #qod-quote .qod-author a {
   font-family: "kepler-std-semicondensed-dis", serif;
   font-style: italic;
@@ -543,24 +549,24 @@ nav.menu-primary-container ul#menu li:hover ul.sub-menu {
   line-height: 2.30769em;
   text-decoration: none;
 }
-/* line 349, ../sass/screen.scss */
+/* line 351, ../sass/screen.scss */
 #Welcome #qod-quote .qod-author a:hover {
   text-decoration: underline;
 }
 
-/* line 362, ../sass/screen.scss */
+/* line 364, ../sass/screen.scss */
 #Portfolio .slides .slide {
   position: relative;
   overflow: hidden;
   max-height: 450px;
 }
-/* line 366, ../sass/screen.scss */
+/* line 368, ../sass/screen.scss */
 #Portfolio .slides .slide img {
   min-height: 100%;
   min-width: 100%;
   display: block;
 }
-/* line 371, ../sass/screen.scss */
+/* line 373, ../sass/screen.scss */
 #Portfolio .slides .slide .project-description {
   width: 100%;
   height: 100%;
@@ -573,27 +579,27 @@ nav.menu-primary-container ul#menu li:hover ul.sub-menu {
   opacity: 0;
   text-decoration: none;
 }
-/* line 383, ../sass/screen.scss */
+/* line 385, ../sass/screen.scss */
 #Portfolio .slides .slide:hover .project-description {
   opacity: 1;
 }
-/* line 384, ../sass/screen.scss */
+/* line 386, ../sass/screen.scss */
 #Portfolio .slides .slide .slide-title {
   font-size: 20px;
   font-weight: 600;
 }
-/* line 390, ../sass/screen.scss */
+/* line 392, ../sass/screen.scss */
 #Portfolio .flex-direction-nav {
   width: 100%;
   position: absolute;
   top: 50%;
   list-style: none;
 }
-/* line 396, ../sass/screen.scss */
+/* line 398, ../sass/screen.scss */
 #Portfolio .flex-direction-nav li {
   list-style: none;
 }
-/* line 398, ../sass/screen.scss */
+/* line 400, ../sass/screen.scss */
 #Portfolio .flex-direction-nav li .flex-prev, #Portfolio .flex-direction-nav li .flex-next {
   width: 60px;
   height: 60px;
@@ -609,21 +615,21 @@ nav.menu-primary-container ul#menu li:hover ul.sub-menu {
   left: -70px;
   opacity: .6;
 }
-/* line 412, ../sass/screen.scss */
+/* line 414, ../sass/screen.scss */
 #Portfolio .flex-direction-nav li .flex-prev:hover, #Portfolio .flex-direction-nav li .flex-next:hover {
   opacity: 1;
 }
-/* line 416, ../sass/screen.scss */
+/* line 418, ../sass/screen.scss */
 #Portfolio .flex-direction-nav li .flex-next {
   background-position: -60px 0;
   right: -70px;
   left: auto;
 }
-/* line 423, ../sass/screen.scss */
+/* line 425, ../sass/screen.scss */
 #Portfolio .flex-control-paging {
   padding: 26px 0;
 }
-/* line 426, ../sass/screen.scss */
+/* line 428, ../sass/screen.scss */
 #Portfolio .flex-control-paging > li {
   float: left;
   padding: 5px;
@@ -637,7 +643,7 @@ nav.menu-primary-container ul#menu li:hover ul.sub-menu {
   position: relative;
   margin-right: 5px;
 }
-/* line 440, ../sass/screen.scss */
+/* line 442, ../sass/screen.scss */
 #Portfolio .flex-control-paging > li > a {
   text-indent: -9999em;
   display: block;
@@ -649,16 +655,16 @@ nav.menu-primary-container ul#menu li:hover ul.sub-menu {
   top: 3px;
   left: 4px;
 }
-/* line 451, ../sass/screen.scss */
+/* line 453, ../sass/screen.scss */
 #Portfolio .flex-control-paging > li > a.flex-active {
   background-color: white;
 }
 
-/* line 462, ../sass/screen.scss */
+/* line 464, ../sass/screen.scss */
 #Process .col-1-3:last-of-type h4::after {
   display: none;
 }
-/* line 467, ../sass/screen.scss */
+/* line 469, ../sass/screen.scss */
 #Process h4 {
   display: block;
   width: 200px;
@@ -673,11 +679,11 @@ nav.menu-primary-container ul#menu li:hover ul.sub-menu {
   font-size: 1.5em;
   line-height: 1.23077em;
 }
-/* line 479, ../sass/screen.scss */
+/* line 481, ../sass/screen.scss */
 #Process h4:hover {
   color: white;
 }
-/* line 483, ../sass/screen.scss */
+/* line 485, ../sass/screen.scss */
 #Process h4:after {
   display: block;
   content: '';
@@ -690,12 +696,12 @@ nav.menu-primary-container ul#menu li:hover ul.sub-menu {
   margin-top: -16px;
 }
 @media screen and (max-width: 480px) {
-  /* line 483, ../sass/screen.scss */
+  /* line 485, ../sass/screen.scss */
   #Process h4:after {
     display: none;
   }
 }
-/* line 499, ../sass/screen.scss */
+/* line 501, ../sass/screen.scss */
 #Process h4 span {
   position: absolute;
   top: 40%;
@@ -711,39 +717,39 @@ nav.menu-primary-container ul#menu li:hover ul.sub-menu {
   font-smooth: always;
   letter-spacing: .03em;
 }
-/* line 515, ../sass/screen.scss */
+/* line 517, ../sass/screen.scss */
 #Process h4:hover {
   background: #8b0f04;
   color: black;
   cursor: pointer;
 }
 
-/* line 524, ../sass/screen.scss */
+/* line 526, ../sass/screen.scss */
 #About h4 {
   display: none;
   visibility: hidden;
 }
-/* line 530, ../sass/screen.scss */
+/* line 532, ../sass/screen.scss */
 #About .linkedin-experience h2, #About .linkedin-experience h3, #About .linkedin-experience #Welcome #qod-quote, #Welcome #About .linkedin-experience #qod-quote, #About .linkedin-education h2, #About .linkedin-education h3, #About .linkedin-education #Welcome #qod-quote, #Welcome #About .linkedin-education #qod-quote {
   font-size: 1.2em;
   line-height: 1.53846em;
   font-weight: 300;
 }
-/* line 535, ../sass/screen.scss */
+/* line 537, ../sass/screen.scss */
 #About .linkedin-experience .position, #About .linkedin-education .position {
   margin-bottom: 26px;
 }
-/* line 539, ../sass/screen.scss */
+/* line 541, ../sass/screen.scss */
 #About .linkedin-experience .organization-details, #About .linkedin-education .organization-details {
   display: none;
 }
 
-/* line 547, ../sass/screen.scss */
+/* line 549, ../sass/screen.scss */
 #Contact h4 {
   display: none;
   visibility: hidden;
 }
-/* line 552, ../sass/screen.scss */
+/* line 554, ../sass/screen.scss */
 #Contact ul.social-media-links {
   list-style: none;
   margin: 0;
@@ -761,14 +767,14 @@ nav.menu-primary-container ul#menu li:hover ul.sub-menu {
 #Contact ul.social-media-links:after {
   clear: both;
 }
-/* line 559, ../sass/screen.scss */
+/* line 561, ../sass/screen.scss */
 #Contact ul.social-media-links li.social-media-link {
   list-style: none;
   padding-right: 26px;
   float: left;
   margin: 0;
 }
-/* line 565, ../sass/screen.scss */
+/* line 567, ../sass/screen.scss */
 #Contact ul.social-media-links li.social-media-link a {
   display: block;
   text-indent: -999em;
@@ -776,11 +782,11 @@ nav.menu-primary-container ul#menu li:hover ul.sub-menu {
   color: #999;
   text-decoration: none;
 }
-/* line 573, ../sass/screen.scss */
+/* line 575, ../sass/screen.scss */
 #Contact ul.social-media-links li.social-media-link a:hover {
   color: #666;
 }
-/* line 577, ../sass/screen.scss */
+/* line 579, ../sass/screen.scss */
 #Contact ul.social-media-links li.social-media-link a:after {
   font-family: 'socialicoregular', sans-serif;
   text-indent: 0;
@@ -789,20 +795,20 @@ nav.menu-primary-container ul#menu li:hover ul.sub-menu {
   font-size: 6.15385em;
   line-height: 1.2em;
 }
-/* line 586, ../sass/screen.scss */
+/* line 588, ../sass/screen.scss */
 #Contact ul.social-media-links li.social-media-link a#twitter:after {
   content: "l";
 }
-/* line 590, ../sass/screen.scss */
+/* line 592, ../sass/screen.scss */
 #Contact ul.social-media-links li.social-media-link a#behance:after {
   content: "e";
 }
-/* line 594, ../sass/screen.scss */
+/* line 596, ../sass/screen.scss */
 #Contact ul.social-media-links li.social-media-link a#linkedin:after {
   content: "i";
 }
 
-/* line 602, ../sass/screen.scss */
+/* line 604, ../sass/screen.scss */
 #loader {
   background: black;
   background: rgba(0, 0, 0, 0.85);
@@ -816,7 +822,7 @@ nav.menu-primary-container ul#menu li:hover ul.sub-menu {
   overflow: auto;
   padding-top: 60px;
 }
-/* line 615, ../sass/screen.scss */
+/* line 617, ../sass/screen.scss */
 #loader #close {
   display: block;
   background: url(../img/close.png) no-repeat 0 50%;
@@ -828,22 +834,22 @@ nav.menu-primary-container ul#menu li:hover ul.sub-menu {
   top: 25px;
   right: 25px;
 }
-/* line 626, ../sass/screen.scss */
+/* line 628, ../sass/screen.scss */
 #loader #close:hover {
   background-position: -52px 50%;
 }
-/* line 631, ../sass/screen.scss */
+/* line 633, ../sass/screen.scss */
 #loader .max-width {
   max-width: 720px;
   margin: 0 auto;
   background: black;
   background: rgba(0, 0, 0, 0.5);
 }
-/* line 638, ../sass/screen.scss */
+/* line 640, ../sass/screen.scss */
 #loader .module {
   padding: 26px;
 }
-/* line 642, ../sass/screen.scss */
+/* line 644, ../sass/screen.scss */
 #loader img {
   width: 100%;
   max-width: 600px;
@@ -851,16 +857,16 @@ nav.menu-primary-container ul#menu li:hover ul.sub-menu {
   display: block;
   margin-bottom: 2em;
 }
-/* line 650, ../sass/screen.scss */
+/* line 652, ../sass/screen.scss */
 #loader a {
   color: #666666;
 }
-/* line 653, ../sass/screen.scss */
+/* line 655, ../sass/screen.scss */
 #loader a:hover {
   color: #8b0f04;
 }
 
-/* line 659, ../sass/screen.scss */
+/* line 661, ../sass/screen.scss */
 #spinner {
   position: fixed;
   top: 50%;

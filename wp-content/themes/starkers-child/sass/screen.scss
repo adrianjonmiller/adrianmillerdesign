@@ -272,6 +272,12 @@ nav.menu-primary-container {
 	background-position: 50% 0;
 }
 
+
+.module	> ul {
+	list-style-image: url(../img/fleur.png);
+	margin-left: $pad;
+}
+
 #Welcome {
 	
 //	background: url(../img/white_room_2.jpg);
@@ -282,10 +288,6 @@ nav.menu-primary-container {
 		.thumbnail-image {
 		
 		}
-	}
-	
-	.module {
-//		padding: $pad;
 	}
 	
 	h2 {
