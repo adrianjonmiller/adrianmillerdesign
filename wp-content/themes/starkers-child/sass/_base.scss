@@ -1,5 +1,12 @@
 @import "compass/css3/box-sizing";
 
+%clearfix:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+
 @mixin clearfix() {
 	
 	&:before, &:after {

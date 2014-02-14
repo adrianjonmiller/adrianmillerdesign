@@ -35,17 +35,6 @@ $(document).ready(function(){
 		});
 		
 	}roundBadge();
-	
-//	function pageSize() {
-//		$('.page').each(function() {
-//			$this = $(this);
-//			
-//			$width = $(window).width();
-//			$height = $(window).height();
-//			
-//			$this.attr('style', 'min-height:'+$height+'px;');
-//		});
-//	}pageSize();	 
 	 
 	 
 	 function Parallax() {
@@ -102,7 +91,6 @@ $(document).ready(function(){
 	 
 	 $(window).resize(function(){
 	 	roundBadge();
-	 	pageSize();
 	 });
      
      

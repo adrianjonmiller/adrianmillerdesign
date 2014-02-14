@@ -1,0 +1,1 @@
+DLN.Behaviors.pageSize=function(e){e.pageSize()};DLN.Behaviors.flexslider=function(e){e.flexslider()};

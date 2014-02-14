@@ -16,7 +16,7 @@
 ?>
 <?php Starkers_Utilities::get_template_parts( array( 'parts/shared/html-header', 'parts/shared/header' ) ); ?>
 
-<div id="main" role="main">
+<div id="main" role="main" data-behavior="pageSize">
 <?php echo(render_view(array('title'=> 'Site'))); ?>
 </div>
 <div id="loader">

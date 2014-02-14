@@ -108,7 +108,7 @@ ul {
 }
 
 header {
-	background: white;
+	background: rgba(white, .8);
 //	background: transparent;
 	position: fixed;
 	top: 0;
@@ -126,6 +126,7 @@ header {
 			width: 70px;
 			height: 67px;
 			background-image: url(../img/logo.png);
+			background-repeat: no-repeat;
 			background-color: #666666;
 			text-indent: -9999em;
 			text-align: center;
@@ -159,13 +160,13 @@ header {
 }
 
 
-nav {
+nav.menu-primary-container {
 	@media screen and (max-width: 480px) {
 		display: none;
 	}
 	
-	ul {
-		@extend .clearfix;
+	ul#menu {
+		@extend %clearfix;
 		margin: 0;
 		padding: 0;
 		list-style: none;
@@ -357,168 +358,98 @@ nav {
 
 
 #Portfolio {
-
-		#portfolio-pagination-controls {
-			text-align: center;
-			@include clearfix();
-			
-			ul {
-				list-style: none;
-				margin: 0;
-				padding: 0;
-				float: right;
-				
-				li {
-					list-style: none;
-					margin: 0;
-					width: 20px;
-					height: 20px;
-					background: #6e6e6e;
-					@include border-radius(10px);
-					border-top: solid thin #333;
-					border-bottom: solid thin #fff;
-					text-align: center;
-					display: block;
-					float: left;
-					margin-right: 5px;
-					position: relative;
-					
-					
-					a {
-						background: inherit;
-						display: block;
-						text-decoration: none;
-						text-indent: -999em;
-						overflow: hidden;
-						width: 12px;
-						height: 12px;
-						position: absolute;
-						top: 50%;
-						left: 50%;
-						margin-left: -6px;
-						margin-top: -6px;
-						@include border-radius(6px);
-					}
-					&.current a {
-						background: #333;
-					}
-				}
-			}
-		}
-		.controls {
-			position: absolute;
-			width: 100%;
-			height: 100%;
-			top: 0;
-			
-			.pagenation {
-				position: absolute;
-				right: 0;
-				bottom: -30px;
+	.slides {
+		.slide {
+			position: relative;
+			overflow: hidden;
+			max-height: 450px;
+			img {
+				min-height: 100%;
+				min-width: 100%;
 				display: block;
 			}
-			
-			.previous, .next {
+			.project-description {
+				width: 100%;
+				height: 100%;
+				background-color: rgba(black, 0.8);
 				position: absolute;
-				left: -80px;
-				top: 50%;
-				
-				@media screen and (max-width: 480px) {
-					display: none;
-				}
-				
-				a  {
-					span {
-						width: 60px;
-						height: 60px;
-						display: block;
-						background-image: url(../img/prev_next.png);
-						background-repeat: no-repeat;
-						text-indent: -9999em;
-						opacity: .5;
-					}
-					&:hover span {
-						opacity: 1;
-					}
-				}	
-			
+				top: 0;
+				left: 0;
+				padding: $pad;
+				color: #fff;
+				opacity: 0;
+				text-decoration: none;
 			}
-			.next {
-				left: auto;
-				right: -80px;
-				
-				a span {
-					background-position: right top;
-				}
+			&:hover .project-description { opacity: 1  }
+			.slide-title {
+				font-size: 20px;
+				font-weight: 600;
 			}
 		}
-
-	.portfolio-thumbnails {
+	}
+	.flex-direction-nav {
+		width: 100%;
+		position: absolute;
+		top: 50%;
 		list-style: none;
-		padding-left: 0;
-		position: relative;
-		padding: $pad 0 $pad $pad;
-//		border: solid thin gray;
-//		border-bottom: solid thin #fff;
-//		border-right: solid thin #fff;
-//		background: rgba(black, 0.1);
-		
-		.portfolio-thumbnail {
+
+		li {
 			list-style: none;
-			
-			.module {
-				position: relative;
+			.flex-prev, .flex-next {
+				width: 60px;
+				height: 60px;
+				font-size: 60px;
+				background-repeat: no-repeat;
+				display: block;
 				overflow: hidden;
-				background: white;
-//				border: solid thin white;
-//				border-bottom: solid thin gray;
-//				border-right: solid thin gray;
-				background: rgba(0, 0, 0, .15);
-				
-				a {
-					display: block;
-					position: relative;
-					overflow: hidden;
-					height: 500px;
-					
-					img {
-						height: 500px;
-						margin: 0 auto;
-						
-					}
-				
-				
-				
-					.thumbnail-details {
-						background: black;
-						background: rgba(0,0,0,.65);
-						position: absolute;
-						top: 0;
-						width: 100%;
-						height: 100%;
-						opacity: 0;
-						padding: $pad;
-						
-						@include box-shadow(0 0 5px rgba(0,0,0,.75));
-						
-						
-						ul {
-							list-style: none;
-							margin: 0;
-							padding: 0;
-							
-							li {
-								color: white;
-								font-family: "futura-pt-condensed", sans-serif;
-								font-style: normal;
-								font-weight: 700;
-								padding-bottom: $pad/3;
-								
-								@include adjust-font-size-to($base-font-size*1.5);
-							
-							}
-						}
-					}
+				position: absolute;
+				background-color: lightgray;
+				border-radius: 30px;
+				text-align: center;
+				color: #fff;
+				left: -70px;
+				opacity: .6;
+				&:hover {
+					opacity: 1;
+				}
+			}
+			.flex-next {
+				background-position: -60px 0;
+				right: -70px;
+				left: auto;
+			}
+		}
+	}
+	.flex-control-paging {
+		@extend %clearfix;
+		padding: $pad 0;
+		> li {
+			float: left;
+			padding: 5px;
+			width: 20px;
+			height: 20px;
+			display: block;
+			background-color: #ccc;
+			border-radius: 10px;
+			box-shadow: 0 -1px black, 0 1px white;
+			overflow: hidden;
+			position: relative;
+			margin-right: 5px;
+
+
+			> a {
+				text-indent: -9999em;
+				display: block;
+				width: 12px;
+				height: 12px;
+				background-color: transparent;
+				border-radius: 6px;
+				position: absolute;
+				top: 3px;
+				left: 4px;
+
+				&.flex-active {
+					background-color: white;
 				}
 			}
 		}
